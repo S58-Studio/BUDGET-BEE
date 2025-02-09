@@ -15,7 +15,7 @@ import androidx.compose.ui.platform.LocalView
 import com.financeAndMoney.base.legacy.Theme
 import com.financeAndMoney.base.legacy.appContext
 import com.financeAndMoney.design.MysaveContext
-import com.financeAndMoney.design.api.IvyDesign
+import com.financeAndMoney.design.api.MysaveDesign
 import com.financeAndMoney.design.api.ivyContext
 import com.financeAndMoney.design.api.systems.MySaveDesign
 import com.financeAndMoney.design.l0_system.UI
@@ -77,6 +77,6 @@ fun MySavePreview(
 }
 
 @Deprecated("Old design system. Use `:financeAndMoney-design` and Material3")
-fun appDesign(context: MySaveCtx): IvyDesign = object : MySaveDesign() {
+fun appDesign(context: MySaveCtx): MysaveDesign = object : MySaveDesign() {
     override fun context(): MysaveContext = context
 }

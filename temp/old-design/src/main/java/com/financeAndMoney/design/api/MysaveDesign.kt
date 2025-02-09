@@ -7,7 +7,7 @@ import com.financeAndMoney.design.l0_system.IvyShapes
 import com.financeAndMoney.design.l0_system.IvyTypography
 
 @Deprecated("Old design system. Use `:financeAndMoney-design` and Material3")
-interface IvyDesign {
+interface MysaveDesign {
     @Deprecated("Old design system. Use `:financeAndMoney-design` and Material3")
     fun context(): MysaveContext
 

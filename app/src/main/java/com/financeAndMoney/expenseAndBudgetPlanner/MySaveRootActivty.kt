@@ -67,6 +67,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.imaginativeworld.oopsnointernet.dialogs.signal.NoInternetDialogSignal
 import com.financeAndMoney.core.userInterface.R
 import android.Manifest
+import com.financeAndMoney.base.legacy.Theme
+import com.financeAndMoney.base.time.TimeConverter
+import com.financeAndMoney.base.time.TimeProvider
+import com.financeAndMoney.design.api.MysaveDesign
+import com.financeAndMoney.design.system.MysaveMaterial3Theme
+import com.financeAndMoney.userInterface.time.TimeFormatter
+import com.financeAndMoney.userInterface.time.impl.DateTimePicker
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -85,6 +92,18 @@ class MySaveRootActivty : AppCompatActivity(), RootScreen {
 
     @Inject
     lateinit var customerJourneyLogic: ClientJourneyCardsProvider
+
+    @Inject
+    lateinit var timeConverter: TimeConverter
+
+    @Inject
+    lateinit var timeProvider: TimeProvider
+
+    @Inject
+    lateinit var timeFormatter: TimeFormatter
+
+    @Inject
+    lateinit var dateTimePicker: DateTimePicker
 
     private lateinit var createFileLauncher: ActivityResultLauncher<String>
     private lateinit var onFileCreated: (fileUri: Uri) -> Unit
@@ -107,6 +126,82 @@ class MySaveRootActivty : AppCompatActivity(), RootScreen {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        setupMysaveApp()
+
+        setContent {
+            val viewModel: RootVM = viewModel()
+            val isSystemInDarkTheme = isSystemInDarkTheme()
+
+            LaunchedEffect(isSystemInDarkTheme) {
+                viewModel.start(isSystemInDarkTheme, intent)
+            }
+
+            val appLocked by viewModel.appLocked.collectAsState()
+            when (appLocked) {
+                null -> {
+                    // display nothing
+                }
+
+                true -> {
+                    MysaveUI(
+                        design = appDesign(mySaveContext),
+                        timeConverter = timeConverter,
+                        timeProvider = timeProvider,
+                        timeFormatter = timeFormatter,
+                    ) {
+                        AppLockedScreen(
+                            onShowOSBiometricsModal = {
+                                authenticateWithOSBiometricsModal(
+                                    biometricPromptCallback = viewModel.handleBiometricAuthenticationResult()
+                                )
+                            },
+                            onContinueWithoutAuthentication = {
+                                viewModel.unlockApp()
+                            }
+                        )
+                    }
+                }
+
+                false -> {
+                    NavigationRoot(navigation = navigation) { screen ->
+                        MysaveUI(
+                            design = appDesign(mySaveContext),
+                            includeSurface = screen?.isLegacy ?: true,
+                            timeConverter = timeConverter,
+                            timeProvider = timeProvider,
+                            timeFormatter = timeFormatter,
+                        ) {
+                            MysaveNavGraph(screen,this@MySaveRootActivty)
+                        }
+                    }
+                }
+            }
+            MysaveMaterial3Theme(
+                dark = isDarkThemeEnabled(
+                    ivyDesign = appDesign(mySaveContext),
+                    systemDarkTheme = isSystemInDarkTheme
+                ),
+                isTrueBlack = appDesign(mySaveContext).context().theme == Theme.AMOLED_DARK
+            ) {
+                dateTimePicker.Content()
+            }
+        }
+        // Initialize NoInternetDialogSignal
+        noInternetDialog = NoInternetDialogSignal.Builder(this, lifecycle).build()
+
+    }
+
+    private fun setupMysaveApp(){
+        // Make the app drawing area fullscreen (draw behind status and nav bars)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        setupDatePicker()
+        setupTimePicker()
+        checkForAppUpdates()
+
+        AddTransactionWidget.updateBroadcast(this)
+        AddTransactionWidgetCompact.updateBroadcast(this)
+        WalletBalanceWidgetReceiver.updateBroadcast(this)
 
         setupActivityForResultLaunchers()
         //FCM
@@ -126,64 +221,6 @@ class MySaveRootActivty : AppCompatActivity(), RootScreen {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requestNotificationPermission()
         }
-
-        // Make the app drawing area fullscreen (draw behind status and nav bars)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-
-        setupDatePicker()
-        setupTimePicker()
-        checkForAppUpdates()
-
-        AddTransactionWidget.updateBroadcast(this)
-        AddTransactionWidgetCompact.updateBroadcast(this)
-        WalletBalanceWidgetReceiver.updateBroadcast(this)
-
-        setContent {
-            val viewModel: RootVM = viewModel()
-            val isSystemInDarkTheme = isSystemInDarkTheme()
-
-            LaunchedEffect(isSystemInDarkTheme) {
-                viewModel.start(isSystemInDarkTheme, intent)
-            }
-
-            val appLocked by viewModel.appLocked.collectAsState()
-            when (appLocked) {
-                null -> {
-                    // display nothing
-                }
-
-                true -> {
-                    MysaveUI(
-                        design = appDesign(mySaveContext)
-                    ) {
-                        AppLockedScreen(
-                            onShowOSBiometricsModal = {
-                                authenticateWithOSBiometricsModal(
-                                    biometricPromptCallback = viewModel.handleBiometricAuthenticationResult()
-                                )
-                            },
-                            onContinueWithoutAuthentication = {
-                                viewModel.unlockApp()
-                            }
-                        )
-                    }
-                }
-
-                false -> {
-                    NavigationRoot(navigation = navigation) { screen ->
-                        MysaveUI(
-                            design = appDesign(mySaveContext),
-                            includeSurface = screen?.isLegacy ?: true
-                        ) {
-                            MysaveNavGraph(screen,this@MySaveRootActivty)
-                        }
-                    }
-                }
-            }
-        }
-        // Initialize NoInternetDialogSignal
-        noInternetDialog = NoInternetDialogSignal.Builder(this, lifecycle).build()
-
     }
 
     private companion object {
@@ -245,6 +282,15 @@ class MySaveRootActivty : AppCompatActivity(), RootScreen {
                     LocalTime.of(picker.hour, picker.minute).convertLocalToUTC().withSecond(0)
                 )
             }
+        }
+    }
+
+    private fun isDarkThemeEnabled(ivyDesign: MysaveDesign, systemDarkTheme: Boolean): Boolean {
+        return when (ivyDesign.context().theme) {
+            Theme.LIGHT -> false
+            Theme.DARK -> true
+            Theme.AMOLED_DARK -> true
+            else -> systemDarkTheme
         }
     }
 

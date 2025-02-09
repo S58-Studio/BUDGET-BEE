@@ -9,6 +9,6 @@ fun MylonPreview(
     content: @Composable () -> Unit,
 ) {
     NavigationRoot(navigation = Navigation()) {
-        MysaveMaterial3Theme(dark = dark, content = content)
+        MysaveMaterial3Theme(dark = dark, isTrueBlack = false, content = content)
     }
 }

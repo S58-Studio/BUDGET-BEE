@@ -9,12 +9,12 @@ import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.financeAndMoney.base.legacy.Theme
-import com.financeAndMoney.design.api.IvyDesign
+import com.financeAndMoney.design.api.MysaveDesign
 import com.financeAndMoney.design.l0_system.*
 import com.financeAndMoney.core.userInterface.R
 
 @Deprecated("Old design system. Use `:financeAndMoney-design` and Material3")
-abstract class MySaveDesign : IvyDesign {
+abstract class MySaveDesign : MysaveDesign {
     companion object {
         const val OPEN_SANS_BASELINE_SHIFT = 0.075f
         const val RALEWAY_BASELINE_SHIFT = 0.2f

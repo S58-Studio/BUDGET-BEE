@@ -7,11 +7,12 @@ import com.financeAndMoney.design.system.colors.MysaveColors
 
 @Composable
 fun MysaveMaterial3Theme(
+    isTrueBlack: Boolean,
     dark: Boolean,
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colorScheme = if (dark) mysaveDarkColorScheme() else mySaveLightColorScheme(),
+        colorScheme = if (dark) mysaveDarkColorScheme(isTrueBlack) else mySaveLightColorScheme(),
         content = content,
     )
 }
@@ -51,7 +52,7 @@ private fun mySaveLightColorScheme(): ColorScheme = ColorScheme(
     scrim = MysaveColors.ExtraDarkGray.copy(alpha = 0.8f)
 )
 
-private fun mysaveDarkColorScheme(): ColorScheme = ColorScheme(
+private fun mysaveDarkColorScheme(isTrueBlack: Boolean): ColorScheme = ColorScheme(
     primary = MysaveColors.Purple.primary,
     onPrimary = MysaveColors.White,
     primaryContainer = MysaveColors.Purple.light,

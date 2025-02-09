@@ -129,6 +129,7 @@ dependencies {
 
     implementation(libs.bundles.hilt)
     implementation(libs.material)
+    implementation(project(":common:userInterface:core"))
     ksp(libs.hilt.compiler)
 
     implementation(libs.bundles.room)

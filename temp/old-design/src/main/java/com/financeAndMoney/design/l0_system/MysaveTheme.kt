@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.financeAndMoney.base.legacy.Theme
-import com.financeAndMoney.design.api.IvyDesign
+import com.financeAndMoney.design.api.MysaveDesign
 import com.financeAndMoney.design.system.MysaveMaterial3Theme
 
 @Deprecated("Old design system. Use `:financeAndMoney-design` and Material3")
@@ -44,9 +44,9 @@ object UI {
 
 @Deprecated("Old design system. Use `:financeAndMoney-design` and Material3")
 @Composable
-fun IvyTheme(
+fun MysaveTheme(
     theme: Theme,
-    design: IvyDesign,
+    design: MysaveDesign,
     content: @Composable () -> Unit
 ) {
     val colors = design.colors(theme, isSystemInDarkTheme())
@@ -70,6 +70,7 @@ fun IvyTheme(
 
         MysaveMaterial3Theme(
             dark = !colors.isLight,
+            isTrueBlack = theme == Theme.AMOLED_DARK,
             content = content,
         )
     }

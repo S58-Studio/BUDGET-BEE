@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.financeAndMoney.base.legacy.Theme
 import com.financeAndMoney.design.MysaveContext
-import com.financeAndMoney.design.api.IvyDesign
+import com.financeAndMoney.design.api.MysaveDesign
 import com.financeAndMoney.design.api.MysaveUI
 import com.financeAndMoney.design.api.systems.MySaveDesign
 import com.financeAndMoney.design.l0_system.UI
@@ -18,7 +18,7 @@ import com.financeAndMoney.design.l0_system.UI
 @Deprecated("Old design system. Use `:financeAndMoney-design` and Material3")
 @Composable
 fun IvyComponentPreview(
-    design: IvyDesign = defaultDesign(),
+    design: MysaveDesign = defaultDesign(),
     theme: Theme = Theme.LIGHT,
     content: @Composable BoxScope.() -> Unit
 ) {
@@ -41,7 +41,7 @@ fun IvyComponentPreview(
 @Composable
 fun IvyPreview(
     theme: Theme = Theme.LIGHT,
-    design: IvyDesign,
+    design: MysaveDesign,
     Content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
     design.context().switchTheme(theme = theme)
@@ -52,7 +52,7 @@ fun IvyPreview(
 }
 
 @Deprecated("Old design system. Use `:financeAndMoney-design` and Material3")
-fun defaultDesign(): IvyDesign = object : MySaveDesign() {
+fun defaultDesign(): MysaveDesign = object : MySaveDesign() {
     override fun context(): MysaveContext = object : MysaveContext() {
     }
 }
