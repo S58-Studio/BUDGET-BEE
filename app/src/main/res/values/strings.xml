@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="google_adsense_app_id" translatable="false">ca-app-pub-3353393919627342~4617361884</string>
+    <string name="meta_application_id" translatable="false">TO_BE_REPLACED_BEFORE_PRODUCTION</string>
+    <string name="meta_app_client_token" translatable="false">TO_BE_REPLACED_BEFORE_PRODUCTION</string>
+
+    <string name="app_story">Discover financial freedom with MySave Finance! Our app
+        helps you effortlessly track your budgets, spending, loans, and savings. Stay in control of
+        your finances and achieve your goals with ease and confidence.</string>
+    <string name="app_version">v%s</string>
+    <string name="new_update">* New Updates:</string>
+    <string name="updates_are">New Updates are..</string>
+    <string name="update_now_for_changes">Kindly Update Now</string>
+
+</resources>

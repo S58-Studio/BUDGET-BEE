@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "913221105567",
+    "firebase_url": "https://mysave-xm-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "mysave-xm",
+    "storage_bucket": "mysave-xm.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913221105567:android:43f35d098e836edbfdefaa",
+        "android_client_info": {
+          "package_name": "com.financeAndMoney.expenseAndBudgetPlanner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDl8KLb1xfpE5nU5PdZYFOSs4h9wG1jFGs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

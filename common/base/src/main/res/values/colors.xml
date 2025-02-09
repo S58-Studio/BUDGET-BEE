@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="md_theme_light_inverseOnSurface">#F0F1EC</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="colorPrimary">#6B4DFF</color>
+    <color name="md_theme_primaryContainer_highContrast">#004867</color>
+    <color name="md_theme_light_primaryContainer">#71FDA2</color>
+    <color name="white">#FFFAFAFA</color>
+    <color name="textColor">#ffffffff</color>
+    <color name="btn_color">#ffffffff</color>
+    <color name="primary">#FF0F50</color>
+    <color name="black">#000000</color>
+    <color name="md_theme_light_primary">#006D38</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="col_999">#999999</color>
+    <color name="md_blue_400">#42A5F5</color>
+    <color name="dull_white">#fff9eb</color>
+    <color name="grayish">#A59E9E</color>
+</resources>

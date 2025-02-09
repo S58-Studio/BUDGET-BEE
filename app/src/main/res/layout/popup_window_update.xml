@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/ic_bg_mylon_updates"
+    android:maxHeight="350dp"
+    android:paddingLeft="13dp"
+    android:paddingTop="13dp"
+    android:paddingRight="13dp"
+    android:paddingBottom="18dp"
+    android:layout_margin="10dp">
+
+    <ImageView
+        android:id="@+id/app_logo"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@null"
+        android:src="@mipmap/ic_launcher_round" />
+
+    <TextView
+        android:id="@+id/app_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_logo"
+        android:layout_marginBottom="6dp"
+        android:ellipsize="end"
+        android:textColor="#FFFFFF"
+        android:maxLines="1"
+        android:textStyle="bold"
+        android:text="@string/app_version"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/whats_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_version"
+        android:layout_marginBottom="6dp"
+        android:text="@string/new_update"
+        android:textSize="14sp"
+        android:textColor="@color/white" />
+
+    <ScrollView
+        android:id="@+id/consentForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/whats_new">
+
+        <TextView
+            android:id="@+id/new_updates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginBottom="6dp"
+            android:textSize="13sp"
+            tools:text="@string/updates_are" />
+    </ScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/updateNowBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_below="@id/consentForm"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/ic_home_mylon"
+        android:textColor="@color/white"
+        android:text="@string/update_now_for_changes"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:padding="9dp"
+        android:textAlignment="center"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
