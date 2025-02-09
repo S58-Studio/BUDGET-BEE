@@ -107,12 +107,12 @@ data class ImportingSkrin(
 //        get() = true
 //}
 
-data object BajetiSkrin : Screen {
+data object BudgetScreen : Screen {
     override val isLegacy: Boolean
         get() = true
 }
 
-data object MkopoSkrin : Screen {
+data object LoanScreen : Screen {
     override val isLegacy: Boolean
         get() = true
 }

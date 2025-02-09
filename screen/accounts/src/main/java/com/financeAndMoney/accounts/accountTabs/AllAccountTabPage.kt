@@ -47,9 +47,9 @@ import com.financeAndMoney.home.NyumbaniState
 import com.financeAndMoney.legacy.utils.clickableNoIndication
 import com.financeAndMoney.legacy.utils.rememberInteractionSource
 import com.financeAndMoney.navigation.AkauntiTabSkrin
-import com.financeAndMoney.navigation.BajetiSkrin
+import com.financeAndMoney.navigation.BudgetScreen
 import com.financeAndMoney.navigation.KategoriSkrin
-import com.financeAndMoney.navigation.MkopoSkrin
+import com.financeAndMoney.navigation.LoanScreen
 import com.financeAndMoney.navigation.navigation
 import com.financeAndMoney.navigation.screenScopedViewModel
 import com.financeAndMoney.core.userInterface.R
@@ -176,7 +176,7 @@ fun BoxWithConstraintsScope.AllAccountScreenUI(
                     loansHeaderCardClicked = {
                         if (activity.isFinishing.not() && activity.isDestroyed.not()) {
                             val adCallback = MySaveAdsManager.OnAdsCallback {
-                                nav.navigateTo(MkopoSkrin)
+                                nav.navigateTo(LoanScreen)
                             }
                             mySaveAdsManager.displayAds(activity, adCallback)
                         }
@@ -184,7 +184,7 @@ fun BoxWithConstraintsScope.AllAccountScreenUI(
                     budgetsHeaderCardClicked = {
                         if (activity.isFinishing.not() && activity.isDestroyed.not()) {
                             val adCallback = MySaveAdsManager.OnAdsCallback {
-                                nav.navigateTo(BajetiSkrin)
+                                nav.navigateTo(BudgetScreen)
                             }
                             mySaveAdsManager.displayAds(activity, adCallback)
 

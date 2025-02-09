@@ -46,7 +46,7 @@ import com.financeAndMoney.legacy.mySaveCtx
 import com.financeAndMoney.legacy.utils.getDefaultFIATCurrency
 import com.financeAndMoney.loans.mkopo.data.DisplayMkopoo
 import com.financeAndMoney.navigation.MkopoDetailsSkrin
-import com.financeAndMoney.navigation.MkopoSkrin
+import com.financeAndMoney.navigation.LoanScreen
 import com.financeAndMoney.navigation.navigation
 import com.financeAndMoney.core.userInterface.R
 import com.financeAndMoney.expenseAndBudgetPlanner.userInterface.theme.Blue
@@ -68,7 +68,7 @@ import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDateTime
 
 @Composable
-fun BoxWithConstraintsScope.MkopoSkrini(screen: MkopoSkrin, activity: Activity) {
+fun BoxWithConstraintsScope.MkopoSkrini(screen: LoanScreen, activity: Activity) {
     val viewModel: MkopoVM = viewModel()
     val state = viewModel.uiState()
     UI(

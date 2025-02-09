@@ -173,7 +173,7 @@ val Red2Dark = Color(0xFF802030)
 @Deprecated("Old design system. Use `:financeAndMoney-design` and Material3")
 val Red3Dark = Color(0xFF802653)
 // --------------------------------------------------------------------------------------------------
-
+val TrueBlack = Color(0xFF000000)
 @Deprecated("Old design system. Use `:financeAndMoney-design` and Material3")
 val MediumBlack = Color(0xFF2B2C2D)
 

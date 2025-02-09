@@ -36,7 +36,7 @@ import com.financeAndMoney.legacy.legacyOld.ui.theme.components.BudgetBattery
 import com.financeAndMoney.legacy.utils.clickableNoIndication
 import com.financeAndMoney.legacy.utils.format
 import com.financeAndMoney.legacy.utils.rememberInteractionSource
-import com.financeAndMoney.navigation.BajetiSkrin
+import com.financeAndMoney.navigation.BudgetScreen
 import com.financeAndMoney.navigation.navigation
 import com.financeAndMoney.navigation.screenScopedViewModel
 import com.financeAndMoney.core.userInterface.R
@@ -48,7 +48,7 @@ import com.financeAndMoney.expenseAndBudgetPlanner.userInterface.theme.wallet.Am
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun BoxWithConstraintsScope.BudgetScreen(screen: BajetiSkrin, activity: Activity) {
+fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen, activity: Activity) {
     val viewModel: BajetiVM = screenScopedViewModel()
     val uiState = viewModel.uiState()
 

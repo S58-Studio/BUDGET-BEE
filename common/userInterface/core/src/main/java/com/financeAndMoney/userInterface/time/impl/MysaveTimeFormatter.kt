@@ -14,7 +14,7 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
-class IvyTimeFormatter @Inject constructor(
+class MysaveTimeFormatter @Inject constructor(
     private val resourceProvider: ResourceProvider,
     private val timeProvider: TimeProvider,
     private val converter: TimeConverter,

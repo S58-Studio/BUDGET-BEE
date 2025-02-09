@@ -17,7 +17,7 @@ import com.financeAndMoney.navigation.screenScopedViewModel
 import com.financeAndMoney.userInterface.component.IntroducingMyLonAppCard
 
 @Composable
-fun KanushoScriniImplemation() {
+fun DisclaimerScreenImpl() {
     val viewModel: KanushoVM = screenScopedViewModel()
     val viewState = viewModel.uiState()
     KanushoSkriniUI(viewState = viewState, onEvent = viewModel::onEvent)

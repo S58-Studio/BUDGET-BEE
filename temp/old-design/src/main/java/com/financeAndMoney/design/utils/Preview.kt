@@ -8,16 +8,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.financeAndMoney.base.legacy.Theme
+import com.financeAndMoney.base.resource.AndroidResourceProvider
+import com.financeAndMoney.base.time.impl.DeviceTimeProvider
+import com.financeAndMoney.base.time.impl.StandardTimeConverter
 import com.financeAndMoney.design.MysaveContext
 import com.financeAndMoney.design.api.MysaveDesign
 import com.financeAndMoney.design.api.MysaveUI
 import com.financeAndMoney.design.api.systems.MySaveDesign
 import com.financeAndMoney.design.l0_system.UI
+import com.financeAndMoney.userInterface.time.impl.AndroidDevicePreferences
+import com.financeAndMoney.userInterface.time.impl.MysaveTimeFormatter
 
 @Deprecated("Old design system. Use `:financeAndMoney-design` and Material3")
 @Composable
 fun IvyComponentPreview(
+    modifier: Modifier = Modifier,
     design: MysaveDesign = defaultDesign(),
     theme: Theme = Theme.LIGHT,
     content: @Composable BoxScope.() -> Unit
@@ -40,14 +47,24 @@ fun IvyComponentPreview(
 @Deprecated("Old design system. Use `:financeAndMoney-design` and Material3")
 @Composable
 fun IvyPreview(
-    theme: Theme = Theme.LIGHT,
     design: MysaveDesign,
-    Content: @Composable BoxWithConstraintsScope.() -> Unit
+    theme: Theme = Theme.LIGHT,
+    content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
     design.context().switchTheme(theme = theme)
+    val timeProvider = DeviceTimeProvider()
+    val timeConverter = StandardTimeConverter(timeProvider)
     MysaveUI(
         design = design,
-        content = Content
+        content = content,
+        timeConverter = timeConverter,
+        timeProvider = timeProvider,
+        timeFormatter = MysaveTimeFormatter(
+            resourceProvider = AndroidResourceProvider(LocalContext.current),
+            timeProvider = timeProvider,
+            converter = timeConverter,
+            devicePreferences = AndroidDevicePreferences(LocalContext.current)
+        )
     )
 }
 

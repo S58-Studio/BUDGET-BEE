@@ -9,7 +9,7 @@ import com.financeAndMoney.accounts.AccountsTab
 import com.financeAndMoney.budgets.BudgetScreen
 import com.financeAndMoney.categories.CategoriesScreen
 import com.financeAndMoney.controls.ProfileControlsTabPage
-import com.financeAndMoney.disclaimer.KanushoScriniImplemation
+import com.financeAndMoney.disclaimer.DisclaimerScreenImpl
 import com.financeAndMoney.exchangerates.ExchangeRatesScreen
 import com.financeAndMoney.features.FeaturesScreenImpl
 import com.financeAndMoney.iliyopangwa.editUpcomingPayments.ModifyPlanedSkrin
@@ -21,7 +21,7 @@ import com.financeAndMoney.loans.mkopoDetails.LoanDetailsScreen
 import com.financeAndMoney.main.MainScreen
 import com.financeAndMoney.mulaBalanc.BalanceScreen
 import com.financeAndMoney.navigation.AkauntiTabSkrin
-import com.financeAndMoney.navigation.BajetiSkrin
+import com.financeAndMoney.navigation.BudgetScreen
 import com.financeAndMoney.navigation.BalanceSkrin
 import com.financeAndMoney.navigation.CSVScreen
 import com.financeAndMoney.navigation.DisclaimerScreen
@@ -31,7 +31,7 @@ import com.financeAndMoney.navigation.ImportingSkrin
 import com.financeAndMoney.navigation.KategoriSkrin
 import com.financeAndMoney.navigation.MainSkreen
 import com.financeAndMoney.navigation.MkopoDetailsSkrin
-import com.financeAndMoney.navigation.MkopoSkrin
+import com.financeAndMoney.navigation.LoanScreen
 import com.financeAndMoney.navigation.ModifyScheduledSkrin
 import com.financeAndMoney.navigation.ModifyTransactionSkrin
 import com.financeAndMoney.navigation.OnboardingScreen
@@ -71,12 +71,12 @@ fun BoxWithConstraintsScope.MysaveNavGraph(screen: Screen?, activity: Activity) 
         is BalanceSkrin -> BalanceScreen(screen = screen, activity = activity)
         is ImportingSkrin -> ImportCSVScreen(screen = screen)
         //is ReportScreen -> ReportScreen(screen = screen)
-        is BajetiSkrin -> BudgetScreen(screen = screen, activity = activity)
-        is MkopoSkrin -> MkopoSkrini(screen = screen, activity = activity)
+        is BudgetScreen -> BudgetScreen(screen = screen, activity = activity)
+        is LoanScreen -> MkopoSkrini(screen = screen, activity = activity)
         is MkopoDetailsSkrin -> LoanDetailsScreen(screen = screen, activity = activity)
         is SeekSkrin -> SeekSkrin(screen = screen)
         is CSVScreen -> CSVScreen(screen = screen)
         FeatureSkrin -> FeaturesScreenImpl()
-        DisclaimerScreen -> KanushoScriniImplemation()
+        DisclaimerScreen -> DisclaimerScreenImpl()
     }
 }
