@@ -565,5 +565,7 @@
 
     <string name="access_all_features">Access all features</string>
     <string name="remove_ads">Remove Ads</string>
+    <string name="amoled_mode">Amoled Ultra-Dark Mode</string>
+    <string name="attributions">Attributions</string>
 
 </resources>

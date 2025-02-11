@@ -135,5 +135,5 @@ data object XchangeRatesSkrin : Screen {
 }
 
 data object FeatureSkrin : Screen
-
+data object AttributionsScreen : Screen
 data object DisclaimerScreen : Screen

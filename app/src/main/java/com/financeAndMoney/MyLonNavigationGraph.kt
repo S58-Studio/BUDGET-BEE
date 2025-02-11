@@ -6,6 +6,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
 import com.financeAndMoney.accounts.AccountsTab
+import com.financeAndMoney.attributions.AttributionsScreenImpl
 import com.financeAndMoney.budgets.BudgetScreen
 import com.financeAndMoney.categories.CategoriesScreen
 import com.financeAndMoney.controls.ProfileControlsTabPage
@@ -21,6 +22,7 @@ import com.financeAndMoney.loans.mkopoDetails.LoanDetailsScreen
 import com.financeAndMoney.main.MainScreen
 import com.financeAndMoney.mulaBalanc.BalanceScreen
 import com.financeAndMoney.navigation.AkauntiTabSkrin
+import com.financeAndMoney.navigation.AttributionsScreen
 import com.financeAndMoney.navigation.BudgetScreen
 import com.financeAndMoney.navigation.BalanceSkrin
 import com.financeAndMoney.navigation.CSVScreen
@@ -77,6 +79,7 @@ fun BoxWithConstraintsScope.MysaveNavGraph(screen: Screen?, activity: Activity) 
         is SeekSkrin -> SeekSkrin(screen = screen)
         is CSVScreen -> CSVScreen(screen = screen)
         FeatureSkrin -> FeaturesScreenImpl()
+        AttributionsScreen -> AttributionsScreenImpl()
         DisclaimerScreen -> DisclaimerScreenImpl()
     }
 }

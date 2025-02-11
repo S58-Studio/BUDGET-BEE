@@ -69,6 +69,7 @@ import com.financeAndMoney.navigation.ImportingSkrin
 import com.financeAndMoney.navigation.navigation
 import com.financeAndMoney.navigation.screenScopedViewModel
 import com.financeAndMoney.core.userInterface.R
+import com.financeAndMoney.navigation.AttributionsScreen
 import java.util.Locale
 
 @ExperimentalFoundationApi
@@ -309,11 +310,13 @@ private fun BoxWithConstraintsScope.UI(
                 icon = when (theme) {
                     Theme.LIGHT -> R.drawable.home_more_menu_light_mode
                     Theme.DARK -> R.drawable.home_more_menu_dark_mode
+                    Theme.AMOLED_DARK -> R.drawable.home_more_menu_amoled_dark_mode
                     Theme.AUTO -> R.drawable.home_more_menu_auto_mode
                 },
                 label = when (theme) {
                     Theme.LIGHT -> stringResource(R.string.light_mode)
                     Theme.DARK -> stringResource(R.string.dark_mode)
+                    Theme.AMOLED_DARK -> stringResource(R.string.amoled_mode)
                     Theme.AUTO -> stringResource(R.string.auto_mode)
                 }
             ) {
@@ -426,6 +429,12 @@ private fun BoxWithConstraintsScope.UI(
 //            }
         }
 
+        item {
+            SettingsSectionDivider(
+                text = stringResource(R.string.product))
+            Spacer(Modifier.height(12.dp))
+            Attributions()
+        }
 
         item {
             SettingsSectionDivider(
@@ -682,6 +691,19 @@ private fun AccountCard(
         )
 
         Spacer(Modifier.height(24.dp))
+    }
+}
+
+@Composable
+private fun Attributions() {
+    val nav = navigation()
+
+    SettingsDefaultButton(
+        icon = R.drawable.ic_open_source_attribution,
+        text = stringResource(R.string.attributions),
+        iconPadding = 6.dp
+    ) {
+        nav.navigateTo(AttributionsScreen)
     }
 }
 
