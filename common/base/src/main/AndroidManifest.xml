@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.financeAndMoney.base">
+    package="com.oneSaver.base">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -19,7 +19,7 @@
 
 
         <activity
-            android:name="com.financeAndMoney.base.utils.AccessAllFeaturesActivity"
+            android:name="com.oneSaver.base.utils.AccessAllFeaturesActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>

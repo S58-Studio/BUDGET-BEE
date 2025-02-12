@@ -21,7 +21,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name="com.financeAndMoney.expenseAndBudgetPlanner.MySaveAndroidApp"
+        android:name="com.oneSaver.allStatus.MySaveAndroidApp"
         android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -35,7 +35,7 @@
         tools:replace="android:supportsRtl">
 
         <activity
-            android:name="com.financeAndMoney.expenseAndBudgetPlanner.MySaveRootActivty"
+            android:name="com.oneSaver.allStatus.MySaveRootActivty"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
@@ -54,7 +54,7 @@
         </activity>
 
         <activity
-            android:name="com.financeAndMoney.expenseAndBudgetPlanner.extraUtils.firebaseMySaveUpdates.AppUpdatesActivity"
+            android:name="com.oneSaver.allStatus.extraUtils.firebaseMySaveUpdates.AppUpdatesActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
@@ -65,7 +65,7 @@
             tools:node="remove" />
 
         <receiver
-            android:name="com.financeAndMoney.widget.walleTransaction.AddTransactionWidget"
+            android:name="com.oneSaver.widget.walleTransaction.AddTransactionWidget"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -76,7 +76,7 @@
         </receiver>
 
         <receiver
-            android:name="com.financeAndMoney.widget.walleTransaction.AddTransactionWidgetCompact"
+            android:name="com.oneSaver.widget.walleTransaction.AddTransactionWidgetCompact"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -87,7 +87,7 @@
         </receiver>
 
         <receiver
-            android:name="com.financeAndMoney.widget.mulaBalanc.WalletBalanceWidgetReceiver"
+            android:name="com.oneSaver.widget.mulaBalanc.WalletBalanceWidgetReceiver"
             android:enabled="@bool/glance_appwidget_available"
             android:exported="true"
             android:label="@string/wallet_balance"
@@ -101,7 +101,7 @@
         </receiver>
 
         <service
-            android:name="com.financeAndMoney.expenseAndBudgetPlanner.PayTileService"
+            android:name="com.oneSaver.allStatus.PayTileService"
             android:exported="true"
             android:icon="@drawable/ic_launcher_foreground"
             android:label="Add Payment"
@@ -112,7 +112,7 @@
         </service>
 
         <service
-            android:name="com.financeAndMoney.expenseAndBudgetPlanner.MyFirebaseMessagingService"
+            android:name="com.oneSaver.allStatus.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

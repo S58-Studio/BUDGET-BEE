@@ -1,9 +1,9 @@
 plugins {
-    id("financeAndMoney.widget")
+    id("oneSaver.widget")
 }
 
 android {
-    namespace = "com.financeAndMoney.widget.transaction"
+    namespace = "com.oneSaver.widget.transaction"
 }
 
 dependencies {

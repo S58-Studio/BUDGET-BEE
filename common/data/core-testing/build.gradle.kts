@@ -1,10 +1,10 @@
 plugins {
-    id("financeAndMoney.feature")
-    id("financeAndMoney.room")
+    id("oneSaver.feature")
+    id("oneSaver.room")
 }
 
 android {
-    namespace = "com.financeAndMoney.data.testing"
+    namespace = "com.oneSaver.data.testing"
 }
 
 dependencies {

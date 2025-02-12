@@ -24,8 +24,8 @@
 
 
 
--keep class com.financeAndMoney.expenseAndBudgetPlanner.extraUtils.firebaseMySaveUpdates.AppUpdates { *; }
--keep class com.financeAndMoney.expenseAndBudgetPlanner.extraUtils.firebaseMySaveUpdates.AppUpdatesDao { *; }
+-keep class com.oneSaver.allStatus.extraUtils.firebaseMySaveUpdates.AppUpdates { *; }
+-keep class com.oneSaver.allStatus.extraUtils.firebaseMySaveUpdates.AppUpdatesDao { *; }
 
 -keep class android.support.v7.widget.** { *; }
 -keep public class * extends android.support.v4.**

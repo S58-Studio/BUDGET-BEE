@@ -12,11 +12,11 @@ plugins {
 }
 
 android {
-    namespace = "com.financeAndMoney.expenseAndBudgetPlanner"
+    namespace = "com.oneSaver.allStatus"
     compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.financeAndMoney.expenseAndBudgetPlanner"
+        applicationId = "com.oneSaver.allStatus"
         minSdk = libs.versions.min.sdk.get().toInt()
         targetSdk = libs.versions.compile.sdk.get().toInt()
         versionName = libs.versions.version.name.get()

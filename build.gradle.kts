@@ -3,7 +3,7 @@ plugins {
     // Run with:
     // ./gradlew detekt // Simple report in the console
     // ./gradlew detektFormat // To check with enabled auto-correction
-    id("financeAndMoney.detekt")
+    id("oneSaver.detekt")
     id("com.jraska.module.graph.assertion")
 
     alias(libs.plugins.gradleWrapperUpgrade)
@@ -35,7 +35,7 @@ subprojects {
 wrapperUpgrade {
     gradle {
         create("MySave") {
-            repo.set("Ivy-Apps/financeAndMoney-expenseAndBudgetPlanner")
+            repo.set("Ivy-Apps/oneSaver-allStatus")
             baseBranch.set("main")
         }
     }

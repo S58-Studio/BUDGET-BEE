@@ -1,9 +1,9 @@
 plugins {
-    id("financeAndMoney.feature")
+    id("oneSaver.feature")
 }
 
 android {
-    namespace = "com.financeAndMoney.piechart"
+    namespace = "com.oneSaver.piechart"
 }
 
 dependencies {

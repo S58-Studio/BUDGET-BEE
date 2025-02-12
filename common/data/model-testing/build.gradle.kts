@@ -1,9 +1,9 @@
 plugins {
-    id("financeAndMoney.feature")
+    id("oneSaver.feature")
 }
 
 android {
-    namespace = "com.financeAndMoney.data.model.testing"
+    namespace = "com.oneSaver.data.model.testing"
 }
 
 dependencies {
