@@ -14,7 +14,7 @@ import com.oneSaver.design.l0_system.Red
 import com.oneSaver.design.l0_system.Red3
 import com.oneSaver.legacy.MySaveCtx
 import com.oneSaver.legacy.data.model.MainTab
-import com.oneSaver.navigation.ModifyScheduledSkrin
+import com.oneSaver.navigation.EditPlannedScreen
 import com.oneSaver.navigation.FinPieChartStatisticSkrin
 import com.oneSaver.core.userInterface.R
 import com.oneSaver.widget.walleTransaction.AddTransactionWidgetCompact
@@ -90,7 +90,7 @@ class ClientJourneyCardsProvider @Inject constructor(
             hasDismiss = true,
             onAction = { navigation, _, _ ->
                 navigation.navigateTo(
-                    ModifyScheduledSkrin(
+                    EditPlannedScreen(
                         type = TransactionType.EXPENSE,
                         plannedPaymentRuleId = null
                     )

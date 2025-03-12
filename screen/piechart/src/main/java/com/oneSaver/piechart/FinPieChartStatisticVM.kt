@@ -2,8 +2,10 @@ package com.oneSaver.piechart
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.oneSaver.base.legacy.Transaction
 import com.oneSaver.base.model.TransactionType
@@ -17,6 +19,8 @@ import com.oneSaver.legacy.utils.ioThread
 import com.oneSaver.navigation.FinPieChartStatisticSkrin
 import com.oneSaver.piechart.vitendo.FinPieChartsActions
 import com.oneSaver.allStatus.userInterface.theme.modal.ChoosePeriodModalData
+import com.oneSaver.base.time.TimeConverter
+import com.oneSaver.base.time.TimeProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -31,22 +35,24 @@ import javax.inject.Inject
 class FinPieChartStatisticVM @Inject constructor(
     private val settingsDao: SettingsDao,
     private val ivyContext: MySaveCtx,
-    private val finPieChartsActions: FinPieChartsActions,
-    private val sharedPrefs: SharedPrefs
+    private val pieChartAct: FinPieChartsActions,
+    private val sharedPrefs: SharedPrefs,
+    private val timeProvider: TimeProvider,
+    private val timeConverter: TimeConverter,
 ) : ComposeViewModel<FinPieChartStatisticState, FinPieChartStatisticEventi>() {
 
-    private val treatTransfersAsIncomeExpense = mutableStateOf(false)
-    private val transactionType = mutableStateOf(TransactionType.INCOME)
-    private val period = mutableStateOf(TimePeriod())
-    private val baseCurrency = mutableStateOf("")
-    private val totalAmount = mutableDoubleStateOf(0.0)
-    private val kategoriAmounts = mutableStateOf<ImmutableList<KategoriAmount>>(persistentListOf())
-    private val selectedKategori = mutableStateOf<SelectedKategori?>(null)
-    private val accountIdFilterList = mutableStateOf<ImmutableList<UUID>>(persistentListOf())
-    private val showCloseButtonOnly = mutableStateOf(false)
-    private val filterExcluded = mutableStateOf(false)
-    private val transactions = mutableStateOf<ImmutableList<Transaction>>(persistentListOf())
-    private val choosePeriodModal = mutableStateOf<ChoosePeriodModalData?>(null)
+    private var treatTransfersAsIncomeExpense by mutableStateOf(false)
+    private var transactionType by mutableStateOf(TransactionType.INCOME)
+    private var period by mutableStateOf(TimePeriod())
+    private var baseCurrency by mutableStateOf("")
+    private var totalAmount by mutableDoubleStateOf(0.0)
+    private var categoryAmounts by mutableStateOf<ImmutableList<KategoriAmount>>(persistentListOf())
+    private var selectedCategory by mutableStateOf<SelectedKategori?>(null)
+    private var accountIdFilterList by mutableStateOf<ImmutableList<UUID>>(persistentListOf())
+    private var showCloseButtonOnly by mutableStateOf(false)
+    private var filterExcluded by mutableStateOf(false)
+    private var transactions by mutableStateOf<ImmutableList<Transaction>>(persistentListOf())
+    private var choosePeriodModal by mutableStateOf<ChoosePeriodModalData?>(null)
 
     @Composable
     override fun uiState(): FinPieChartStatisticState {
@@ -67,57 +73,57 @@ class FinPieChartStatisticVM @Inject constructor(
 
     @Composable
     private fun getTransactionType(): TransactionType {
-        return transactionType.value
+        return transactionType
     }
 
     @Composable
     private fun getPeriod(): TimePeriod {
-        return period.value
+        return period
     }
 
     @Composable
     private fun getBaseCurrency(): String {
-        return baseCurrency.value
+        return baseCurrency
     }
 
     @Composable
     private fun getTotalAmount(): Double {
-        return totalAmount.doubleValue
+        return totalAmount
     }
 
     @Composable
     private fun getCategoryAmounts(): ImmutableList<KategoriAmount> {
-        return kategoriAmounts.value
+        return categoryAmounts
     }
 
     @Composable
     private fun getSelectedCategory(): SelectedKategori? {
-        return selectedKategori.value
+        return selectedCategory
     }
 
     @Composable
     private fun getAccountIdFilterList(): ImmutableList<UUID> {
-        return accountIdFilterList.value
+        return accountIdFilterList
     }
 
     @Composable
     private fun getShowCloseButtonOnly(): Boolean {
-        return showCloseButtonOnly.value
+        return showCloseButtonOnly
     }
 
     @Composable
     private fun getFilterExcluded(): Boolean {
-        return filterExcluded.value
+        return filterExcluded
     }
 
     @Composable
     private fun getTransactions(): ImmutableList<Transaction> {
-        return transactions.value
+        return transactions
     }
 
     @Composable
     private fun getChoosePeriodModal(): ChoosePeriodModalData? {
-        return choosePeriodModal.value
+        return choosePeriodModal
     }
 
     override fun onEvent(event: FinPieChartStatisticEventi) {
@@ -157,7 +163,7 @@ class FinPieChartStatisticVM @Inject constructor(
         transfersAsIncomeExpenseValue: Boolean
     ) {
         initialise(period, type, accountIdFilterList, filterExclude, transactions)
-        treatTransfersAsIncomeExpense.value = transfersAsIncomeExpenseValue
+        treatTransfersAsIncomeExpense = transfersAsIncomeExpenseValue
         load(periodValue = period)
     }
 
@@ -171,32 +177,32 @@ class FinPieChartStatisticVM @Inject constructor(
         val settings = ioThread { settingsDao.findFirst() }
         val baseCurrencyValue = settings.currency
 
-        period.value = periodValue
-        transactionType.value = type
-        accountIdFilterList.value = accountIdFilterListValue
-        filterExcluded.value = filterExcludedValue
-        transactions.value = transactionsValue
-        showCloseButtonOnly.value = transactionsValue.isNotEmpty()
-        baseCurrency.value = baseCurrencyValue
+        period = periodValue
+        transactionType = type
+        accountIdFilterList = accountIdFilterListValue
+        filterExcluded = filterExcludedValue
+        transactions = transactionsValue
+        showCloseButtonOnly = transactionsValue.isNotEmpty()
+        baseCurrency = baseCurrencyValue
     }
 
     private suspend fun load(
         periodValue: TimePeriod
     ) {
-        val type = transactionType.value
-        val accountIdFilterList = accountIdFilterList.value
-        val transactions = transactions.value
-        val baseCurrency = baseCurrency.value
-        val range = periodValue.toRange(ivyContext.startDayOfMonth)
+        val type = transactionType
+        val accountIdFilterList = accountIdFilterList
+        val transactions = transactions
+        val baseCurrency = baseCurrency
+        val range = periodValue.toRange(ivyContext.startDayOfMonth, timeConverter, timeProvider)
 
         val treatTransferAsIncExp =
             sharedPrefs.getBoolean(
                 SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
                 false
-            ) && accountIdFilterList.isNotEmpty() && treatTransfersAsIncomeExpense.value
+            ) && accountIdFilterList.isNotEmpty() && treatTransfersAsIncomeExpense
 
-        val finPieChartsActionsOutput = ioThread {
-            finPieChartsActions(
+        val pieChartActOutput = ioThread {
+            pieChartAct(
                 FinPieChartsActions.Input(
                     baseCurrency = baseCurrency,
                     range = range,
@@ -209,13 +215,13 @@ class FinPieChartStatisticVM @Inject constructor(
             )
         }
 
-        val totalAmountValue = finPieChartsActionsOutput.totalAmount
-        val categoryAmountsValue = finPieChartsActionsOutput.kategoriAmounts
+        val totalAmountValue = pieChartActOutput.totalAmount
+        val categoryAmountsValue = pieChartActOutput.kategoriAmounts
 
-        period.value = periodValue
-        totalAmount.doubleValue = totalAmountValue
-        kategoriAmounts.value = categoryAmountsValue
-        selectedKategori.value = null
+        period = periodValue
+        totalAmount = totalAmountValue
+        categoryAmounts = categoryAmountsValue
+        selectedCategory = null
     }
 
     private suspend fun onSetPeriod(periodValue: TimePeriod) {
@@ -226,8 +232,8 @@ class FinPieChartStatisticVM @Inject constructor(
     }
 
     private suspend fun nextMonth() {
-        val month = period.value.month
-        val year = period.value.year ?: com.oneSaver.legacy.utils.dateNowUTC().year
+        val month = period.month
+        val year = period.year ?: com.oneSaver.legacy.utils.dateNowUTC().year
         if (month != null) {
             load(
                 periodValue = month.incrementMonthPeriod(ivyContext, 1L, year)
@@ -236,8 +242,8 @@ class FinPieChartStatisticVM @Inject constructor(
     }
 
     private suspend fun previousMonth() {
-        val month = period.value.month
-        val year = period.value.year ?: com.oneSaver.legacy.utils.dateNowUTC().year
+        val month = period.month
+        val year = period.year ?: com.oneSaver.legacy.utils.dateNowUTC().year
         if (month != null) {
             load(
                 periodValue = month.incrementMonthPeriod(ivyContext, -1L, year)
@@ -252,22 +258,22 @@ class FinPieChartStatisticVM @Inject constructor(
             null
         }
 
-        choosePeriodModal.value = choosePeriodModalData
+        choosePeriodModal = choosePeriodModalData
     }
 
     private suspend fun onCategoryClicked(clickedCategory: Category?) {
-        val selectedKategoriValue = if (clickedCategory == selectedKategori.value?.category) {
+        val selectedCategoryValue = if (clickedCategory == selectedCategory?.category) {
             null
         } else {
             clickedCategory?.let { SelectedKategori(category = it) }
         }
 
-        val existingCategoryAmounts = kategoriAmounts.value
-        val newCategoryAmounts = if (selectedKategoriValue != null) {
+        val existingCategoryAmounts = categoryAmounts
+        val newCategoryAmounts = if (selectedCategoryValue != null) {
             existingCategoryAmounts
                 .sortedByDescending { it.amount }
                 .sortedByDescending {
-                    selectedKategoriValue.category == it.category
+                    selectedCategoryValue.category == it.category
                 }
         } else {
             existingCategoryAmounts.sortedByDescending {
@@ -275,7 +281,7 @@ class FinPieChartStatisticVM @Inject constructor(
             }
         }.toImmutableList()
 
-        selectedKategori.value = selectedKategoriValue
-        kategoriAmounts.value = newCategoryAmounts
+        selectedCategory = selectedCategoryValue
+        categoryAmounts = newCategoryAmounts
     }
 }

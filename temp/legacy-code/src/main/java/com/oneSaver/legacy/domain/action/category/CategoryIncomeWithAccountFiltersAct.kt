@@ -4,7 +4,7 @@ import com.oneSaver.data.model.Category
 import com.oneSaver.data.model.Transaction
 import com.oneSaver.data.temp.migration.getAccountId
 import com.oneSaver.frp.action.FPAction
-import com.oneSaver.frp.then
+import com.oneSaver.legacy.frp.then
 import com.oneSaver.legacy.datamodel.Account
 import com.oneSaver.allStatus.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.oneSaver.allStatus.domain.action.transaction.LegacyCalcTrnsIncomeExpenseAct

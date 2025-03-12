@@ -2,7 +2,8 @@ package com.oneSaver.legacy.datamodel
 
 import androidx.compose.runtime.Immutable
 import com.oneSaver.base.model.LoanRecordType
-import com.oneSaver.data.database.entities.MkopoRecordEntity
+import com.oneSaver.data.database.entities.LoanRecordEntity
+import java.time.Instant
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -12,7 +13,7 @@ data class LoanRecord(
     val loanId: UUID,
     val amount: Double,
     val note: String? = null,
-    val dateTime: LocalDateTime,
+    val dateTime: Instant,
     val interest: Boolean = false,
     val accountId: UUID? = null,
     // This is used store the converted amount for currencies which are different from the loan account currency
@@ -24,7 +25,7 @@ data class LoanRecord(
 
     val id: UUID = UUID.randomUUID()
 ) {
-    fun toEntity(): MkopoRecordEntity = MkopoRecordEntity(
+    fun toEntity(): LoanRecordEntity = LoanRecordEntity(
         loanId = loanId,
         amount = amount,
         note = note,

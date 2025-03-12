@@ -1,4 +1,4 @@
-package com.oneSaver.allStatus.domain.deprecated.logic
+package com.oneSaver.legacy.domain.deprecated.logic
 
 import com.oneSaver.base.legacy.Transaction
 import com.oneSaver.base.model.TransactionType
@@ -17,9 +17,9 @@ import com.oneSaver.legacy.datamodel.PlannedPaymentRule
 import com.oneSaver.legacy.datamodel.temp.toDomain
 import com.oneSaver.legacy.datamodel.temp.toLegacyDomain
 import com.oneSaver.legacy.utils.ioThread
-import com.oneSaver.legacy.utils.timeNowUTC
 import com.oneSaver.allStatus.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.oneSaver.allStatus.domain.deprecated.logic.currency.sumByDoublePlannedInBaseCurrency
+import com.oneSaver.base.time.TimeProvider
 import javax.inject.Inject
 
 @Deprecated("Migrate to FP Style")
@@ -31,7 +31,8 @@ class PlannedPaymentsLogic @Inject constructor(
     private val accountDao: AccountDao,
     private val transactionMapper: TransactionMapper,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
-    private val transactionRepository: TransactionRepository
+    private val transactionRepository: TransactionRepository,
+    private val timeProvider: TimeProvider,
 ) {
     companion object {
         private const val AVG_DAYS_IN_MONTH = 30.436875
@@ -168,7 +169,7 @@ class PlannedPaymentsLogic @Inject constructor(
         val paidTransaction = transaction.copy(
             paidFor = transaction.dueDate,
             dueDate = null,
-            dateTime = timeNowUTC(),
+            dateTime = timeProvider.utcNow(),
             isSynced = false,
         )
 
@@ -188,7 +189,7 @@ class PlannedPaymentsLogic @Inject constructor(
             }
 
             if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
-                // delete paid oneTime iliyopangwa payment rules
+                // delete paid oneTime planned payment rules
                 plannedPaymentRuleWriter.deleteById(plannedPaymentRule.id)
             }
         }
@@ -220,7 +221,7 @@ class PlannedPaymentsLogic @Inject constructor(
             }
 
             if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
-                // delete paid oneTime iliyopangwa payment rules
+                // delete paid oneTime planned payment rules
                 plannedPaymentRuleWriter.deleteById(plannedPaymentRule.id)
             }
         }
@@ -264,7 +265,7 @@ class PlannedPaymentsLogic @Inject constructor(
 
             plannedPaymentRules.forEach { plannedPaymentRule ->
                 if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
-                    // delete paid oneTime iliyopangwa payment rules
+                    // delete paid oneTime planned payment rules
                     plannedPaymentRuleWriter.deleteById(plannedPaymentRule.id)
                 }
             }
@@ -288,7 +289,7 @@ class PlannedPaymentsLogic @Inject constructor(
         paidTransactions.map {
             it.copy(
                 dueDate = null,
-                dateTime = timeNowUTC(),
+                dateTime = timeProvider.utcNow(),
                 isSynced = false
             )
         }
@@ -316,7 +317,7 @@ class PlannedPaymentsLogic @Inject constructor(
 
             plannedPaymentRules.forEach { plannedPaymentRule ->
                 if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
-                    // delete paid oneTime iliyopangwa payment rules
+                    // delete paid oneTime planned payment rules
                     plannedPaymentRuleWriter.deleteById(plannedPaymentRule.id)
                 }
             }

@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.oneSaver.design.l0_system.UI
 import com.oneSaver.design.utils.thenWhen
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun mySaveIcon(
     modifier: Modifier = Modifier,
@@ -33,7 +33,7 @@ fun mySaveIcon(
     )
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun MysaveIconScaled(
     modifier: Modifier = Modifier,
@@ -70,7 +70,7 @@ fun MysaveIconScaled(
     )
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 enum class IconScale {
     S, M, L
 }

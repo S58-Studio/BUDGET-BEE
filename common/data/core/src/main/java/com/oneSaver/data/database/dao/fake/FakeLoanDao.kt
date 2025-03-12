@@ -2,26 +2,26 @@ package com.oneSaver.data.database.dao.fake
 
 import com.oneSaver.data.database.dao.read.LoanDao
 import com.oneSaver.data.database.dao.write.WriteLoanDao
-import com.oneSaver.data.database.entities.MkopoEntity
+import com.oneSaver.data.database.entities.LoanEntity
 import org.jetbrains.annotations.VisibleForTesting
 import java.util.UUID
 
 @VisibleForTesting
 class FakeLoanDao : LoanDao, WriteLoanDao {
-    private val items = mutableListOf<MkopoEntity>()
+    private val items = mutableListOf<LoanEntity>()
 
-    override suspend fun findAll(): List<MkopoEntity> {
+    override suspend fun findAll(): List<LoanEntity> {
         return items
     }
 
     override suspend fun findByIsSyncedAndIsDeleted(
         synced: Boolean,
         deleted: Boolean
-    ): List<MkopoEntity> {
+    ): List<LoanEntity> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun findById(id: UUID): MkopoEntity? {
+    override suspend fun findById(id: UUID): LoanEntity? {
         return items.find { it.id == id }
     }
 
@@ -29,11 +29,11 @@ class FakeLoanDao : LoanDao, WriteLoanDao {
         return items.maxOfOrNull { it.orderNum }
     }
 
-    override suspend fun save(value: MkopoEntity) {
+    override suspend fun save(value: LoanEntity) {
         items.add(value)
     }
 
-    override suspend fun saveMany(values: List<MkopoEntity>) {
+    override suspend fun saveMany(values: List<LoanEntity>) {
         values.forEach { save(it) }
     }
 

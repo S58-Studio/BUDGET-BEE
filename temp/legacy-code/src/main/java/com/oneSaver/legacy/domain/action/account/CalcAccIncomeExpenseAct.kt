@@ -1,23 +1,26 @@
-package com.oneSaver.allStatus.domain.action.account
+package com.oneSaver.legacy.domain.action.account
 
 import arrow.core.nonEmptyListOf
+import com.oneSaver.allStatus.domain.action.account.AccTrnsAct
 import com.oneSaver.frp.action.FPAction
-import com.oneSaver.frp.then
-import com.oneSaver.allStatus.domain.pure.data.ClosedTimeRange
+import com.oneSaver.legacy.frp.then
+import com.oneSaver.legacy.domain.pure.data.ClosedTimeRange
 import com.oneSaver.allStatus.domain.pure.data.IncomeExpensePair
 import com.oneSaver.legacy.domain.pure.transaction.AccountValueFunctions
 import com.oneSaver.allStatus.domain.pure.transaction.foldTransactions
+import com.oneSaver.base.time.TimeProvider
 import java.math.BigDecimal
 import javax.inject.Inject
 
 class CalcAccIncomeExpenseAct @Inject constructor(
-    private val accTrnsAct: AccTrnsAct
+    private val accTrnsAct: AccTrnsAct,
+    private val timeProvider: TimeProvider
 ) : FPAction<CalcAccIncomeExpenseAct.Input, CalcAccIncomeExpenseAct.Output>() {
 
     override suspend fun Input.compose(): suspend () -> Output = suspend {
         AccTrnsAct.Input(
             accountId = account.id.value,
-            range = range
+            range = range ?: ClosedTimeRange.allTimeIvy(timeProvider)
         )
     } then accTrnsAct then { accTrns ->
         foldTransactions(
@@ -40,9 +43,10 @@ class CalcAccIncomeExpenseAct @Inject constructor(
         )
     }
 
+    @Suppress("DataClassDefaultValues")
     data class Input(
         val account: com.oneSaver.data.model.Account,
-        val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
+        val range: ClosedTimeRange? = null,
         val includeTransfersInCalc: Boolean = false
     )
 

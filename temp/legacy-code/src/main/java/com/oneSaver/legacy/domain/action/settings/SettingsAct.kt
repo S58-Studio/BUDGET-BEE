@@ -3,7 +3,7 @@ package com.oneSaver.allStatus.domain.action.settings
 import com.oneSaver.base.legacy.Theme
 import com.oneSaver.data.database.dao.read.SettingsDao
 import com.oneSaver.frp.action.FPAction
-import com.oneSaver.frp.then
+import com.oneSaver.legacy.frp.then
 import com.oneSaver.legacy.datamodel.Settings
 import com.oneSaver.legacy.datamodel.temp.toLegacyDomain
 import javax.inject.Inject

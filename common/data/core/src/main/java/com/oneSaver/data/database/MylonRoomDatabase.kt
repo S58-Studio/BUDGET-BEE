@@ -26,12 +26,12 @@ import com.oneSaver.data.database.dao.write.WriteSettingsDao
 import com.oneSaver.data.database.dao.write.WriteTagDao
 import com.oneSaver.data.database.dao.write.WriteTagAssociationDao
 import com.oneSaver.data.database.dao.write.WriteTransactionDao
-import com.oneSaver.data.database.entities.AkauntiEntity
-import com.oneSaver.data.database.entities.BajetiEntity
-import com.oneSaver.data.database.entities.KategoriEntity
+import com.oneSaver.data.database.entities.AccountEntity
+import com.oneSaver.data.database.entities.BudgetEntity
+import com.oneSaver.data.database.entities.CategoryEntity
 import com.oneSaver.data.database.entities.XchangeRateEntity
-import com.oneSaver.data.database.entities.MkopoEntity
-import com.oneSaver.data.database.entities.MkopoRecordEntity
+import com.oneSaver.data.database.entities.LoanEntity
+import com.oneSaver.data.database.entities.LoanRecordEntity
 import com.oneSaver.data.database.entities.ScheduledPaymentRuleEntity
 import com.oneSaver.data.database.entities.SettingsEntity
 import com.oneSaver.data.database.entities.TagEntity
@@ -61,13 +61,14 @@ import com.oneSaver.data.database.migrations.Migration119to120_LoanTransactions
 import com.oneSaver.data.database.migrations.Migration120to121_DropWishlistItem
 import com.oneSaver.data.database.migrations.Migration122to123_ExchangeRates
 import com.oneSaver.data.database.migrations.Migration125to126_Tags
+import com.oneSaver.data.database.migrations.Migration129to130_LoanIncludeNote
 
 @Database(
     entities = [
-        AkauntiEntity::class, TransactionEntity::class, KategoriEntity::class,
+        AccountEntity::class, TransactionEntity::class, CategoryEntity::class,
         SettingsEntity::class, ScheduledPaymentRuleEntity::class,
-        UserEntity::class, XchangeRateEntity::class, BajetiEntity::class,
-        MkopoEntity::class, MkopoRecordEntity::class, TagEntity::class, TagAssociationEntity::class
+        UserEntity::class, XchangeRateEntity::class, BudgetEntity::class,
+        LoanEntity::class, LoanRecordEntity::class, TagEntity::class, TagAssociationEntity::class
     ],
     autoMigrations = [
         AutoMigration(
@@ -76,7 +77,7 @@ import com.oneSaver.data.database.migrations.Migration125to126_Tags
             spec = MylonRoomDatabase.DeleteSEMigration::class
         )
     ],
-    version = 129,
+    version = 130,
     exportSchema = true
 )
 @TypeConverters(RoomTypeConverters::class)
@@ -133,6 +134,7 @@ abstract class MylonRoomDatabase : RoomDatabase() {
             Migration126to127_LoanRecordType(),
             Migration127to128_PaidForDateRecord(),
             Migration128to129_DeleteIsDeleted(),
+            Migration129to130_LoanIncludeNote()
         )
 
         @Suppress("SpreadOperator")

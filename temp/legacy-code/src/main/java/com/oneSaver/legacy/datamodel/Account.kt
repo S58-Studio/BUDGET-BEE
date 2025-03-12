@@ -3,7 +3,7 @@ package com.oneSaver.legacy.datamodel
 import androidx.compose.runtime.Immutable
 import arrow.core.Either
 import arrow.core.raise.either
-import com.oneSaver.data.database.entities.AkauntiEntity
+import com.oneSaver.data.database.entities.AccountEntity
 import com.oneSaver.data.model.Account
 import com.oneSaver.data.model.AccountId
 import com.oneSaver.data.model.primitive.AssetCode
@@ -29,7 +29,7 @@ data class Account(
 
     val id: UUID = UUID.randomUUID()
 ) {
-    fun toEntity(): AkauntiEntity = AkauntiEntity(
+    fun toEntity(): AccountEntity = AccountEntity(
         name = name,
         currency = currency,
         color = color,

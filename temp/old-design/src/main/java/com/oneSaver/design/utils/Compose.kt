@@ -12,13 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun <T> densityScope(densityScope: @Composable Density.() -> T): T {
     return with(LocalDensity.current) { densityScope() }
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.thenIf(
     condition: Boolean,
     otherModifier: Modifier.() -> Modifier
@@ -31,7 +31,7 @@ fun Modifier.thenIf(
     }
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.thenWhen(
     logic: Modifier.() -> Modifier?
 ): Modifier {
@@ -41,7 +41,7 @@ fun Modifier.thenWhen(
 @Composable
 fun rememberInteractionSource(): MutableInteractionSource = remember { MutableInteractionSource() }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.clickableNoIndication(
     interactionSource: MutableInteractionSource,
     onClick: () -> Unit
@@ -54,7 +54,7 @@ fun Modifier.clickableNoIndication(
     )
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @SuppressLint("ComposableNaming")
 @Composable
 fun onEvent(
@@ -70,6 +70,6 @@ fun onEvent(
     }
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun Int.toDensityDp() = densityScope { toDp() }

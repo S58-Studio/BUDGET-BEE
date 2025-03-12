@@ -10,6 +10,7 @@ import com.oneSaver.legacy.datamodel.Account
 import com.oneSaver.allStatus.domain.data.CustomExchangeRateState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
+import java.time.Instant
 import java.time.LocalDateTime
 
 @Immutable
@@ -19,8 +20,8 @@ data class EditTransactState(
     val titleSuggestions: ImmutableSet<String>,
     val currency: String,
     val description: String?,
-    val dateTime: LocalDateTime?,
-    val dueDate: LocalDateTime?,
+    val dateTime: Instant?,
+    val dueDate: Instant?,
     val accounts: ImmutableList<Account>,
     val categories: ImmutableList<Category>,
     val account: Account?,

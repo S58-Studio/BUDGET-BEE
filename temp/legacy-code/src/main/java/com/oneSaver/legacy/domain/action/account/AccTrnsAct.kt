@@ -4,7 +4,7 @@ import com.oneSaver.data.model.AccountId
 import com.oneSaver.data.model.Transaction
 import com.oneSaver.data.repository.TransactionRepository
 import com.oneSaver.frp.action.FPAction
-import com.oneSaver.allStatus.domain.pure.data.ClosedTimeRange
+import com.oneSaver.legacy.domain.pure.data.ClosedTimeRange
 import java.util.UUID
 import javax.inject.Inject
 

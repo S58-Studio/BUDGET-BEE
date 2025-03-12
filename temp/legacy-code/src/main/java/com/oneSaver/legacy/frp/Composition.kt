@@ -1,4 +1,4 @@
-package com.oneSaver.frp
+package com.oneSaver.legacy.frp
 
 import com.oneSaver.frp.action.Action
 

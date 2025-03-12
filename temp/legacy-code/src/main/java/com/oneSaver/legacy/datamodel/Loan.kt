@@ -1,8 +1,8 @@
 package com.oneSaver.legacy.datamodel
 
 import androidx.compose.runtime.Immutable
-import com.oneSaver.data.database.entities.MkopoEntity
-import com.oneSaver.data.model.LoanType
+import com.oneSaver.data.database.entities.LoanEntity
+import com.oneSaver.base.model.LoanType
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -23,7 +23,7 @@ data class Loan(
 
     val id: UUID = UUID.randomUUID()
 ) {
-    fun toEntity(): MkopoEntity = MkopoEntity(
+    fun toEntity(): LoanEntity = LoanEntity(
         name = name,
         amount = amount,
         type = type,

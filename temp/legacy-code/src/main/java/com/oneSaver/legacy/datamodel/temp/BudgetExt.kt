@@ -1,10 +1,10 @@
 package com.oneSaver.legacy.datamodel.temp
 
-import com.oneSaver.data.database.entities.BajetiEntity
+import com.oneSaver.data.database.entities.BudgetEntity
 import com.oneSaver.legacy.datamodel.Budget
 import java.util.UUID
 
-fun BajetiEntity.toLegacyDomain(): Budget = Budget(
+fun BudgetEntity.toLegacyDomain(): Budget = Budget(
     name = name,
     amount = amount,
     categoryIdsSerialized = categoryIdsSerialized,
@@ -27,11 +27,11 @@ fun budgetType(categoriesCount: Int): String {
     }
 }
 
-fun BajetiEntity.parseCategoryIds(): List<UUID> {
+fun BudgetEntity.parseCategoryIds(): List<UUID> {
     return parseIdsString(categoryIdsSerialized)
 }
 
-fun BajetiEntity.parseAccountIds(): List<UUID> {
+fun BudgetEntity.parseAccountIds(): List<UUID> {
     return parseIdsString(accountIdsSerialized)
 }
 
@@ -48,6 +48,6 @@ private fun parseIdsString(idsString: String?): List<UUID> {
     }
 }
 
-fun BajetiEntity.validate(): Boolean {
+fun BudgetEntity.validate(): Boolean {
     return name.isNotEmpty() && amount > 0.0
 }

@@ -268,18 +268,22 @@ class MySaveRootActivty : AppCompatActivity(), RootScreen {
     }
 
     private fun setupTimePicker() {
-        mySaveContext.onShowTimePicker = { onTimePicked ->
-            val nowLocal = timeNowLocal()
+        mySaveContext.onShowTimePicker = { initialTime,
+                                        onTimePicked ->
+            val nowLocal = initialTime ?: timeProvider.localTimeNow()
+            val is24Hour = android.text.format.DateFormat.is24HourFormat(this)
+            val timeFormat = if (is24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+
             val picker =
                 MaterialTimePicker.Builder()
-                    .setTimeFormat(TimeFormat.CLOCK_12H)
+                    .setTimeFormat(timeFormat)
                     .setHour(nowLocal.hour)
                     .setMinute(nowLocal.minute)
                     .build()
             picker.show(supportFragmentManager, "timePicker")
             picker.addOnPositiveButtonClickListener {
                 onTimePicked(
-                    LocalTime.of(picker.hour, picker.minute).convertLocalToUTC().withSecond(0)
+                    LocalTime.of(picker.hour, picker.minute).withSecond(0)
                 )
             }
         }

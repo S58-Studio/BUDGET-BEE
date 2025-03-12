@@ -42,7 +42,7 @@ import com.oneSaver.legacy.utils.formatDateOnlyWithYear
 import com.oneSaver.legacy.utils.isNotNullOrBlank
 import com.oneSaver.legacy.utils.timeNowUTC
 import com.oneSaver.legacy.utils.uppercaseLocal
-import com.oneSaver.navigation.TransactScrin
+import com.oneSaver.navigation.TransactionsScreen
 import com.oneSaver.navigation.navigation
 import com.oneSaver.core.userInterface.R
 import com.oneSaver.allStatus.userInterface.theme.Blue
@@ -169,7 +169,7 @@ private fun ScheduledPaymntHeaderRow(
                     iconEdgePadding = 10.dp
                 ) {
                     nav.navigateTo(
-                        TransactScrin(
+                        TransactionsScreen(
                             accountId = null,
                             categoryId = category.id.value
                         )
@@ -194,7 +194,7 @@ private fun ScheduledPaymntHeaderRow(
             ) {
                 account?.let {
                     nav.navigateTo(
-                        TransactScrin(
+                        TransactionsScreen(
                             accountId = account.id,
                             categoryId = null
                         )

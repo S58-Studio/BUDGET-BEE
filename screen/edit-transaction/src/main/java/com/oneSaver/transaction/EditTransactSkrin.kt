@@ -47,7 +47,7 @@ import com.oneSaver.legacy.ui.component.tags.AddTagButton
 import com.oneSaver.legacy.ui.component.tags.ShowTagModal
 import com.oneSaver.legacy.utils.convertUTCtoLocal
 import com.oneSaver.legacy.utils.onScreenStart
-import com.oneSaver.navigation.ModifyScheduledSkrin
+import com.oneSaver.navigation.EditPlannedScreen
 import com.oneSaver.navigation.ModifyTransactionSkrin
 import com.oneSaver.navigation.MylonPreview
 import com.oneSaver.navigation.navigation
@@ -124,62 +124,62 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: ModifyTransactionSkrin
         transactionAssociatedTags = uiState.transactionAssociatedTags,
         hasChanges = uiState.hasChanges,
         onSetDate = {
-            viewModel.onEvent(EditTransactEventi.OnSetDate(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnSetDate(it))
         },
         onSetTime = {
-            viewModel.onEvent(EditTransactEventi.OnSetTime(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnSetTime(it))
         },
         onTitleChange = {
-            viewModel.onEvent(EditTransactEventi.OnTitleChanged(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnTitleChanged(it))
         },
         onDescriptionChange = {
-            viewModel.onEvent(EditTransactEventi.OnDescriptionChanged(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnDescriptionChanged(it))
         },
         onAmountChange = {
-            viewModel.onEvent(EditTransactEventi.OnAmountChanged(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnAmountChanged(it))
         },
         onCategoryChange = {
-            viewModel.onEvent(EditTransactEventi.OnCategoryChanged(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnCategoryChanged(it))
         },
         onAccountChange = {
-            viewModel.onEvent(EditTransactEventi.OnAccountChanged(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnAccountChanged(it))
         },
         onToAccountChange = {
-            viewModel.onEvent(EditTransactEventi.OnToAccountChanged(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnToAccountChanged(it))
         },
         onDueDateChange = {
-            viewModel.onEvent(EditTransactEventi.OnDueDateChanged(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnDueDateChanged(it))
         },
         onSetTransactionType = {
-            viewModel.onEvent(EditTransactEventi.OnSetTransactionType(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnSetTransactionType(it))
         },
         onCreateCategory = {
-            viewModel.onEvent(EditTransactEventi.CreateCategory(it))
+            viewModel.onEvent(EditTransactionViewEvent.CreateCategory(it))
         },
         onEditCategory = {
-            viewModel.onEvent(EditTransactEventi.EditCategory(it))
+            viewModel.onEvent(EditTransactionViewEvent.EditCategory(it))
         },
         onPayPlannedPayment = {
-            viewModel.onEvent(EditTransactEventi.OnPayPlannedPayment)
+            viewModel.onEvent(EditTransactionViewEvent.OnPayPlannedPayment)
         },
         onSave = {
             view.hideKeyboard()
-            viewModel.onEvent(EditTransactEventi.Save(it))
+            viewModel.onEvent(EditTransactionViewEvent.Save(it))
         },
         onSetHasChanges = {
-            viewModel.onEvent(EditTransactEventi.SetHasChanges(it))
+            viewModel.onEvent(EditTransactionViewEvent.SetHasChanges(it))
         },
         onDelete = {
-            viewModel.onEvent(EditTransactEventi.Delete)
+            viewModel.onEvent(EditTransactionViewEvent.Delete)
         },
         onDuplicate = {
-            viewModel.onEvent(EditTransactEventi.Duplicate)
+            viewModel.onEvent(EditTransactionViewEvent.Duplicate)
         },
         onCreateAccount = {
-            viewModel.onEvent(EditTransactEventi.CreateAccount(it))
+            viewModel.onEvent(EditTransactionViewEvent.CreateAccount(it))
         },
         onExchangeRateChange = {
-            viewModel.onEvent(EditTransactEventi.UpdateExchangeRate(it))
+            viewModel.onEvent(EditTransactionViewEvent.UpdateExchangeRate(it))
         },
         onTagOperation = {
             viewModel.onEvent(it)
@@ -229,7 +229,7 @@ private fun BoxWithConstraintsScope.UI(
     onDuplicate: () -> Unit,
     onCreateAccount: (CreateAccountData) -> Unit,
     onExchangeRateChange: (Double?) -> Unit = { },
-    onTagOperation: (EditTransactEventi.TagEvent) -> Unit = {},
+    onTagOperation: (EditTransactionViewEvent.TagEvent) -> Unit = {},
     loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
     backgroundProcessing: Boolean = false,
     hasChanges: Boolean = false,
@@ -419,7 +419,7 @@ private fun BoxWithConstraintsScope.UI(
                 onClick = {
                     nav.back()
                     nav.navigateTo(
-                        ModifyScheduledSkrin(
+                        EditPlannedScreen(
                             plannedPaymentRuleId = null,
                             type = transactionType,
                             amount = amount,
@@ -624,27 +624,27 @@ private fun BoxWithConstraintsScope.UI(
         onDismiss = {
             tagModelVisible = false
             // Reset TagList, avoids showing incorrect tag list when user has searched for a tag
-            onTagOperation(EditTransactEventi.TagEvent.OnTagSearch(""))
+            onTagOperation(EditTransactionViewEvent.TagEvent.OnTagSearch(""))
         },
         allTagList = tags,
         selectedTagList = transactionAssociatedTags,
         onTagAdd = {
-            onTagOperation(EditTransactEventi.TagEvent.SaveTag(name = it))
+            onTagOperation(EditTransactionViewEvent.TagEvent.SaveTag(name = it))
         },
         onTagEdit = { oldTag, newTag ->
-            onTagOperation(EditTransactEventi.TagEvent.OnTagEdit(oldTag, newTag))
+            onTagOperation(EditTransactionViewEvent.TagEvent.OnTagEdit(oldTag, newTag))
         },
         onTagDelete = {
-            onTagOperation(EditTransactEventi.TagEvent.OnTagDelete(it))
+            onTagOperation(EditTransactionViewEvent.TagEvent.OnTagDelete(it))
         },
         onTagSelected = {
-            onTagOperation(EditTransactEventi.TagEvent.OnTagSelect(it))
+            onTagOperation(EditTransactionViewEvent.TagEvent.OnTagSelect(it))
         },
         onTagDeSelected = {
-            onTagOperation(EditTransactEventi.TagEvent.OnTagDeSelect(it))
+            onTagOperation(EditTransactionViewEvent.TagEvent.OnTagDeSelect(it))
         },
         onTagSearch = {
-            onTagOperation(EditTransactEventi.TagEvent.OnTagSearch(it))
+            onTagOperation(EditTransactionViewEvent.TagEvent.OnTagSearch(it))
         }
     )
 }

@@ -8,7 +8,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.oneSaver.data.database.migrations.Migration123to124_LoanIncludeDateTime
 import com.oneSaver.data.database.migrations.Migration124to125_LoanEditDateTime
 import com.oneSaver.data.database.migrations.Migration126to127_LoanRecordType
-import com.oneSaver.data.model.LoanType
+import com.oneSaver.base.model.LoanType
 import io.kotest.matchers.shouldBe
 import org.junit.Rule
 import org.junit.Test
@@ -37,9 +37,9 @@ class MylonRoomDatabaseMigrationTest {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
             """.trimIndent()
 
-            // Assuming you have an instance of MkopoEntity named loanEntity
+            // Assuming you have an instance of LoanEntity named loanEntity
             val preparedStatement = compileStatement(insertSql).apply {
-                // Bind the values from your MkopoEntity instance to the prepared statement
+                // Bind the values from your LoanEntity instance to the prepared statement
                 bindString(1, "Loan 1")
                 bindDouble(2, 123.50)
                 bindString(3, LoanType.BORROW.name) // Assuming you store enum as name
@@ -91,9 +91,9 @@ class MylonRoomDatabaseMigrationTest {
                 INSERT INTO loan_records (loanId, amount, note, dateTime, interest, accountId, convertedAmount, isSynced, isDeleted, id) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
             """.trimIndent()
-            // Assuming you have an instance of MkopoRecordEntity named loanRecordEntity
+            // Assuming you have an instance of LoanRecordEntity named loanRecordEntity
             val preparedStatement = compileStatement(insertSql).apply {
-                // Bind the values from your MkopoRecordEntity instance to the prepared statement
+                // Bind the values from your LoanRecordEntity instance to the prepared statement
                 bindString(1, loanId)
                 bindDouble(2, 123.50)
                 bindString(3, noteString)

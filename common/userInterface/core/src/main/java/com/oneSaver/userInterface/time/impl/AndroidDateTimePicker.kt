@@ -63,7 +63,7 @@ class AndroidDateTimePicker @Inject constructor(
                     pickerState.selectedDateMillis?.let(Instant::ofEpochMilli)
                         ?.let {
                             with(timeConverter) { it.toLocalDate() }
-                    }?.let(viewState.onDatePicked)
+                        }?.let(viewState.onDatePicked)
                 })
             },
             colors = DatePickerDefaults.colors(

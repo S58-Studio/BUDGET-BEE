@@ -24,7 +24,7 @@ import com.oneSaver.design.utils.IvyComponentPreview
 import com.oneSaver.design.utils.clickableNoIndication
 import com.oneSaver.design.utils.rememberInteractionSource
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun Checkbox(
     modifier: Modifier = Modifier,
@@ -46,7 +46,7 @@ fun Checkbox(
     )
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun CheckboxWithText(
     modifier: Modifier = Modifier,

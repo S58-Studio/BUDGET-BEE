@@ -34,7 +34,7 @@ data class ModifyTransactionSkrin(
         get() = true
 }
 
-data class TransactScrin(
+data class TransactionsScreen(
     val accountId: UUID? = null,
     val categoryId: UUID? = null,
     val unspecifiedCategory: Boolean? = false,
@@ -54,7 +54,7 @@ data class FinPieChartStatisticSkrin(
         get() = true
 }
 
-data class ModifyScheduledSkrin(
+data class EditPlannedScreen(
     val plannedPaymentRuleId: UUID?,
     val type: TransactionType,
     val amount: Double? = null,

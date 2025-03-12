@@ -29,7 +29,8 @@ import com.oneSaver.allStatus.userInterface.theme.modal.edit.AccountModalData
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.MainScreen(screen: MainSkreen, activity: Activity) {
+fun BoxWithConstraintsScope.MainScreen(screen: MainSkreen,
+                                       activity: Activity) {
     val viewModel: MainViewModel = viewModel()
 
     val currency by viewModel.currency.observeAsState("")

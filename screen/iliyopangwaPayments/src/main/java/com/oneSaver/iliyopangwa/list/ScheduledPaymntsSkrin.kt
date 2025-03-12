@@ -28,7 +28,7 @@ import com.oneSaver.legacy.MySavePreview
 import com.oneSaver.legacy.datamodel.Account
 import com.oneSaver.legacy.datamodel.PlannedPaymentRule
 import com.oneSaver.legacy.utils.timeNowUTC
-import com.oneSaver.navigation.ModifyScheduledSkrin
+import com.oneSaver.navigation.EditPlannedScreen
 import com.oneSaver.navigation.ScheduledPaymntsSkrin
 import com.oneSaver.navigation.navigation
 import com.oneSaver.navigation.screenScopedViewModel
@@ -107,7 +107,7 @@ private fun BoxWithConstraintsScope.UI(
             if (activity.isFinishing.not() && activity.isDestroyed.not()) {
                 val adCallback = MySaveAdsManager.OnAdsCallback {
                     nav.navigateTo(
-                        ModifyScheduledSkrin(
+                        EditPlannedScreen(
                             type = TransactionType.EXPENSE,
                             plannedPaymentRuleId = null
                         )

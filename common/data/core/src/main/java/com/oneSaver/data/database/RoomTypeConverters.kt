@@ -7,7 +7,7 @@ import com.oneSaver.base.legacy.toEpochMilli
 import com.oneSaver.base.model.LoanRecordType
 import com.oneSaver.base.model.TransactionType
 import com.oneSaver.data.model.IntervalType
-import com.oneSaver.data.model.LoanType
+import com.oneSaver.base.model.LoanType
 import java.time.Instant
 import java.time.LocalDateTime
 import java.util.*

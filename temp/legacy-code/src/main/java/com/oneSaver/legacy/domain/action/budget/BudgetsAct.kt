@@ -3,7 +3,7 @@ package com.oneSaver.allStatus.domain.action.budget
 import com.oneSaver.data.database.dao.read.BudgetDao
 import com.oneSaver.frp.action.FPAction
 import com.oneSaver.frp.action.thenMap
-import com.oneSaver.frp.then
+import com.oneSaver.legacy.frp.then
 import com.oneSaver.legacy.datamodel.Budget
 import com.oneSaver.legacy.datamodel.temp.toLegacyDomain
 import kotlinx.collections.immutable.ImmutableList

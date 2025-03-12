@@ -11,11 +11,11 @@ import com.oneSaver.frp.action.FPAction
 import com.oneSaver.frp.action.thenFilter
 import com.oneSaver.frp.action.thenMap
 import com.oneSaver.frp.action.thenSum
-import com.oneSaver.frp.fixUnit
+import com.oneSaver.legacy.frp.fixUnit
 import com.oneSaver.allStatus.domain.action.account.AccountsAct
-import com.oneSaver.allStatus.domain.action.account.CalcAccBalanceAct
+import com.oneSaver.legacy.domain.action.account.CalcAccBalanceAct
 import com.oneSaver.allStatus.domain.action.exchange.ExchangeAct
-import com.oneSaver.allStatus.domain.pure.data.ClosedTimeRange
+import com.oneSaver.legacy.domain.pure.data.ClosedTimeRange
 import com.oneSaver.allStatus.domain.pure.exchange.ExchangeData
 import java.math.BigDecimal
 import javax.inject.Inject

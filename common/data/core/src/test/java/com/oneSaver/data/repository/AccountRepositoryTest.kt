@@ -5,7 +5,7 @@ import com.oneSaver.data.DataObserver
 import com.oneSaver.data.database.dao.fake.FakeSettingsDao
 import com.oneSaver.data.database.dao.read.AccountDao
 import com.oneSaver.data.database.dao.write.WriteAccountDao
-import com.oneSaver.data.database.entities.AkauntiEntity
+import com.oneSaver.data.database.entities.AccountEntity
 import com.oneSaver.data.model.Account
 import com.oneSaver.data.model.AccountId
 import com.oneSaver.data.model.primitive.AssetCode
@@ -66,7 +66,7 @@ class AccountRepositoryTest {
     fun `find by id - valid AccountEntity`() = runTest {
         // given
         val accountId = AccountId(UUID.randomUUID())
-        coEvery { accountDao.findById(accountId.value) } returns AkauntiEntity(
+        coEvery { accountDao.findById(accountId.value) } returns AccountEntity(
             name = "Bank",
             currency = "BGN",
             color = 1,
@@ -97,7 +97,7 @@ class AccountRepositoryTest {
     fun `find by id - invalid AccountEntity`() = runTest {
         // given
         val accountId = AccountId(UUID.randomUUID())
-        coEvery { accountDao.findById(accountId.value) } returns AkauntiEntity(
+        coEvery { accountDao.findById(accountId.value) } returns AccountEntity(
             name = " ",
             currency = "BGN",
             color = 1,
@@ -134,7 +134,7 @@ class AccountRepositoryTest {
         val account1Id = AccountId(UUID.randomUUID())
         val account2Id = AccountId(UUID.randomUUID())
         coEvery { accountDao.findAll(false) } returns listOf(
-            AkauntiEntity(
+            AccountEntity(
                 name = "Bank",
                 currency = "BGN",
                 color = 1,
@@ -145,7 +145,7 @@ class AccountRepositoryTest {
                 isDeleted = false,
                 id = account1Id.value
             ),
-            AkauntiEntity(
+            AccountEntity(
                 name = "Cash",
                 currency = "BGN",
                 color = 2,
@@ -190,7 +190,7 @@ class AccountRepositoryTest {
         val account1Id = AccountId(UUID.randomUUID())
         val account2Id = AccountId(UUID.randomUUID())
         coEvery { accountDao.findAll(false) } returns listOf(
-            AkauntiEntity(
+            AccountEntity(
                 name = "Bank",
                 currency = "BGN",
                 color = 1,
@@ -201,7 +201,7 @@ class AccountRepositoryTest {
                 isDeleted = false,
                 id = account1Id.value
             ),
-            AkauntiEntity(
+            AccountEntity(
                 name = "  ",
                 currency = "BGN",
                 color = 2,
@@ -276,7 +276,7 @@ class AccountRepositoryTest {
         // then
         coVerify(exactly = 1) {
             writeAccountDao.save(
-                AkauntiEntity(
+                AccountEntity(
                     name = "Bank",
                     currency = "BGN",
                     color = 1,
@@ -325,7 +325,7 @@ class AccountRepositoryTest {
         coVerify(exactly = 1) {
             writeAccountDao.saveMany(
                 listOf(
-                    AkauntiEntity(
+                    AccountEntity(
                         name = "Bank",
                         currency = "BGN",
                         color = 1,
@@ -336,7 +336,7 @@ class AccountRepositoryTest {
                         isDeleted = false,
                         id = account1Id.value
                     ),
-                    AkauntiEntity(
+                    AccountEntity(
                         name = "Cash",
                         currency = "BGN",
                         color = 2,

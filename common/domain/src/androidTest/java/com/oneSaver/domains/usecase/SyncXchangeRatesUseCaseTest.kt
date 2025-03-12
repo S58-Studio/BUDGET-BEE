@@ -12,7 +12,7 @@ import com.oneSaver.data.model.primitive.AssetCode
 import com.oneSaver.data.remote.implementation.RemoteExchangeRatesDataSourceImpl
 import com.oneSaver.data.repository.ExchangeRatesRepository
 import com.oneSaver.data.repository.mapper.ExchangeRateMapper
-import com.oneSaver.domains.usecase.Xchange.SyncXchangeRatesUseCase
+import com.oneSaver.domains.usecase.exchange.SyncXchangeRatesUseCase
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.doubles.shouldBeGreaterThan

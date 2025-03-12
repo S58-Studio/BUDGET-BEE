@@ -11,7 +11,7 @@ import com.oneSaver.data.database.dao.read.AccountDao
 import com.oneSaver.data.database.dao.read.SettingsDao
 import com.oneSaver.data.database.dao.write.WriteSettingsDao
 import com.oneSaver.userInterface.ComposeViewModel
-import com.oneSaver.domains.usecase.Xchange.SyncXchangeRatesUseCase
+import com.oneSaver.domains.usecase.exchange.SyncXchangeRatesUseCase
 import com.oneSaver.legacy.LogoutLogic
 import com.oneSaver.data.model.Category
 import com.oneSaver.data.repository.CategoryRepository

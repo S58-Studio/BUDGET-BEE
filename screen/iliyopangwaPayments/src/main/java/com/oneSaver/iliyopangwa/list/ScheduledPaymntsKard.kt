@@ -14,7 +14,7 @@ import com.oneSaver.legacy.datamodel.Account
 import com.oneSaver.legacy.datamodel.PlannedPaymentRule
 import com.oneSaver.legacy.utils.ioThread
 import com.oneSaver.allStatus.domain.action.account.AccountsAct
-import com.oneSaver.allStatus.domain.deprecated.logic.PlannedPaymentsLogic
+import com.oneSaver.legacy.domain.deprecated.logic.PlannedPaymentsLogic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

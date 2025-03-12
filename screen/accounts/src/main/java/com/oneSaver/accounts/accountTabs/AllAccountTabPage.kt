@@ -42,8 +42,8 @@ import com.oneSaver.design.l0_system.UI
 import com.oneSaver.design.l0_system.style
 import com.oneSaver.frp.forward
 import com.oneSaver.frp.then2
-import com.oneSaver.home.NyumbaniEvent
-import com.oneSaver.home.NyumbaniState
+import com.oneSaver.home.HomeEvent
+import com.oneSaver.home.HomeState
 import com.oneSaver.legacy.utils.clickableNoIndication
 import com.oneSaver.legacy.utils.rememberInteractionSource
 import com.oneSaver.navigation.AkauntiTabSkrin
@@ -76,14 +76,17 @@ fun BoxWithConstraintsScope.AllAccountTabPage(activity: Activity) {
     val viewModel: HomeVM = screenScopedViewModel()
     val uiState = viewModel.uiState()
 
-    AllAccountScreenUI(uiState, viewModel::onEvent, activity = activity)
+    AllAccountScreenUI(
+        uiState,
+        viewModel::onEvent,
+        activity = activity)
 }
 
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.AllAccountScreenUI(
-    uiState: NyumbaniState,
-    onEvent: (NyumbaniEvent) -> Unit,
+    uiState: HomeState,
+    onEvent: (HomeEvent) -> Unit,
     activity: Activity
 ) {
     val nav = navigation()
@@ -212,7 +215,7 @@ fun BoxWithConstraintsScope.AllAccountScreenUI(
             bufferModalData = null
         },
         onBufferChanged = forward<Double>() then2 {
-            NyumbaniEvent.SetBuffer(it)
+            HomeEvent.SetBuffer(it)
         } then2 onEvent
     )
 }

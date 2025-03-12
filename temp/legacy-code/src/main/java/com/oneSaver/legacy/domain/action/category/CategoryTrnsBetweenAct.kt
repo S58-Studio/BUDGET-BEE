@@ -5,7 +5,7 @@ import com.oneSaver.data.database.dao.read.TransactionDao
 import com.oneSaver.frp.action.FPAction
 import com.oneSaver.frp.action.thenMap
 import com.oneSaver.legacy.datamodel.temp.toLegacyDomain
-import com.oneSaver.allStatus.domain.pure.data.ClosedTimeRange
+import com.oneSaver.legacy.domain.pure.data.ClosedTimeRange
 import java.util.UUID
 import javax.inject.Inject
 

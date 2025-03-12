@@ -1,7 +1,7 @@
 package com.oneSaver.data.dao
 
 import com.oneSaver.data.database.dao.fake.FakeAccountDao
-import com.oneSaver.data.database.entities.AkauntiEntity
+import com.oneSaver.data.database.entities.AccountEntity
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -20,7 +20,7 @@ class FakeAccountDaoTest {
     fun `find by id - existing id`() = runTest {
         // given
         val id = UUID.randomUUID()
-        val account = AkauntiEntity(
+        val account = AccountEntity(
             id = id,
             name = "Bank",
             currency = "BGN",
@@ -57,7 +57,7 @@ class FakeAccountDaoTest {
         val id1 = UUID.randomUUID()
         val id2 = UUID.randomUUID()
         val id3 = UUID.randomUUID()
-        val account1 = AkauntiEntity(
+        val account1 = AccountEntity(
             id = id1,
             name = "Bank",
             currency = "BGN",
@@ -69,7 +69,7 @@ class FakeAccountDaoTest {
         )
         val accounts = listOf(
             account1,
-            AkauntiEntity(
+            AccountEntity(
                 id = id2,
                 name = "Cash",
                 currency = "BGN",
@@ -79,7 +79,7 @@ class FakeAccountDaoTest {
                 orderNum = 2.0,
                 isDeleted = true
             ),
-            AkauntiEntity(
+            AccountEntity(
                 id = id3,
                 name = "Bank 2",
                 currency = "BGN",
@@ -98,7 +98,7 @@ class FakeAccountDaoTest {
         // then
         res shouldBe listOf(
             account1,
-            AkauntiEntity(
+            AccountEntity(
                 id = id3,
                 name = "Bank 2",
                 currency = "BGN",
@@ -116,7 +116,7 @@ class FakeAccountDaoTest {
         // given
         val id1 = UUID.randomUUID()
         val id2 = UUID.randomUUID()
-        val account2 = AkauntiEntity(
+        val account2 = AccountEntity(
             id = id2,
             name = "Cash",
             currency = "BGN",
@@ -127,7 +127,7 @@ class FakeAccountDaoTest {
             isDeleted = true
         )
         val accounts = listOf(
-            AkauntiEntity(
+            AccountEntity(
                 id = id1,
                 name = "Bank",
                 currency = "BGN",
@@ -151,7 +151,7 @@ class FakeAccountDaoTest {
     @Test
     fun `find all - empty list`() = runTest {
         // given
-        val accounts = emptyList<AkauntiEntity>()
+        val accounts = emptyList<AccountEntity>()
 
         // when
         dao.saveMany(accounts)
@@ -167,7 +167,7 @@ class FakeAccountDaoTest {
         val id1 = UUID.randomUUID()
         val id2 = UUID.randomUUID()
         val accounts = listOf(
-            AkauntiEntity(
+            AccountEntity(
                 id = id1,
                 name = "Bank",
                 currency = "BGN",
@@ -177,7 +177,7 @@ class FakeAccountDaoTest {
                 orderNum = 0.0,
                 isDeleted = false
             ),
-            AkauntiEntity(
+            AccountEntity(
                 id = id2,
                 name = "Cash",
                 currency = "BGN",
@@ -200,7 +200,7 @@ class FakeAccountDaoTest {
     @Test
     fun `find max order num of empty list of accounts`() = runTest {
         // given
-        val accounts = emptyList<AkauntiEntity>()
+        val accounts = emptyList<AccountEntity>()
 
         // when
         dao.saveMany(accounts)
@@ -214,7 +214,7 @@ class FakeAccountDaoTest {
     fun `save - create new`() = runTest {
         // given
         val id = UUID.randomUUID()
-        val account = AkauntiEntity(
+        val account = AccountEntity(
             id = id,
             name = "Bank",
             currency = "BGN",
@@ -237,7 +237,7 @@ class FakeAccountDaoTest {
     fun `save - update existing`() = runTest {
         // given
         val id = UUID.randomUUID()
-        val account = AkauntiEntity(
+        val account = AccountEntity(
             id = id,
             name = "Bank",
             currency = "BGN",
@@ -254,7 +254,7 @@ class FakeAccountDaoTest {
         val res = dao.findById(id)
 
         // then
-        res shouldBe AkauntiEntity(
+        res shouldBe AccountEntity(
             id = id,
             name = "Cash",
             currency = "BGN",
@@ -272,7 +272,7 @@ class FakeAccountDaoTest {
         val id1 = UUID.randomUUID()
         val id2 = UUID.randomUUID()
         val accounts = listOf(
-            AkauntiEntity(
+            AccountEntity(
                 id = id1,
                 name = "Bank",
                 currency = "BGN",
@@ -282,7 +282,7 @@ class FakeAccountDaoTest {
                 orderNum = 1.0,
                 isDeleted = false
             ),
-            AkauntiEntity(
+            AccountEntity(
                 id = id2,
                 name = "Cash",
                 currency = "BGN",
@@ -307,7 +307,7 @@ class FakeAccountDaoTest {
         // given
         val id = UUID.randomUUID()
         val accounts = listOf(
-            AkauntiEntity(
+            AccountEntity(
                 id = id,
                 name = "Bank",
                 currency = "BGN",
@@ -337,7 +337,7 @@ class FakeAccountDaoTest {
         // when
         dao.saveMany(
             listOf(
-                AkauntiEntity(
+                AccountEntity(
                     id = id1,
                     name = "Bank",
                     currency = "BGN",
@@ -347,7 +347,7 @@ class FakeAccountDaoTest {
                     orderNum = 1.0,
                     isDeleted = false
                 ),
-                AkauntiEntity(
+                AccountEntity(
                     id = id2,
                     name = "Cash",
                     currency = "BGN",

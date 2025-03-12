@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.oneSaver.design.utils.thenIf
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun ColumnRoot(
     modifier: Modifier = Modifier,

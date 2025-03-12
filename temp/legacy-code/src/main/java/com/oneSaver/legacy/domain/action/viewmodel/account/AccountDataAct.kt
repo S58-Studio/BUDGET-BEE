@@ -3,11 +3,11 @@ package com.oneSaver.allStatus.domain.action.viewmodel.account
 import arrow.core.toOption
 import com.oneSaver.frp.action.FPAction
 import com.oneSaver.frp.action.thenMap
-import com.oneSaver.frp.then
-import com.oneSaver.allStatus.domain.action.account.CalcAccBalanceAct
-import com.oneSaver.allStatus.domain.action.account.CalcAccIncomeExpenseAct
+import com.oneSaver.legacy.frp.then
+import com.oneSaver.legacy.domain.action.account.CalcAccBalanceAct
+import com.oneSaver.legacy.domain.action.account.CalcAccIncomeExpenseAct
 import com.oneSaver.allStatus.domain.action.exchange.ExchangeAct
-import com.oneSaver.allStatus.domain.pure.data.ClosedTimeRange
+import com.oneSaver.legacy.domain.pure.data.ClosedTimeRange
 import com.oneSaver.allStatus.domain.pure.exchange.ExchangeData
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList

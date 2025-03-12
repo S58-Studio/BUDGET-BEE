@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oneSaver.base.legacy.SharedPrefs
 import com.oneSaver.data.repository.CurrencyRepository
-import com.oneSaver.domains.usecase.Xchange.SyncXchangeRatesUseCase
+import com.oneSaver.domains.usecase.exchange.SyncXchangeRatesUseCase
 import com.oneSaver.frp.test.TestIdlingResource
 import com.oneSaver.legacy.MySaveCtx
 import com.oneSaver.legacy.data.model.MainTab

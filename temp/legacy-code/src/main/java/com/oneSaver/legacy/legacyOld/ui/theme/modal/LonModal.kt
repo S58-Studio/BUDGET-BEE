@@ -34,7 +34,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.oneSaver.data.model.LoanType
+import com.oneSaver.base.model.LoanType
 import com.oneSaver.design.l0_system.UI
 import com.oneSaver.design.l0_system.style
 import com.oneSaver.domains.legacy.ui.IvyColorPicker

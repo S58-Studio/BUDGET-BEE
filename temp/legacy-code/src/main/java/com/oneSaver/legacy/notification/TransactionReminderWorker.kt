@@ -10,6 +10,8 @@ import com.oneSaver.base.legacy.stringRes
 import com.oneSaver.data.database.dao.read.TransactionDao
 import com.oneSaver.domains.AppStarter
 import com.oneSaver.base.legacy.SharedPrefs
+import com.oneSaver.base.time.TimeConverter
+import com.oneSaver.base.time.TimeProvider
 import com.oneSaver.legacy.utils.atEndOfDay
 import com.oneSaver.legacy.utils.dateNowUTC
 import com.oneSaver.core.userInterface.R
@@ -28,6 +30,8 @@ class TransactionReminderWorker @AssistedInject constructor(
     private val notificationService: NotificationService,
     private val sharedPrefs: SharedPrefs,
     private val appStarter: AppStarter,
+    private val timeProvider: TimeProvider,
+    private val timeConverter: TimeConverter,
 ) : CoroutineWorker(appContext, params) {
 
     companion object {
@@ -35,23 +39,25 @@ class TransactionReminderWorker @AssistedInject constructor(
     }
 
     override suspend fun doWork() = withContext(Dispatchers.IO) {
-        val transactionsToday = transactionDao.findAllBetween(
-            startDate = dateNowUTC().atStartOfDay(),
-            endDate = dateNowUTC().atEndOfDay()
-        )
+        val transactionsToday = with(timeConverter) {
+            transactionDao.findAllBetween(
+                startDate = timeProvider.localDateNow().atStartOfDay().toUTC(),
+                endDate = timeProvider.localDateNow().atEndOfDay().toUTC(),
+            )
+        }
 
         val showNotifications = fetchShowNotifications()
 
-        // Double check is needed because the user can switch off notifications in controls after it has been scheduled to show notifications for the next day
+        // Double check is needed because the user can switch off notifications in settings after it has been scheduled to show notifications for the next day
         if (transactionsToday.size < MINIMUM_TRANSACTIONS_PER_DAY && showNotifications) {
-            // Have less than 1 two transfers today, remind them
+            // Have less than 1 two transactions today, remind them
 
             val notification = notificationService
                 .defaultMysaveNotification(
                     channel = MysaveNotificationChannel.TRANSACTION_REMINDER,
                     priority = NotificationCompat.PRIORITY_HIGH
                 )
-                .setContentTitle("Mysave App")
+                .setContentTitle("Ivy Wallet")
                 .setContentText(randomText())
                 .setContentIntent(
                     PendingIntent.getActivity(
@@ -59,7 +65,7 @@ class TransactionReminderWorker @AssistedInject constructor(
                         1,
                         appStarter.getRootIntent(),
                         PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_UPDATE_CURRENT
-                            or PendingIntent.FLAG_IMMUTABLE
+                                or PendingIntent.FLAG_IMMUTABLE
                     )
                 )
 

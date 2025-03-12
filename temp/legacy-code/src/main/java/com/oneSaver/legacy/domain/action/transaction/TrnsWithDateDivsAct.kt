@@ -7,7 +7,7 @@ import com.oneSaver.data.database.dao.read.AccountDao
 import com.oneSaver.data.repository.AccountRepository
 import com.oneSaver.data.repository.TagRepository
 import com.oneSaver.frp.action.FPAction
-import com.oneSaver.frp.then
+import com.oneSaver.legacy.frp.then
 import com.oneSaver.legacy.datamodel.temp.toLegacyDomain
 import com.oneSaver.legacy.domain.pure.transaction.LegacyTrnDateDividers
 import com.oneSaver.legacy.domain.pure.transaction.transactionsWithDateDividers

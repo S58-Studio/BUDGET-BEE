@@ -1,4 +1,4 @@
-package com.oneSaver.frp
+package com.oneSaver.legacy.frp
 
 @Deprecated("Legacy code. Don't use it, please.")
 suspend fun <A> List<A>.sumOfSuspend(

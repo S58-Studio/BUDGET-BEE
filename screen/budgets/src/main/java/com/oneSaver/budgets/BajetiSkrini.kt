@@ -49,7 +49,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen, activity: Activity) {
-    val viewModel: BajetiVM = screenScopedViewModel()
+    val viewModel: BudgetViewModel = screenScopedViewModel()
     val uiState = viewModel.uiState()
 
     UI(

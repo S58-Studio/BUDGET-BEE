@@ -4,13 +4,14 @@ import androidx.compose.runtime.Immutable
 import com.oneSaver.base.model.TransactionType
 import com.oneSaver.data.database.entities.ScheduledPaymentRuleEntity
 import com.oneSaver.data.model.IntervalType
+import java.time.Instant
 import java.time.LocalDateTime
 import java.util.UUID
 
 @Deprecated("Legacy data model. Will be deleted")
 @Immutable
 data class PlannedPaymentRule(
-    val startDate: LocalDateTime?,
+    val startDate: Instant?,
     val intervalN: Int?,
     val intervalType: IntervalType?,
     val oneTime: Boolean,

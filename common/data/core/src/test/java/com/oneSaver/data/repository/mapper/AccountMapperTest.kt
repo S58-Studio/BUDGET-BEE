@@ -2,7 +2,7 @@ package com.oneSaver.data.repository.mapper
 
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
-import com.oneSaver.data.database.entities.AkauntiEntity
+import com.oneSaver.data.database.entities.AccountEntity
 import com.oneSaver.data.model.Account
 import com.oneSaver.data.model.AccountId
 import com.oneSaver.data.model.primitive.AssetCode
@@ -53,7 +53,7 @@ class AccountMapperTest {
         val entity = with(mapper) { account.toEntity() }
 
         // then
-        entity shouldBe AkauntiEntity(
+        entity shouldBe AccountEntity(
             name = "Test",
             currency = "USD",
             color = 42,
@@ -149,7 +149,7 @@ class AccountMapperTest {
     // endregion
 
     companion object {
-        val ValidEntity = AkauntiEntity(
+        val ValidEntity = AccountEntity(
             name = "Test",
             currency = "USD",
             color = 42,

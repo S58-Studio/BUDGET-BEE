@@ -17,7 +17,7 @@ import com.oneSaver.data.model.primitive.AssetCode
 import com.oneSaver.data.model.primitive.PositiveDouble
 import com.oneSaver.data.repository.CurrencyRepository
 import com.oneSaver.data.repository.ExchangeRatesRepository
-import com.oneSaver.domains.usecase.Xchange.SyncXchangeRatesUseCase
+import com.oneSaver.domains.usecase.exchange.SyncXchangeRatesUseCase
 import com.oneSaver.exchangerates.data.RatingUI
 import com.oneSaver.userInterface.ComposeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

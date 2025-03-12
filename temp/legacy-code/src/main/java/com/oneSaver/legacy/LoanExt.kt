@@ -1,7 +1,7 @@
 package com.oneSaver.legacy
 
 import com.oneSaver.base.legacy.stringRes
-import com.oneSaver.data.model.LoanType
+import com.oneSaver.base.model.LoanType
 import com.oneSaver.legacy.datamodel.Loan
 import com.oneSaver.core.userInterface.R
 

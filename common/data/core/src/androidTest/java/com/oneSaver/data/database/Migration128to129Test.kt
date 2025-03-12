@@ -7,7 +7,7 @@ import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.platform.app.InstrumentationRegistry
 import com.oneSaver.base.model.TransactionType
 import com.oneSaver.data.database.migrations.Migration128to129_DeleteIsDeleted
-import com.oneSaver.data.model.LoanType
+import com.oneSaver.base.model.LoanType
 import io.kotest.matchers.shouldBe
 import org.junit.Rule
 import org.junit.Test

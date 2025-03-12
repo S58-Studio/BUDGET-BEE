@@ -1,6 +1,6 @@
 package com.oneSaver.data
 
-import com.oneSaver.data.database.entities.AkauntiEntity
+import com.oneSaver.data.database.entities.AccountEntity
 import com.oneSaver.data.model.testing.colorInt
 import com.oneSaver.data.model.testing.iconAsset
 import com.oneSaver.data.model.testing.maybe
@@ -14,15 +14,15 @@ import io.kotest.property.arbitrary.removeEdgecases
 import io.kotest.property.arbitrary.string
 import io.kotest.property.arbitrary.uuid
 
-fun Arb.Companion.invalidAccountEntity(): Arb<AkauntiEntity> = arbitrary {
+fun Arb.Companion.invalidAccountEntity(): Arb<AccountEntity> = arbitrary {
     val validEntity = validAccountEntity().bind()
     validEntity.copy(
         name = Arb.of("", " ", "  ").bind()
     )
 }
 
-fun Arb.Companion.validAccountEntity(): Arb<AkauntiEntity> = arbitrary {
-    AkauntiEntity(
+fun Arb.Companion.validAccountEntity(): Arb<AccountEntity> = arbitrary {
+    AccountEntity(
         name = Arb.notBlankTrimmedString().bind().value,
         currency = Arb.maybe(Arb.string()).bind(),
         color = Arb.colorInt().bind().value,

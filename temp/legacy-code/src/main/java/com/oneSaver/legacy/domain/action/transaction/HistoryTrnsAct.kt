@@ -1,9 +1,9 @@
-package com.oneSaver.allStatus.domain.action.transaction
+package com.oneSaver.legacy.domain.action.transaction
 
 import com.oneSaver.data.model.Transaction
 import com.oneSaver.data.repository.TransactionRepository
 import com.oneSaver.frp.action.FPAction
-import com.oneSaver.allStatus.domain.pure.data.ClosedTimeRange
+import com.oneSaver.legacy.domain.pure.data.ClosedTimeRange
 import javax.inject.Inject
 
 class HistoryTrnsAct @Inject constructor(

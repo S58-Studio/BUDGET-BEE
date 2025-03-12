@@ -13,7 +13,7 @@ import com.oneSaver.data.repository.AccountRepository
 import com.oneSaver.domains.model.StatisticSummary
 import com.oneSaver.domains.model.TimeRange
 import com.oneSaver.domains.usecase.StatSummaryBuilder
-import com.oneSaver.domains.usecase.Xchange.ExchangeUseCase
+import com.oneSaver.domains.usecase.exchange.ExchangeUseCase
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 

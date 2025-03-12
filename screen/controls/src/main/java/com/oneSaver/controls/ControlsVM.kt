@@ -15,13 +15,13 @@ import androidx.lifecycle.viewModelScope
 import com.oneSaver.base.legacy.SharedPrefs
 import com.oneSaver.base.legacy.Theme
 import com.oneSaver.base.legacy.refreshWidget
-import com.oneSaver.data.backingUp.BackingUpDeitaUseCase
+import com.oneSaver.data.backingUp.BackingUpDataUseCase
 import com.oneSaver.data.database.dao.read.SettingsDao
 import com.oneSaver.data.database.dao.write.WriteSettingsDao
 import com.oneSaver.data.model.primitive.AssetCode
 import com.oneSaver.domains.RootScreen
 import com.oneSaver.domains.usecase.csv.ExportCsvUseCase
-import com.oneSaver.domains.usecase.Xchange.SyncXchangeRatesUseCase
+import com.oneSaver.domains.usecase.exchange.SyncXchangeRatesUseCase
 import com.oneSaver.frp.monad.Res
 import com.oneSaver.legacy.MySaveCtx
 import com.oneSaver.legacy.LogoutLogic
@@ -49,7 +49,7 @@ class ControlsVM @Inject constructor(
     private val mysaveContext: MySaveCtx,
     private val logoutLogic: LogoutLogic,
     private val sharedPrefs: SharedPrefs,
-    private val backingUpDeitaUseCase: BackingUpDeitaUseCase,
+    private val backingUpDataUseCase: BackingUpDataUseCase,
     private val startDayOfMonthAct: StartDayOfMonthAct,
     private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct,
     private val syncXchangeRatesUseCase: SyncXchangeRatesUseCase,
@@ -293,7 +293,7 @@ class ControlsVM @Inject constructor(
         ) { fileUri ->
             viewModelScope.launch(Dispatchers.IO) {
                 progressState.value = true
-                backingUpDeitaUseCase.exportToFile(zipFileUri = fileUri)
+                backingUpDataUseCase.exportToFile(zipFileUri = fileUri)
                 progressState.value = false
 
                 sharedPrefs.putBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, true)

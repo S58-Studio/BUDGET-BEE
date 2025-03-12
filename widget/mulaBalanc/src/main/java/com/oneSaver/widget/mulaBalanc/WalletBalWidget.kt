@@ -1,5 +1,6 @@
 package com.oneSaver.widget.mulaBalanc
 
+
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.icu.text.DecimalFormat
@@ -18,15 +19,18 @@ import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.currentState
 import androidx.glance.state.PreferencesGlanceStateDefinition
+import com.oneSaver.base.time.TimeConverter
+import com.oneSaver.base.time.TimeProvider
+import com.oneSaver.legacy.data.model.toCloseTimeRange
+import com.oneSaver.allStatus.domain.action.account.AccountsAct
+import com.oneSaver.allStatus.domain.action.settings.SettingsAct
+import com.oneSaver.allStatus.domain.action.wallet.CalcIncomeExpenseAct
+import com.oneSaver.allStatus.domain.action.wallet.CalcWalletBalanceAct
 import com.oneSaver.base.legacy.SharedPrefs
 import com.oneSaver.base.model.TransactionType
 import com.oneSaver.domains.AppStarter
 import com.oneSaver.legacy.data.model.toCloseTimeRange
 import com.oneSaver.legacy.utils.shortenAmount
-import com.oneSaver.allStatus.domain.action.account.AccountsAct
-import com.oneSaver.allStatus.domain.action.settings.SettingsAct
-import com.oneSaver.allStatus.domain.action.wallet.CalcIncomeExpenseAct
-import com.oneSaver.allStatus.domain.action.wallet.CalcWalletBalanceAct
 import com.oneSaver.widget.WidgetBase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
@@ -126,6 +130,12 @@ class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
     @Inject
     lateinit var sharedPrefs: SharedPrefs
 
+    @Inject
+    lateinit var timeProvider: TimeProvider
+
+    @Inject
+    lateinit var timeConverter: TimeConverter
+
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
@@ -152,7 +162,12 @@ class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
                 CalcIncomeExpenseAct.Input(
                     baseCurrency = settings.baseCurrency,
                     accounts = accounts,
-                    range = period.toRange(ivyContext.startDayOfMonth).toCloseTimeRange()
+                    range = period.toRange(
+                        startDateOfMonth = ivyContext.startDayOfMonth,
+                        timeConverter = timeConverter,
+                        timeProvider = timeProvider,
+
+                        ).toCloseTimeRange()
                 )
             )
 

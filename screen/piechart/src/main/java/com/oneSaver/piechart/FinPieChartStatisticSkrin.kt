@@ -56,7 +56,7 @@ import com.oneSaver.legacy.utils.horizontalSwipeListener
 import com.oneSaver.legacy.utils.rememberSwipeListenerState
 import com.oneSaver.navigation.ModifyTransactionSkrin
 import com.oneSaver.navigation.FinPieChartStatisticSkrin
-import com.oneSaver.navigation.TransactScrin
+import com.oneSaver.navigation.TransactionsScreen
 import com.oneSaver.navigation.navigation
 import com.oneSaver.navigation.screenScopedViewModel
 import com.oneSaver.core.userInterface.R
@@ -231,7 +231,7 @@ private fun BoxWithConstraintsScope.UI(
                     if (activity.isFinishing.not() && activity.isDestroyed.not()) {
                         val adCallback = MySaveAdsManager.OnAdsCallback {
                             nav.navigateTo(
-                                TransactScrin(
+                                TransactionsScreen(
                                     categoryId = item.category?.id?.value,
                                     unspecifiedCategory = item.isCategoryUnspecified,
                                     accountIdFilterList = state.accountIdFilterList,

@@ -16,7 +16,8 @@ import com.oneSaver.design.MysaveContext
 import com.oneSaver.design.l0_system.MysaveTheme
 import com.oneSaver.userInterface.time.TimeFormatter
 
-val LocalMysaveContext = compositionLocalOf<MysaveContext> { error("No LocalMysaveContext") }
+val LocalMyFinancesContext = compositionLocalOf<MysaveContext> { error("No LocalIvyContext") }
+
 @Suppress("CompositionLocalAllowlist")
 @Deprecated("Used only for time migration to Instant. Never use it in new code!")
 val LocalTimeConverter = compositionLocalOf<TimeConverter> { error("No LocalTimeConverter") }
@@ -30,7 +31,7 @@ val LocalTimeProvider = compositionLocalOf<TimeProvider> { error("No LocalTimePr
 val LocalTimeFormatter = compositionLocalOf<TimeFormatter> { error("No LocalTimeFormatter") }
 
 @SuppressLint("ComposeModifierMissing")
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun MysaveUI(
     timeConverter: TimeConverter,
@@ -43,12 +44,12 @@ fun MysaveUI(
     val mysaveContext = design.context()
 
     CompositionLocalProvider(
-        LocalMysaveContext provides mysaveContext,
+        LocalMyFinancesContext provides mysaveContext,
         LocalTimeConverter provides timeConverter,
         LocalTimeProvider provides timeProvider,
         LocalTimeFormatter provides timeFormatter,
     ) {
-        MysaveTheme(
+        MysaveTheme (
             theme = mysaveContext.theme,
             design = design
         ) {
@@ -82,8 +83,8 @@ private fun WrapWithSurface(
     }
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun ivyContext(): MysaveContext {
-    return LocalMysaveContext.current
+    return LocalMyFinancesContext.current
 }

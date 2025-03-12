@@ -12561,7 +12561,7 @@
         errorLine1="    override fun uiState(): BudgetScreenState {"
         errorLine2="                 ~~~~~~~">
         <location
-            file="src/main/java/com/MySave/budgets/BajetiVM.kt"
+            file="src/main/java/com/MySave/budgets/BudgetViewModel.kt"
             line="63"
             column="18"/>
     </issue>
@@ -12572,7 +12572,7 @@
         errorLine1="    private fun getBaseCurrency(): String {"
         errorLine2="                ~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/budgets/BajetiVM.kt"
+            file="src/main/java/com/MySave/budgets/BudgetViewModel.kt"
             line="82"
             column="17"/>
     </issue>
@@ -12583,7 +12583,7 @@
         errorLine1="    private fun getTimeRange(): FromToTimeRange? {"
         errorLine2="                ~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/budgets/BajetiVM.kt"
+            file="src/main/java/com/MySave/budgets/BudgetViewModel.kt"
             line="87"
             column="17"/>
     </issue>
@@ -12594,7 +12594,7 @@
         errorLine1="    private fun getCategories(): ImmutableList&lt;Category> {"
         errorLine2="                ~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/budgets/BajetiVM.kt"
+            file="src/main/java/com/MySave/budgets/BudgetViewModel.kt"
             line="92"
             column="17"/>
     </issue>
@@ -12605,7 +12605,7 @@
         errorLine1="    private fun getAccounts(): ImmutableList&lt;Account> {"
         errorLine2="                ~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/budgets/BajetiVM.kt"
+            file="src/main/java/com/MySave/budgets/BudgetViewModel.kt"
             line="97"
             column="17"/>
     </issue>
@@ -12616,7 +12616,7 @@
         errorLine1="    private fun getBudgets(): ImmutableList&lt;DisplayBudget> {"
         errorLine2="                ~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/budgets/BajetiVM.kt"
+            file="src/main/java/com/MySave/budgets/BudgetViewModel.kt"
             line="102"
             column="17"/>
     </issue>
@@ -12627,7 +12627,7 @@
         errorLine1="    private fun getReorderModalVisible(): Boolean {"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/budgets/BajetiVM.kt"
+            file="src/main/java/com/MySave/budgets/BudgetViewModel.kt"
             line="107"
             column="17"/>
     </issue>
@@ -12638,7 +12638,7 @@
         errorLine1="    private fun getCategoryBudgetsTotal(): Double {"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/budgets/BajetiVM.kt"
+            file="src/main/java/com/MySave/budgets/BudgetViewModel.kt"
             line="112"
             column="17"/>
     </issue>
@@ -12649,7 +12649,7 @@
         errorLine1="    private fun getAppBudgetMax(): Double {"
         errorLine2="                ~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/budgets/BajetiVM.kt"
+            file="src/main/java/com/MySave/budgets/BudgetViewModel.kt"
             line="117"
             column="17"/>
     </issue>
@@ -12660,7 +12660,7 @@
         errorLine1="    private fun getBudgetModalData(): BudgetModalData? {"
         errorLine2="                ~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/budgets/BajetiVM.kt"
+            file="src/main/java/com/MySave/budgets/BudgetViewModel.kt"
             line="122"
             column="17"/>
     </issue>
@@ -13980,7 +13980,7 @@
         errorLine1="    override fun uiState(): TransactionsState {"
         errorLine2="                 ~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="126"
             column="18"/>
     </issue>
@@ -13991,7 +13991,7 @@
         errorLine1="    private fun getPeriod(): TimePeriod {"
         errorLine2="                ~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="159"
             column="17"/>
     </issue>
@@ -14002,7 +14002,7 @@
         errorLine1="    private fun getBaseCurrency(): String {"
         errorLine2="                ~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="164"
             column="17"/>
     </issue>
@@ -14013,7 +14013,7 @@
         errorLine1="    private fun getAccount(): Account? {"
         errorLine2="                ~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="169"
             column="17"/>
     </issue>
@@ -14024,7 +14024,7 @@
         errorLine1="    private fun getCurrency(): String {"
         errorLine2="                ~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="174"
             column="17"/>
     </issue>
@@ -14035,7 +14035,7 @@
         errorLine1="    private fun getCategories(): ImmutableList&lt;Category> {"
         errorLine2="                ~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="179"
             column="17"/>
     </issue>
@@ -14046,7 +14046,7 @@
         errorLine1="    private fun getAccounts(): ImmutableList&lt;Account> {"
         errorLine2="                ~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="184"
             column="17"/>
     </issue>
@@ -14057,7 +14057,7 @@
         errorLine1="    private fun getCategory(): Category? {"
         errorLine2="                ~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="189"
             column="17"/>
     </issue>
@@ -14068,7 +14068,7 @@
         errorLine1="    private fun getBalance(): Double {"
         errorLine2="                ~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="194"
             column="17"/>
     </issue>
@@ -14079,7 +14079,7 @@
         errorLine1="    private fun getBalanceBaseCurrency(): Double? {"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="199"
             column="17"/>
     </issue>
@@ -14090,7 +14090,7 @@
         errorLine1="    private fun getIncome(): Double {"
         errorLine2="                ~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="204"
             column="17"/>
     </issue>
@@ -14101,7 +14101,7 @@
         errorLine1="    private fun getExpenses(): Double {"
         errorLine2="                ~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="209"
             column="17"/>
     </issue>
@@ -14112,7 +14112,7 @@
         errorLine1="    private fun getInitWithTransactions(): Boolean {"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="214"
             column="17"/>
     </issue>
@@ -14123,7 +14123,7 @@
         errorLine1="    private fun getTreatTransfersAsIncomeExpense(): Boolean {"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="219"
             column="17"/>
     </issue>
@@ -14134,7 +14134,7 @@
         errorLine1="    private fun getUpcomingExpenses(): Double {"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="224"
             column="17"/>
     </issue>
@@ -14145,7 +14145,7 @@
         errorLine1="    private fun getUpcoming(): ImmutableList&lt;Transaction> {"
         errorLine2="                ~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="229"
             column="17"/>
     </issue>
@@ -14156,7 +14156,7 @@
         errorLine1="    private fun getUpcomingExpanded(): Boolean {"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="234"
             column="17"/>
     </issue>
@@ -14167,7 +14167,7 @@
         errorLine1="    private fun getUpcomingIncome(): Double {"
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="239"
             column="17"/>
     </issue>
@@ -14178,7 +14178,7 @@
         errorLine1="    private fun getHistory(): ImmutableList&lt;TransactionHistoryItem> {"
         errorLine2="                ~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="244"
             column="17"/>
     </issue>
@@ -14189,7 +14189,7 @@
         errorLine1="    private fun getOverdue(): ImmutableList&lt;Transaction> {"
         errorLine2="                ~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="249"
             column="17"/>
     </issue>
@@ -14200,7 +14200,7 @@
         errorLine1="    private fun getOverdueExpanded(): Boolean {"
         errorLine2="                ~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="254"
             column="17"/>
     </issue>
@@ -14211,7 +14211,7 @@
         errorLine1="    private fun getOverdueIncome(): Double {"
         errorLine2="                ~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="259"
             column="17"/>
     </issue>
@@ -14222,7 +14222,7 @@
         errorLine1="    private fun getOverdueExpenses(): Double {"
         errorLine2="                ~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="264"
             column="17"/>
     </issue>
@@ -14233,7 +14233,7 @@
         errorLine1="    private fun getAccountNameConfirmation(): TextFieldValue {"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="269"
             column="17"/>
     </issue>
@@ -14244,7 +14244,7 @@
         errorLine1="    private fun getEnableDeletionButton(): Boolean {"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="274"
             column="17"/>
     </issue>
@@ -14255,7 +14255,7 @@
         errorLine1="    private fun getSkipAllModalVisible(): Boolean {"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="279"
             column="17"/>
     </issue>
@@ -14266,7 +14266,7 @@
         errorLine1="    private fun getDeleteModal1Visible(): Boolean {"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="284"
             column="17"/>
     </issue>
@@ -14277,7 +14277,7 @@
         errorLine1="    private fun getChoosePeriodModal(): ChoosePeriodModalData? {"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/MySave/transactions/TransfersVM.kt"
+            file="src/main/java/com/MySave/transactions/TransactionsViewModel.kt"
             line="289"
             column="17"/>
     </issue>

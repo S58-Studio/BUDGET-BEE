@@ -2,19 +2,19 @@ package com.oneSaver.data.database.dao.fake
 
 import com.oneSaver.data.database.dao.read.CategoryDao
 import com.oneSaver.data.database.dao.write.WriteCategoryDao
-import com.oneSaver.data.database.entities.KategoriEntity
+import com.oneSaver.data.database.entities.CategoryEntity
 import org.jetbrains.annotations.VisibleForTesting
 import java.util.UUID
 
 @VisibleForTesting
 class FakeCategoryDao : CategoryDao, WriteCategoryDao {
-    private val items = mutableListOf<KategoriEntity>()
+    private val items = mutableListOf<CategoryEntity>()
 
-    override suspend fun findAll(deleted: Boolean): List<KategoriEntity> {
+    override suspend fun findAll(deleted: Boolean): List<CategoryEntity> {
         return items.filter { it.isDeleted == deleted }
     }
 
-    override suspend fun findById(id: UUID): KategoriEntity? {
+    override suspend fun findById(id: UUID): CategoryEntity? {
         return items.find { it.id == id }
     }
 
@@ -22,7 +22,7 @@ class FakeCategoryDao : CategoryDao, WriteCategoryDao {
         return items.maxOfOrNull { it.orderNum }
     }
 
-    override suspend fun save(value: KategoriEntity) {
+    override suspend fun save(value: CategoryEntity) {
         val existingItemIndex = items.indexOfFirst { it.id == value.id }
         if (existingItemIndex > -1) {
             items[existingItemIndex] = value
@@ -31,7 +31,7 @@ class FakeCategoryDao : CategoryDao, WriteCategoryDao {
         }
     }
 
-    override suspend fun saveMany(values: List<KategoriEntity>) {
+    override suspend fun saveMany(values: List<CategoryEntity>) {
         values.forEach { save(it) }
     }
 

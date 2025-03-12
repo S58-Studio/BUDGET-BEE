@@ -3,7 +3,7 @@ package com.oneSaver.allStatus.domain.action.transaction
 import arrow.core.nonEmptyListOf
 import com.oneSaver.data.model.Transaction
 import com.oneSaver.frp.action.FPAction
-import com.oneSaver.frp.then
+import com.oneSaver.legacy.frp.then
 import com.oneSaver.legacy.datamodel.Account
 import com.oneSaver.allStatus.domain.action.exchange.ExchangeAct
 import com.oneSaver.allStatus.domain.action.exchange.actInput

@@ -17,8 +17,8 @@ import com.oneSaver.iliyopangwa.editUpcomingPayments.ModifyPlanedSkrin
 import com.oneSaver.iliyopangwa.list.ScheduledPaymntsSkrin
 import com.oneSaver.importdata.csv.CSVScreen
 import com.oneSaver.importdata.csvimport.ImportCSVScreen
-import com.oneSaver.loans.mkopo.MkopoSkrini
-import com.oneSaver.loans.mkopoDetails.LoanDetailsScreen
+import com.oneSaver.loans.loans.MkopoSkrini
+import com.oneSaver.loans.loanDetails.LoanDetailsScreen
 import com.oneSaver.main.MainScreen
 import com.oneSaver.mulaBalanc.BalanceScreen
 import com.oneSaver.navigation.AkauntiTabSkrin
@@ -34,14 +34,14 @@ import com.oneSaver.navigation.KategoriSkrin
 import com.oneSaver.navigation.MainSkreen
 import com.oneSaver.navigation.MkopoDetailsSkrin
 import com.oneSaver.navigation.LoanScreen
-import com.oneSaver.navigation.ModifyScheduledSkrin
+import com.oneSaver.navigation.EditPlannedScreen
 import com.oneSaver.navigation.ModifyTransactionSkrin
 import com.oneSaver.navigation.OnboardingScreen
 import com.oneSaver.navigation.ScheduledPaymntsSkrin
 import com.oneSaver.navigation.Screen
 import com.oneSaver.navigation.SeekSkrin
 import com.oneSaver.navigation.SettingSkrin
-import com.oneSaver.navigation.TransactScrin
+import com.oneSaver.navigation.TransactionsScreen
 import com.oneSaver.navigation.XchangeRatesSkrin
 import com.oneSaver.onboarding.OnboardingScreen
 import com.oneSaver.piechart.FinPieChartStatisticSkrin
@@ -63,13 +63,13 @@ fun BoxWithConstraintsScope.MysaveNavGraph(screen: Screen?, activity: Activity) 
         is OnboardingScreen ->  OnboardingScreen(screen = screen, activity = activity)
         is XchangeRatesSkrin -> ExchangeRatesScreen()
         is ModifyTransactionSkrin -> EditTransactionScreen(screen = screen)
-        is TransactScrin -> TransferSkrin(screen = screen)
+        is TransactionsScreen -> TransferSkrin(screen = screen)
         is FinPieChartStatisticSkrin -> FinPieChartStatisticSkrin(screen = screen, activity = activity)
         is KategoriSkrin -> CategoriesScreen(screen = screen, activity = activity)
         is AkauntiTabSkrin ->AccountsTab(screen = screen)
         is SettingSkrin -> ProfileControlsTabPage()
         is ScheduledPaymntsSkrin -> ScheduledPaymntsSkrin(screen = screen, activity = activity)
-        is ModifyScheduledSkrin -> ModifyPlanedSkrin(screen = screen)
+        is EditPlannedScreen -> ModifyPlanedSkrin(screen = screen)
         is BalanceSkrin -> BalanceScreen(screen = screen, activity = activity)
         is ImportingSkrin -> ImportCSVScreen(screen = screen)
         //is ReportScreen -> ReportScreen(screen = screen)

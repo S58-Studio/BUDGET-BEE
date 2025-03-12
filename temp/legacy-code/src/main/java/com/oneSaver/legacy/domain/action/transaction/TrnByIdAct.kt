@@ -5,7 +5,7 @@ import com.oneSaver.data.model.TransactionId
 import com.oneSaver.data.repository.TransactionRepository
 import com.oneSaver.data.repository.mapper.TransactionMapper
 import com.oneSaver.frp.action.FPAction
-import com.oneSaver.frp.then
+import com.oneSaver.legacy.frp.then
 import com.oneSaver.legacy.datamodel.temp.toLegacy
 import java.util.UUID
 import javax.inject.Inject

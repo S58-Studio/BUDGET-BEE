@@ -15,16 +15,16 @@ import com.oneSaver.base.legacy.Theme
 import com.oneSaver.design.api.MysaveDesign
 import com.oneSaver.design.system.MysaveMaterial3Theme
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
-val LocalIvyColors = compositionLocalOf<IvyColors> { error("No MysaveColors") }
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
+val LocalIvyColors = compositionLocalOf<IvyColors> { error("No IvyColors") }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 val LocalIvyTypography = compositionLocalOf<IvyTypography> { error("No IvyTypography") }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 val LocalIvyShapes = compositionLocalOf<IvyShapes> { error("No IvyShapes") }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 object UI {
     val colors: IvyColors
         @Composable
@@ -42,14 +42,15 @@ object UI {
         get() = LocalIvyShapes.current
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun MysaveTheme(
     theme: Theme,
     design: MysaveDesign,
+    isDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colors = design.colors(theme, isSystemInDarkTheme())
+    val colors = design.colors(theme, isDarkTheme)
     val typography = design.typography()
     val shapes = design.shapes()
 

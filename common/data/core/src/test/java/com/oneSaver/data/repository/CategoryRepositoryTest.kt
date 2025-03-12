@@ -3,7 +3,7 @@ package com.oneSaver.data.repository
 import com.oneSaver.base.TestDispatchersProvider
 import com.oneSaver.data.database.dao.read.CategoryDao
 import com.oneSaver.data.database.dao.write.WriteCategoryDao
-import com.oneSaver.data.database.entities.KategoriEntity
+import com.oneSaver.data.database.entities.CategoryEntity
 import com.oneSaver.data.model.Category
 import com.oneSaver.data.model.CategoryId
 import com.oneSaver.data.model.primitive.ColorInt
@@ -56,7 +56,7 @@ class CategoryRepositoryTest {
         val id1 = UUID.randomUUID()
         val id3 = UUID.randomUUID()
         coEvery { categoryDao.findAll(false) } returns listOf(
-            KategoriEntity(
+            CategoryEntity(
                 name = "Home",
                 color = 42,
                 icon = null,
@@ -65,7 +65,7 @@ class CategoryRepositoryTest {
                 isDeleted = false,
                 id = id1
             ),
-            KategoriEntity(
+            CategoryEntity(
                 name = "",
                 color = 42,
                 icon = null,
@@ -74,7 +74,7 @@ class CategoryRepositoryTest {
                 isDeleted = false,
                 id = UUID.randomUUID()
             ),
-            KategoriEntity(
+            CategoryEntity(
                 name = "Fun",
                 color = 42,
                 icon = null,
@@ -124,7 +124,7 @@ class CategoryRepositoryTest {
     fun `find by id - valid CategoryEntity`() = runTest {
         // given
         val id = UUID.randomUUID()
-        coEvery { categoryDao.findById(id) } returns KategoriEntity(
+        coEvery { categoryDao.findById(id) } returns CategoryEntity(
             name = "Home",
             color = 42,
             icon = null,
@@ -151,7 +151,7 @@ class CategoryRepositoryTest {
     fun `find by id - invalid CategoryEntity`() = runTest {
         // given
         val id = UUID.randomUUID()
-        coEvery { categoryDao.findById(id) } returns KategoriEntity(
+        coEvery { categoryDao.findById(id) } returns CategoryEntity(
             name = "",
             color = 42,
             icon = null,
@@ -211,7 +211,7 @@ class CategoryRepositoryTest {
         // then
         coVerify(exactly = 1) {
             writeCategoryDao.save(
-                KategoriEntity(
+                CategoryEntity(
                     name = "Home",
                     color = 42,
                     icon = null,
@@ -262,7 +262,7 @@ class CategoryRepositoryTest {
         coVerify(exactly = 1) {
             writeCategoryDao.saveMany(
                 listOf(
-                    KategoriEntity(
+                    CategoryEntity(
                         name = "Home",
                         color = 42,
                         icon = null,
@@ -272,7 +272,7 @@ class CategoryRepositoryTest {
                         id = id1
                     ),
 
-                    KategoriEntity(
+                    CategoryEntity(
                         name = "Fun",
                         color = 42,
                         icon = null,
@@ -282,7 +282,7 @@ class CategoryRepositoryTest {
                         id = id2
                     ),
 
-                    KategoriEntity(
+                    CategoryEntity(
                         name = "Health",
                         color = 42,
                         icon = null,

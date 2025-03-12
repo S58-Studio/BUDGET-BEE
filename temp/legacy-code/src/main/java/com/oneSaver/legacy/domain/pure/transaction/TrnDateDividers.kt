@@ -15,7 +15,7 @@ import com.oneSaver.data.repository.TagRepository
 import com.oneSaver.data.repository.mapper.TransactionMapper
 import com.oneSaver.frp.Pure
 import com.oneSaver.frp.SideEffect
-import com.oneSaver.frp.then
+import com.oneSaver.legacy.frp.then
 import com.oneSaver.legacy.datamodel.Account
 import com.oneSaver.legacy.datamodel.temp.toImmutableLegacyTags
 import com.oneSaver.legacy.datamodel.temp.toLegacyDomain
@@ -31,6 +31,7 @@ import com.oneSaver.allStatus.domain.pure.transaction.LegacyTrnFunctions
 import com.oneSaver.allStatus.domain.pure.transaction.expenses
 import com.oneSaver.allStatus.domain.pure.transaction.incomes
 import com.oneSaver.allStatus.domain.pure.transaction.sumTrns
+import com.oneSaver.base.time.TimeConverter
 import java.math.BigDecimal
 import java.util.UUID
 
@@ -41,7 +42,6 @@ suspend fun List<Transaction>.withDateDividers(
     accountDao: AccountDao,
     tagRepository: TagRepository,
     accountRepository: AccountRepository,
-    timeProvider: TimeProvider,
 ): List<TransactionHistoryItem> {
     return transactionsWithDateDividers(
         transactions = this,
@@ -49,7 +49,6 @@ suspend fun List<Transaction>.withDateDividers(
         getAccount = accountDao::findById then { it?.toLegacyDomain() },
         getTags = { tagsIds -> tagRepository.findByIds(tagsIds) },
         accountRepository = accountRepository,
-        timeProvider = timeProvider,
         exchange = { data, amount ->
             exchangeRatesLogic.convertAmount(
                 baseCurrency = data.baseCurrency,
@@ -66,8 +65,6 @@ suspend fun transactionsWithDateDividers(
     transactions: List<Transaction>,
     baseCurrencyCode: String,
     accountRepository: AccountRepository,
-    timeProvider: TimeProvider,
-
     @SideEffect
     getAccount: suspend (accountId: UUID) -> Account?,
     @SideEffect
@@ -76,7 +73,7 @@ suspend fun transactionsWithDateDividers(
     getTags: suspend (tagIds: List<TagId>) -> List<Tag> = { emptyList() },
 ): List<TransactionHistoryItem> {
     if (transactions.isEmpty()) return emptyList()
-    val transactionsMapper = TransactionMapper(accountRepository, timeProvider)
+    val transactionsMapper = TransactionMapper(accountRepository)
     return transactions
         .groupBy { it.time.convertToLocal().toLocalDate() }
         .filterKeys { it != null }
@@ -122,7 +119,8 @@ object LegacyTrnDateDividers {
     suspend fun List<com.oneSaver.base.legacy.Transaction>.withDateDividers(
         exchangeRatesLogic: ExchangeRatesLogic,
         settingsDao: SettingsDao,
-        accountDao: AccountDao
+        accountDao: AccountDao,
+        timeConverter: TimeConverter,
     ): List<TransactionHistoryItem> {
         return transactionsWithDateDividers(
             transactions = this,
@@ -135,7 +133,8 @@ object LegacyTrnDateDividers {
                     toCurrency = data.toCurrency,
                     amount = amount.toDouble()
                 ).toBigDecimal().toOption()
-            }
+            },
+            timeConverter = timeConverter,
         )
     }
 
@@ -143,6 +142,7 @@ object LegacyTrnDateDividers {
     suspend fun transactionsWithDateDividers(
         transactions: List<com.oneSaver.base.legacy.Transaction>,
         baseCurrencyCode: String,
+        timeConverter: TimeConverter,
 
         @SideEffect
         getAccount: suspend (accountId: UUID) -> Account?,
@@ -152,7 +152,7 @@ object LegacyTrnDateDividers {
         if (transactions.isEmpty()) return emptyList()
 
         return transactions
-            .groupBy { it.dateTime?.convertUTCtoLocal()?.toLocalDate() }
+            .groupBy { with(timeConverter) { it.dateTime?.toLocalDate() } }
             .filterKeys { it != null }
             .toSortedMap { date1, date2 ->
                 if (date1 == null || date2 == null) return@toSortedMap 0 // this case shouldn't happen

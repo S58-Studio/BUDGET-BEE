@@ -21,7 +21,7 @@ import com.oneSaver.design.l1_buildingBlocks.SpacerWeight
 import com.oneSaver.design.utils.IvyComponentPreview
 import com.oneSaver.design.utils.springBounce
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun Switch(
     modifier: Modifier = Modifier,

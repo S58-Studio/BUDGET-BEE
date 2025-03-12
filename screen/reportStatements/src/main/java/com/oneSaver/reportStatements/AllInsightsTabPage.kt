@@ -92,8 +92,8 @@ fun BoxWithConstraintsScope.AllInsightsTabPage(activity: Activity) {
 @Composable
 private fun BoxWithConstraintsScope.UI(
     activity: Activity,
-    state: StatementSkrinState = StatementSkrinState(),
-    onEventHandler: (StatementSkrinEventi) -> Unit = {},
+    state: ReportScreenState = ReportScreenState(),
+    onEventHandler: (ReportScreenEvent) -> Unit = {},
 ) {
     val legacyTransactions = state.transactions
     val nav = navigation()
@@ -131,13 +131,13 @@ private fun BoxWithConstraintsScope.UI(
         stickyHeader {
             Toolbar(
                 onExport = {
-                    onEventHandler.invoke(StatementSkrinEventi.OnExport(context = context))
+                    onEventHandler.invoke(ReportScreenEvent.OnExport(context = context))
                 },
                 onFilter = {
                     if (activity.isFinishing.not() && activity.isDestroyed.not()) {
                         val adCallback = MySaveAdsManager.OnAdsCallback {
                             onEventHandler.invoke(
-                                StatementSkrinEventi.OnFilterOverlayVisible(
+                                ReportScreenEvent.OnFilterOverlayVisible(
                                     filterOverlayVisible = true
                                 )
                             )
@@ -226,7 +226,7 @@ private fun BoxWithConstraintsScope.UI(
                     checked = state.treatTransfersAsIncExp
                 ) {
                     onEventHandler.invoke(
-                        StatementSkrinEventi.OnTreatTransfersAsIncomeExpense(
+                        ReportScreenEvent.OnTreatTransfersAsIncomeExpense(
                             transfersAsIncomeExpense = it
                         )
                     )
@@ -260,7 +260,7 @@ private fun BoxWithConstraintsScope.UI(
                 ),
 
                 setUpcomingExpanded = {
-                    onEventHandler.invoke(StatementSkrinEventi.OnUpcomingExpanded(upcomingExpanded = it))
+                    onEventHandler.invoke(ReportScreenEvent.OnUpcomingExpanded(upcomingExpanded = it))
                 },
 
                 overdue = LegacyDueSection(
@@ -272,22 +272,22 @@ private fun BoxWithConstraintsScope.UI(
                     expanded = state.overdueExpanded
                 ),
                 setOverdueExpanded = {
-                    onEventHandler.invoke(StatementSkrinEventi.OnOverdueExpanded(overdueExpanded = it))
+                    onEventHandler.invoke(ReportScreenEvent.OnOverdueExpanded(overdueExpanded = it))
                 },
 
                 history = state.history,
                 lastItemSpacer = 48.dp,
 
                 onPayOrGet = {
-                    onEventHandler.invoke(StatementSkrinEventi.OnPayOrGetLegacy(transaction = it))
+                    onEventHandler.invoke(ReportScreenEvent.OnPayOrGetLegacy(transaction = it))
                 },
                 emptyStateTitle = stringRes(R.string.no_transactions),
                 emptyStateText = stringRes(R.string.no_transactions_for_your_filter),
                 onSkipTransaction = {
-                    onEventHandler.invoke(StatementSkrinEventi.SkipTransactionLegacy(transaction = it))
+                    onEventHandler.invoke(ReportScreenEvent.SkipTransactionLegacy(transaction = it))
                 },
                 onSkipAllTransactions = {
-                    onEventHandler.invoke(StatementSkrinEventi.SkipTransactionsLegacy(transactions = it))
+                    onEventHandler.invoke(ReportScreenEvent.SkipTransactionsLegacy(transactions = it))
                 }
             )
         } else {
@@ -295,7 +295,7 @@ private fun BoxWithConstraintsScope.UI(
                 NoFilterEmptyState(
                     setFilterOverlayVisible = {
                         onEventHandler.invoke(
-                            StatementSkrinEventi.OnFilterOverlayVisible(
+                            ReportScreenEvent.OnFilterOverlayVisible(
                                 filterOverlayVisible = it
                             )
                         )
@@ -314,16 +314,16 @@ private fun BoxWithConstraintsScope.UI(
         allTags = state.allTags,
         onClose = {
             onEventHandler.invoke(
-                StatementSkrinEventi.OnFilterOverlayVisible(
+                ReportScreenEvent.OnFilterOverlayVisible(
                     filterOverlayVisible = false
                 )
             )
         },
         onSetFilter = {
-            onEventHandler.invoke(StatementSkrinEventi.OnFilter(filter = it))
+            onEventHandler.invoke(ReportScreenEvent.OnFilter(filter = it))
         },
         onTagSearch = {
-            onEventHandler.invoke(StatementSkrinEventi.OnTagSearch(data = it))
+            onEventHandler.invoke(ReportScreenEvent.OnTagSearch(data = it))
         }
     )
 }
@@ -424,7 +424,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
             id = CategoryId(UUID.randomUUID()),
             orderNum = 0.0,
         )
-        val state = StatementSkrinState(
+        val state = ReportScreenState(
             baseCurrency = "BGN",
             balance = -6405.66,
             income = 2000.0,
@@ -440,7 +440,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
 
             upcomingExpanded = true,
             overdueExpanded = true,
-            filter = StatementsFilter.emptyFilter("BGN"),
+            filter = ReportFilter.emptyFilter("BGN"),
             loading = false,
             accounts = persistentListOf(
                 acc1,
@@ -485,7 +485,7 @@ private fun Preview_NO_FILTER(theme: Theme = Theme.LIGHT) {
             id = CategoryId(UUID.randomUUID()),
             orderNum = 0.0,
         )
-        val state = StatementSkrinState(
+        val state = ReportScreenState(
             baseCurrency = "BGN",
             balance = 0.0,
             income = 0.0,

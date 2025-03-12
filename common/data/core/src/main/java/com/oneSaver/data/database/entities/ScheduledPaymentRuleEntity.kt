@@ -3,12 +3,14 @@ package com.oneSaver.data.database.entities
 import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.oneSaver.base.kotlinxserilzation.KSerializerInstant
 import com.oneSaver.base.kotlinxserilzation.KSerializerLocalDateTime
 import com.oneSaver.base.kotlinxserilzation.KSerializerUUID
 import com.oneSaver.base.model.TransactionType
 import com.oneSaver.data.model.IntervalType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.time.Instant
 import java.time.LocalDateTime
 import java.util.*
 
@@ -18,8 +20,8 @@ import java.util.*
 @Entity(tableName = "planned_payment_rules")
 data class ScheduledPaymentRuleEntity(
     @SerialName("startDate")
-    @Serializable(with = KSerializerLocalDateTime::class)
-    val startDate: LocalDateTime?,
+    @Serializable(with = KSerializerInstant::class)
+    val startDate: Instant?,
     @SerialName("intervalN")
     val intervalN: Int?,
     @SerialName("intervalType")

@@ -13,7 +13,7 @@ import com.oneSaver.design.l0_system.UI
 import com.oneSaver.design.utils.IvyComponentPreview
 import com.oneSaver.design.utils.thenWhen
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun DividerH(
     size: DividerSize = DividerSize.FillMax(
@@ -41,7 +41,7 @@ fun DividerH(
     )
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun DividerV(
     size: DividerSize = DividerSize.FillMax(
@@ -69,7 +69,7 @@ fun DividerV(
     )
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun RowScope.DividerW(
     weight: Float = 1f,
@@ -86,7 +86,7 @@ fun RowScope.DividerW(
     )
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun Divider(
     modifier: Modifier = Modifier,
@@ -99,12 +99,12 @@ fun Divider(
     )
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 sealed class DividerSize {
-    @Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+    @Deprecated("Old design system. Use `:ivy-design` and Material3")
     data class Fixed(val size: Dp) : DividerSize()
 
-    @Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+    @Deprecated("Old design system. Use `:ivy-design` and Material3")
     data class FillMax(val padding: Dp) : DividerSize()
 }
 

@@ -3,7 +3,7 @@ package com.oneSaver.allStatus.domain.deprecated.logic.loantrasactions
 import com.oneSaver.base.legacy.Transaction
 import com.oneSaver.base.model.LoanRecordType
 import com.oneSaver.base.model.TransactionType
-import com.oneSaver.data.model.LoanType
+import com.oneSaver.base.model.LoanType
 import com.oneSaver.legacy.datamodel.Account
 import com.oneSaver.legacy.datamodel.Loan
 import com.oneSaver.legacy.datamodel.LoanRecord

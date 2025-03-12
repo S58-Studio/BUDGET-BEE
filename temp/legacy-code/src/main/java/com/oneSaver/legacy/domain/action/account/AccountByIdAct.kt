@@ -2,7 +2,7 @@ package com.oneSaver.allStatus.domain.action.account
 
 import com.oneSaver.data.database.dao.read.AccountDao
 import com.oneSaver.frp.action.FPAction
-import com.oneSaver.frp.then
+import com.oneSaver.legacy.frp.then
 import com.oneSaver.legacy.datamodel.Account
 import com.oneSaver.legacy.datamodel.temp.toLegacyDomain
 import java.util.UUID

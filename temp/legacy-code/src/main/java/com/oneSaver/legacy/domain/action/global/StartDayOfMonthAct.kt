@@ -1,7 +1,7 @@
 package com.oneSaver.allStatus.domain.action.global
 
 import com.oneSaver.frp.action.FPAction
-import com.oneSaver.frp.then
+import com.oneSaver.legacy.frp.then
 import com.oneSaver.legacy.MySaveCtx
 import com.oneSaver.base.legacy.SharedPrefs
 import javax.inject.Inject

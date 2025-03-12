@@ -2,7 +2,7 @@ package com.oneSaver.onboarding.viewmodel
 
 import androidx.compose.runtime.MutableState
 import com.oneSaver.data.database.dao.read.AccountDao
-import com.oneSaver.domains.usecase.Xchange.SyncXchangeRatesUseCase
+import com.oneSaver.domains.usecase.exchange.SyncXchangeRatesUseCase
 import com.oneSaver.legacy.LogoutLogic
 import com.oneSaver.base.legacy.SharedPrefs
 import com.oneSaver.data.model.Category

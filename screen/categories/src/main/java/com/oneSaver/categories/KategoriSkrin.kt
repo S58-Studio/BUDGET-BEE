@@ -50,7 +50,7 @@ import com.oneSaver.data.model.primitive.NotBlankTrimmedString
 import com.oneSaver.design.l0_system.UI
 import com.oneSaver.design.l0_system.style
 import com.oneSaver.navigation.KategoriSkrin
-import com.oneSaver.navigation.TransactScrin
+import com.oneSaver.navigation.TransactionsScreen
 import com.oneSaver.navigation.navigation
 import com.oneSaver.navigation.screenScopedViewModel
 import com.oneSaver.core.userInterface.R
@@ -172,7 +172,7 @@ private fun BoxWithConstraintsScope.UI(
                 if (activity.isFinishing.not() && activity.isDestroyed.not()) {
                     val adCallback = MySaveAdsManager.OnAdsCallback {
                         nav.navigateTo(
-                            TransactScrin(
+                            TransactionsScreen(
                                 accountId = null,
                                 categoryId = categoryData.category.id.value
                             )

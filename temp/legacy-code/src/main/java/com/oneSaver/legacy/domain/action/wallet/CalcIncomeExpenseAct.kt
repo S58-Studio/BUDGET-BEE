@@ -4,12 +4,12 @@ import arrow.core.nonEmptyListOf
 import arrow.core.toOption
 import com.oneSaver.frp.action.FPAction
 import com.oneSaver.frp.action.thenMap
-import com.oneSaver.frp.then
+import com.oneSaver.legacy.frp.then
 import com.oneSaver.legacy.datamodel.Account
 import com.oneSaver.allStatus.domain.action.account.AccTrnsAct
 import com.oneSaver.allStatus.domain.action.exchange.ExchangeAct
 import com.oneSaver.allStatus.domain.pure.account.filterExcluded
-import com.oneSaver.allStatus.domain.pure.data.ClosedTimeRange
+import com.oneSaver.legacy.domain.pure.data.ClosedTimeRange
 import com.oneSaver.allStatus.domain.pure.data.IncomeExpensePair
 import com.oneSaver.allStatus.domain.pure.exchange.ExchangeData
 import com.oneSaver.legacy.domain.pure.transaction.AccountValueFunctions

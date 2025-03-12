@@ -1,10 +1,10 @@
 package com.oneSaver.legacy.datamodel.temp
 
-import com.oneSaver.data.database.entities.MkopoEntity
-import com.oneSaver.data.model.LoanType
+import com.oneSaver.data.database.entities.LoanEntity
+import com.oneSaver.base.model.LoanType
 import com.oneSaver.legacy.datamodel.Loan
 
-fun MkopoEntity.toLegacyDomain(): Loan = Loan(
+fun LoanEntity.toLegacyDomain(): Loan = Loan(
     name = name,
     amount = amount,
     type = type,
@@ -18,6 +18,6 @@ fun MkopoEntity.toLegacyDomain(): Loan = Loan(
     dateTime = dateTime
 )
 
-fun MkopoEntity.humanReadableType(): String {
+fun LoanEntity.humanReadableType(): String {
     return if (type == LoanType.BORROW) "BORROWED" else "LENT"
 }

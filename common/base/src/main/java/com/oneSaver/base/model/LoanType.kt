@@ -1,4 +1,4 @@
-package com.oneSaver.data.model
+package com.oneSaver.base.model
 
 import androidx.annotation.Keep
 

@@ -63,7 +63,7 @@ import com.oneSaver.legacy.utils.setStatusBarDarkTextCompat
 import com.oneSaver.navigation.ModifyTransactionSkrin
 import com.oneSaver.navigation.MylonPreview
 import com.oneSaver.navigation.FinPieChartStatisticSkrin
-import com.oneSaver.navigation.TransactScrin
+import com.oneSaver.navigation.TransactionsScreen
 import com.oneSaver.navigation.navigation
 import com.oneSaver.navigation.screenScopedViewModel
 import com.oneSaver.core.userInterface.R
@@ -93,8 +93,8 @@ import java.math.BigDecimal
 import java.util.UUID
 
 @Composable
-fun BoxWithConstraintsScope.TransferSkrin(screen: TransactScrin) {
-    val viewModel: TransfersVM = screenScopedViewModel()
+fun BoxWithConstraintsScope.TransferSkrin(screen: TransactionsScreen) {
+    val viewModel: TransactionsViewModel = screenScopedViewModel()
 
     val mysaveContext = mySaveCtx()
     val nav = navigation()
@@ -138,7 +138,7 @@ fun BoxWithConstraintsScope.TransferSkrin(screen: TransactScrin) {
         upcoming = uiState.upcoming,
         upcomingExpanded = uiState.upcomingExpanded,
         setUpcomingExpanded = {
-            viewModel.onEvent(TransfersEvent.SetUpcomingExpanded(it))
+            viewModel.onEvent(TransactionsEvent.SetUpcomingExpanded(it))
         },
         upcomingIncome = uiState.upcomingIncome,
         upcomingExpenses = uiState.upcomingExpenses,
@@ -146,57 +146,57 @@ fun BoxWithConstraintsScope.TransferSkrin(screen: TransactScrin) {
         overdue = uiState.overdue,
         overdueExpanded = uiState.overdueExpanded,
         setOverdueExpanded = {
-            viewModel.onEvent(TransfersEvent.SetOverdueExpanded(it))
+            viewModel.onEvent(TransactionsEvent.SetOverdueExpanded(it))
         },
         overdueIncome = uiState.overdueIncome,
         overdueExpenses = uiState.overdueExpenses,
 
         onSetPeriod = {
             viewModel.onEvent(
-                TransfersEvent.SetPeriod(
+                TransactionsEvent.SetPeriod(
                     screen = screen,
                     period = it
                 )
             )
         },
         onNextMonth = {
-            viewModel.onEvent(TransfersEvent.NextMonth(screen))
+            viewModel.onEvent(TransactionsEvent.NextMonth(screen))
         },
         onPreviousMonth = {
-            viewModel.onEvent(TransfersEvent.PreviousMonth(screen))
+            viewModel.onEvent(TransactionsEvent.PreviousMonth(screen))
         },
         onDelete = {
-            viewModel.onEvent(TransfersEvent.Delete(screen))
+            viewModel.onEvent(TransactionsEvent.Delete(screen))
         },
         onEditCategory = {
-            viewModel.onEvent(TransfersEvent.EditCategory(it))
+            viewModel.onEvent(TransactionsEvent.EditCategory(it))
         },
         onEditAccount = { acc, newBalance ->
-            viewModel.onEvent(TransfersEvent.EditAccount(screen, acc, newBalance))
+            viewModel.onEvent(TransactionsEvent.EditAccount(screen, acc, newBalance))
         },
         onPayOrGet = { transaction ->
-            viewModel.onEvent(TransfersEvent.PayOrGet(screen, transaction))
+            viewModel.onEvent(TransactionsEvent.PayOrGet(screen, transaction))
         },
         onSkipTransaction = { transaction ->
-            viewModel.onEvent(TransfersEvent.SkipTransaction(screen, transaction))
+            viewModel.onEvent(TransactionsEvent.SkipTransaction(screen, transaction))
         },
         onSkipAllTransactions = { transactions ->
-            viewModel.onEvent(TransfersEvent.SkipTransfers(screen, transactions))
+            viewModel.onEvent(TransactionsEvent.SkipTransactions(screen, transactions))
         },
         updateAccountNameConfirmation = {
-            viewModel.onEvent(TransfersEvent.UpdateAccountDeletionState(it))
+            viewModel.onEvent(TransactionsEvent.UpdateAccountDeletionState(it))
         },
         enableDeletionButton = uiState.enableDeletionButton,
         skipAllModalVisible = uiState.skipAllModalVisible,
         onSkipAllModalVisible = {
-            viewModel.onEvent(TransfersEvent.SetSkipAllModalVisible(it))
+            viewModel.onEvent(TransactionsEvent.SetSkipAllModalVisible(it))
         },
         deleteModal1Visible = uiState.deleteModal1Visible,
         onDeleteModal1Visible = {
-            viewModel.onEvent(TransfersEvent.OnDeleteModal1Visible(it))
+            viewModel.onEvent(TransactionsEvent.OnDeleteModal1Visible(it))
         },
         onChoosePeriodModal = {
-            viewModel.onEvent(TransfersEvent.OnChoosePeriodModalData(it))
+            viewModel.onEvent(TransactionsEvent.OnChoosePeriodModalData(it))
         },
         choosePeriodModal = uiState.choosePeriodModal
     )
@@ -205,7 +205,7 @@ fun BoxWithConstraintsScope.TransferSkrin(screen: TransactScrin) {
 @Suppress("LongMethod", "LongParameterList")
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    screen: TransactScrin,
+    screen: TransactionsScreen,
     period: TimePeriod,
     baseCurrency: String,
     currency: String,
@@ -571,7 +571,7 @@ private fun BoxWithConstraintsScope.DeleteModals(
 @Suppress("LongParameterList")
 @Composable
 private fun Header(
-    screen: TransactScrin,
+    screen: TransactionsScreen,
     history: ImmutableList<TransactionHistoryItem>,
     currency: String,
     baseCurrency: String,
@@ -844,7 +844,7 @@ private fun BoxWithConstraintsScope.Preview_empty() {
             onSkipAllModalVisible = {},
             onChoosePeriodModal = {},
             choosePeriodModal = null,
-            screen = TransactScrin(),
+            screen = TransactionsScreen(),
         )
     }
 }
@@ -890,7 +890,7 @@ private fun BoxWithConstraintsScope.Preview_crypto() {
             onSkipAllModalVisible = {},
             onChoosePeriodModal = {},
             choosePeriodModal = null,
-            screen = TransactScrin(),
+            screen = TransactionsScreen(),
         )
     }
 }
@@ -936,7 +936,7 @@ private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
             onSkipAllModalVisible = {},
             onChoosePeriodModal = {},
             choosePeriodModal = null,
-            screen = TransactScrin(),
+            screen = TransactionsScreen(),
         )
     }
 }

@@ -22,8 +22,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.widget.addTextChangedListener
-import com.oneSaver.design.l0_system.*
-import com.oneSaver.design.utils.*
+import com.oneSaver.design.l0_system.Purple1Dark
+import com.oneSaver.design.l0_system.Purple1Light
+import com.oneSaver.design.l0_system.Transparent
+import com.oneSaver.design.l0_system.UI
+import com.oneSaver.design.l0_system.style
+import com.oneSaver.design.utils.IvyComponentPreview
+import com.oneSaver.design.utils.dpToPx
+import com.oneSaver.design.utils.hideKeyboard
+import com.oneSaver.design.utils.postDelayed
+import com.oneSaver.design.utils.showKeyboard
 import kotlin.math.roundToInt
 
 /**
@@ -31,7 +39,7 @@ import kotlin.math.roundToInt
  * - font cannot be set
  * - handles color must be set Theme XML `accentColor`
  */
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Suppress("ParameterNaming")
 @Composable
 fun InputField(
@@ -163,7 +171,7 @@ fun EditText.setupInputType(
         }
         IvyInputType.LONG_TEXT -> {
             InputType.TYPE_CLASS_TEXT or
-                InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
+                    InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
         }
         IvyInputType.NAMES -> {
             InputType.TYPE_TEXT_VARIATION_PERSON_NAME or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
@@ -218,12 +226,12 @@ fun EditText.setupInputType(
     }
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun EditText.selectTextEnd() {
     setSelection(text.length)
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 enum class IvyInputType {
     SHORT_TEXT,
     LONG_TEXT,
@@ -237,13 +245,13 @@ enum class IvyInputType {
     PASSWORD_NUMBER_VISIBLE
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 enum class IvyImeAction {
     DONE,
     NEXT
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 class InputFieldFocus {
     var requestFocus: Boolean by mutableStateOf(false)
         private set

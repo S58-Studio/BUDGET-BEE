@@ -43,7 +43,7 @@ import com.oneSaver.legacy.data.model.Month
 import com.oneSaver.legacy.data.model.TimePeriod
 import com.oneSaver.legacy.ui.component.transaction.TransactionsDividerLine
 import com.oneSaver.legacy.ui.component.transaction.transactions
-import com.oneSaver.navigation.ModifyScheduledSkrin
+import com.oneSaver.navigation.EditPlannedScreen
 import com.oneSaver.navigation.ModifyTransactionSkrin
 import com.oneSaver.navigation.MylonPreview
 import com.oneSaver.navigation.navigation
@@ -78,8 +78,8 @@ fun BoxWithConstraintsScope.HomeTabPage(activity: Activity) {
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.NyumbaniUi(
-    uiState: NyumbaniState,
-    onEvent: (NyumbaniEvent) -> Unit,
+    uiState: HomeState,
+    onEvent: (HomeEvent) -> Unit,
     activity: Activity,
     modifier: Modifier = Modifier,
 ) {
@@ -122,19 +122,19 @@ fun BoxWithConstraintsScope.NyumbaniUi(
             onBalanceClick = {
                 if (activity.isFinishing.not() && activity.isDestroyed.not()) {
                     val adCallback = MySaveAdsManager.OnAdsCallback {
-                        onEvent(NyumbaniEvent.BalanceClick)
+                        onEvent(HomeEvent.BalanceClick)
                     }
                     mySaveAdsManager.displayAds(activity, adCallback)
                 }
             },
             onHiddenBalanceClick = {
-                onEvent(NyumbaniEvent.HiddenBalanceClick)
+                onEvent(HomeEvent.HiddenBalanceClick)
             },
             onSelectNextMonth = {
-                onEvent(NyumbaniEvent.SelectNextMonth)
+                onEvent(HomeEvent.SelectNextMonth)
             },
             onSelectPreviousMonth = {
-                onEvent(NyumbaniEvent.SelectPreviousMonth)
+                onEvent(HomeEvent.SelectPreviousMonth)
             },
             onAddIncome = {
                 if (activity.isFinishing.not() && activity.isDestroyed.not()) {
@@ -180,7 +180,7 @@ fun BoxWithConstraintsScope.NyumbaniUi(
                 if (activity.isFinishing.not() && activity.isDestroyed.not()) {
                     val adCallback = MySaveAdsManager.OnAdsCallback {
                         nav.navigateTo(
-                            ModifyScheduledSkrin(
+                            EditPlannedScreen(
                                 type = TransactionType.EXPENSE,
                                 plannedPaymentRuleId = null
                             )
@@ -195,18 +195,18 @@ fun BoxWithConstraintsScope.NyumbaniUi(
             hideBalance = uiState.hideBalance,
             hideIncome = uiState.hideIncome,
             onSetExpand = {
-                onEvent(NyumbaniEvent.SetExpanded(it))
+                onEvent(HomeEvent.SetExpanded(it))
             },
             balance = uiState.balance,
 
             onBalanceClick = {
-                onEvent(NyumbaniEvent.BalanceClick)
+                onEvent(HomeEvent.BalanceClick)
             },
             onHiddenBalanceClick = {
-                onEvent(NyumbaniEvent.HiddenBalanceClick)
+                onEvent(HomeEvent.HiddenBalanceClick)
             },
             onHiddenIncomeClick = {
-                onEvent(NyumbaniEvent.HiddenIncomeClick)
+                onEvent(HomeEvent.HiddenIncomeClick)
             },
 
             period = uiState.period,
@@ -223,19 +223,19 @@ fun BoxWithConstraintsScope.NyumbaniUi(
             customerJourneyCards = uiState.customerJourneyCards,
 
             onPayOrGet = forward<Transaction>() then2 {
-                NyumbaniEvent.PayOrGetPlanned(it)
+                HomeEvent.PayOrGetPlanned(it)
             } then2 onEvent,
             onDismiss = forward<ClientJourneyCardModel>() then2 {
-                NyumbaniEvent.DismissCustomerJourneyCard(it)
+                HomeEvent.DismissCustomerJourneyCard(it)
             } then2 onEvent,
             onSkipTransaction = forward<Transaction>() then2 {
-                NyumbaniEvent.SkipPlanned(it)
+                HomeEvent.SkipPlanned(it)
             } then2 onEvent,
             setUpcomingExpanded = forward<Boolean>() then2 {
-                NyumbaniEvent.SetUpcomingExpanded(it)
+                HomeEvent.SetUpcomingExpanded(it)
             } then2 onEvent,
             setOverdueExpanded = forward<Boolean>() then2 {
-                NyumbaniEvent.SetOverdueExpanded(it)
+                HomeEvent.SetOverdueExpanded(it)
             } then2 onEvent,
             onSkipAllTransactions = {
                 skipAllModalVisible = true
@@ -251,7 +251,7 @@ fun BoxWithConstraintsScope.NyumbaniUi(
             bufferModalData = null
         },
         onBufferChanged = forward<Double>() then2 {
-            NyumbaniEvent.SetBuffer(it)
+            HomeEvent.SetBuffer(it)
         } then2 onEvent
     )
 
@@ -263,7 +263,7 @@ fun BoxWithConstraintsScope.NyumbaniUi(
             currencyModalVisible = false
         },
         onSetCurrency = forward<String>() then2 {
-            NyumbaniEvent.SetCurrency(it)
+            HomeEvent.SetCurrency(it)
         } then2 onEvent
     )
 
@@ -273,7 +273,7 @@ fun BoxWithConstraintsScope.NyumbaniUi(
             choosePeriodModal = null
         },
         onPeriodSelected = forward<TimePeriod>() then2 {
-            NyumbaniEvent.SetPeriod(it)
+            HomeEvent.SetPeriod(it)
         } then2 onEvent
     )
 
@@ -285,7 +285,7 @@ fun BoxWithConstraintsScope.NyumbaniUi(
             skipAllModalVisible = false
         }
     ) {
-        onEvent(NyumbaniEvent.SkipAllPlanned(uiState.overdue.trns))
+        onEvent(HomeEvent.SkipAllPlanned(uiState.overdue.trns))
         skipAllModalVisible = false
     }
 }
@@ -403,7 +403,7 @@ fun HomeLazyColumn(
 private fun BoxWithConstraintsScope.PreviewHomeTab(isDark: Boolean = false) {
     MylonPreview(isDark) {
         NyumbaniUi(
-            uiState = NyumbaniState(
+            uiState = HomeState(
                 theme = Theme.AUTO,
                 name = "",
                 baseData = AppBaseData(

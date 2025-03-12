@@ -96,9 +96,9 @@ fun BoxWithConstraintsScope.FilteringOverlayy(
     categories: List<Category>,
     allTags: ImmutableList<Tag>,
 
-    filter: StatementsFilter?,
+    filter: ReportFilter?,
     onClose: () -> Unit,
-    onSetFilter: (StatementsFilter?) -> Unit,
+    onSetFilter: (ReportFilter?) -> Unit,
     onTagSearch: (String) -> Unit
 ) {
     val percentVisible by animateFloatAsState(
@@ -109,14 +109,14 @@ fun BoxWithConstraintsScope.FilteringOverlayy(
     var localFilter by remember(filter) {
         mutableStateOf(filter)
     }
-    val setLocalFilter = { newFilter: StatementsFilter ->
+    val setLocalFilter = { newFilter: ReportFilter ->
         localFilter = newFilter
     }
     val baseFilter = remember(baseCurrency) {
-        StatementsFilter.emptyFilter(baseCurrency = baseCurrency)
+        ReportFilter.emptyFilter(baseCurrency = baseCurrency)
     }
-    val nonNullFilter = { currentFilter: StatementsFilter? ->
-        StatementsFilter
+    val nonNullFilter = { currentFilter: ReportFilter? ->
+        ReportFilter
         currentFilter ?: baseFilter
     }
 
@@ -427,7 +427,7 @@ fun BoxWithConstraintsScope.FilteringOverlayy(
 
 @Composable
 fun ColumnScope.OthersFilter(
-    filter: StatementsFilter?,
+    filter: ReportFilter?,
     onTagButtonClick: () -> Unit,
 ) {
     FilterTitleText(
@@ -473,9 +473,9 @@ fun ColumnScope.TagFilter(
 
 @Composable
 private fun TypeFilter(
-    filter: StatementsFilter?,
-    nonNullFilter: (StatementsFilter?) -> StatementsFilter,
-    onSetFilter: (StatementsFilter) -> Unit
+    filter: ReportFilter?,
+    nonNullFilter: (ReportFilter?) -> ReportFilter,
+    onSetFilter: (ReportFilter) -> Unit
 ) {
     FilterTitleText(
         text = stringResource(R.string.by_type),
@@ -522,9 +522,9 @@ private fun TypeFilter(
 private fun TypeFilterCheckbox(
     modifier: Modifier = Modifier,
     trnType: TransactionType,
-    filter: StatementsFilter?,
-    nonFilter: (StatementsFilter?) -> StatementsFilter,
-    onSetFilter: (StatementsFilter) -> Unit
+    filter: ReportFilter?,
+    nonFilter: (ReportFilter?) -> ReportFilter,
+    onSetFilter: (ReportFilter) -> Unit
 ) {
     IvyCheckboxWithText(
         modifier = modifier,
@@ -555,7 +555,7 @@ private fun TypeFilterCheckbox(
 
 @Composable
 private fun PeriodFilter(
-    filter: StatementsFilter?,
+    filter: ReportFilter?,
     onShowPeriodChooserModal: () -> Unit
 ) {
     FilterTitleText(
@@ -583,9 +583,9 @@ private fun PeriodFilter(
 @Composable
 private fun AccountsFilter(
     allAccounts: List<Account>,
-    filter: StatementsFilter?,
-    nonNullFilter: (StatementsFilter?) -> StatementsFilter,
-    onSetFilter: (StatementsFilter) -> Unit
+    filter: ReportFilter?,
+    nonNullFilter: (ReportFilter?) -> ReportFilter,
+    onSetFilter: (ReportFilter) -> Unit
 ) {
     ListFilterTitle(
         text = stringResource(R.string.accounts_number, filter?.accounts?.size ?: 0),
@@ -651,9 +651,9 @@ private fun AccountsFilter(
 @Composable
 private fun CategoriesFilter(
     allCategories: List<Category>,
-    filter: StatementsFilter?,
-    nonNullFilter: (StatementsFilter?) -> StatementsFilter,
-    onSetFilter: (StatementsFilter) -> Unit
+    filter: ReportFilter?,
+    nonNullFilter: (ReportFilter?) -> ReportFilter,
+    onSetFilter: (ReportFilter) -> Unit
 ) {
     val myNonNullFilter = nonNullFilter(filter)
     val selectedItemsCount = filter?.categories?.size ?: 0
@@ -762,7 +762,7 @@ private fun ListFilterTitle(
 @Composable
 private fun AmountFilter(
     baseCurrency: String,
-    filter: StatementsFilter?,
+    filter: ReportFilter?,
 
     onShowMinAmountModal: () -> Unit,
     onShowMaxAmountModal: () -> Unit,
@@ -824,9 +824,9 @@ private fun AmountFilter(
 
 @Composable
 private fun KeywordsFilter(
-    filter: StatementsFilter?,
-    nonNullFilter: (StatementsFilter?) -> StatementsFilter,
-    onSetFilter: (StatementsFilter) -> Unit,
+    filter: ReportFilter?,
+    nonNullFilter: (ReportFilter?) -> ReportFilter,
+    onSetFilter: (ReportFilter) -> Unit,
 
     onShowIncludeKeywordModal: () -> Unit,
     onShowExcludeKeywordModal: () -> Unit,
@@ -1020,7 +1020,7 @@ private fun Preview() {
                 ),
             ),
 
-            filter = StatementsFilter.emptyFilter("BGN").copy(
+            filter = ReportFilter.emptyFilter("BGN").copy(
                 accounts = listOf(
                     acc1,
                     acc2

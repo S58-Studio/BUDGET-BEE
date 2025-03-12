@@ -1,7 +1,7 @@
 package com.oneSaver.legacy.datamodel
 
 import androidx.compose.runtime.Immutable
-import com.oneSaver.data.database.entities.BajetiEntity
+import com.oneSaver.data.database.entities.BudgetEntity
 import java.util.UUID
 
 @Deprecated("Legacy data model. Will be deleted")
@@ -19,7 +19,7 @@ data class Budget(
     val orderId: Double,
     val id: UUID = UUID.randomUUID()
 ) {
-    fun toEntity(): BajetiEntity = BajetiEntity(
+    fun toEntity(): BudgetEntity = BudgetEntity(
         name = name,
         amount = amount,
         categoryIdsSerialized = categoryIdsSerialized,

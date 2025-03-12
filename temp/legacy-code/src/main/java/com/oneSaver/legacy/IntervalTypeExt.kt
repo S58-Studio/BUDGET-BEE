@@ -3,7 +3,10 @@ package com.oneSaver.legacy
 import com.oneSaver.base.legacy.stringRes
 import com.oneSaver.data.model.IntervalType
 import com.oneSaver.core.userInterface.R
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.temporal.ChronoUnit
 
 fun IntervalType.forDisplay(intervalN: Int): String {
     val plural = intervalN > 1 || intervalN == 0
@@ -15,11 +18,12 @@ fun IntervalType.forDisplay(intervalN: Int): String {
     }
 }
 
-fun IntervalType.incrementDate(date: LocalDateTime, intervalN: Long): LocalDateTime {
+@Suppress("MagicNumber")
+fun IntervalType.incrementDate(date: Instant, intervalN: Long): Instant {
     return when (this) {
-        IntervalType.DAY -> date.plusDays(intervalN)
-        IntervalType.WEEK -> date.plusWeeks(intervalN)
-        IntervalType.MONTH -> date.plusMonths(intervalN)
-        IntervalType.YEAR -> date.plusYears(intervalN)
+        IntervalType.DAY -> date.plus(intervalN, ChronoUnit.DAYS)
+        IntervalType.WEEK -> date.plus(intervalN * 7, ChronoUnit.DAYS)
+        IntervalType.MONTH -> date.atZone(ZoneOffset.UTC).plusMonths(intervalN).toInstant()
+        IntervalType.YEAR -> date.atZone(ZoneOffset.UTC).plusYears(intervalN).toInstant()
     }
 }

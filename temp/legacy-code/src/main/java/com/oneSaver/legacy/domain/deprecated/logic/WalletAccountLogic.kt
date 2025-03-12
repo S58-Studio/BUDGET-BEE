@@ -17,7 +17,8 @@ import com.oneSaver.legacy.datamodel.Account
 import com.oneSaver.legacy.datamodel.temp.toDomain
 import com.oneSaver.legacy.utils.timeNowUTC
 import com.oneSaver.allStatus.domain.action.viewmodel.account.AccountDataAct
-import com.oneSaver.allStatus.domain.pure.data.ClosedTimeRange
+import com.oneSaver.base.time.TimeProvider
+import com.oneSaver.legacy.domain.pure.data.ClosedTimeRange
 import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
 import kotlin.math.abs
@@ -30,6 +31,7 @@ class WalletAccountLogic @Inject constructor(
     private val accountDataAct: AccountDataAct,
     private val sharedPrefs: SharedPrefs,
     private val currencyRepository: CurrencyRepository,
+    private val timeProvider: TimeProvider
 ) {
 
     suspend fun adjustBalance(
@@ -37,7 +39,7 @@ class WalletAccountLogic @Inject constructor(
         actualBalance: Double? = null,
         newBalance: Double,
 
-        adjustTransactionTitle: String = "Adjust Balance",
+        adjustTransactionTitle: String = "Adjust balance",
 
         isFiat: Boolean? = null,
         trnIsSyncedFlag: Boolean = false, // TODO: Remove this once Bank Integration trn sync is properly implemented
@@ -54,7 +56,7 @@ class WalletAccountLogic @Inject constructor(
                     title = adjustTransactionTitle,
                     amount = diff.absoluteValue.toBigDecimal(),
                     toAmount = diff.absoluteValue.toBigDecimal(),
-                    dateTime = timeNowUTC(),
+                    dateTime = timeProvider.utcNow(),
                     accountId = account.id,
                     isSynced = trnIsSyncedFlag
                 ).toDomain(transactionMapper)?.let {
@@ -69,7 +71,7 @@ class WalletAccountLogic @Inject constructor(
                     title = adjustTransactionTitle,
                     amount = diff.absoluteValue.toBigDecimal(),
                     toAmount = diff.absoluteValue.toBigDecimal(),
-                    dateTime = timeNowUTC(),
+                    dateTime = timeProvider.utcNow(),
                     accountId = account.id,
                     isSynced = trnIsSyncedFlag
                 ).toDomain(transactionMapper)?.let {
@@ -92,7 +94,7 @@ class WalletAccountLogic @Inject constructor(
         val accountsDataList = accountDataAct(
             AccountDataAct.Input(
                 accounts = accountList.toImmutableList(),
-                range = ClosedTimeRange.allTimeIvy(),
+                range = ClosedTimeRange.allTimeIvy(timeProvider),
                 baseCurrency = currencyRepository.getBaseCurrency().code,
                 includeTransfersInCalc = includeTransfersInCalc
             )
@@ -139,7 +141,7 @@ class WalletAccountLogic @Inject constructor(
     ): List<com.oneSaver.data.model.Transaction> {
         return transactionRepository.findAllDueToBetweenByAccount(
             accountId = AccountId(account.id),
-            startDate = range.upcomingFrom(),
+            startDate = range.upcomingFrom(timeProvider),
             endDate = range.to()
         ).filterUpcoming()
     }
@@ -151,7 +153,7 @@ class WalletAccountLogic @Inject constructor(
         return transactionRepository.findAllDueToBetweenByAccount(
             accountId = AccountId(account.id),
             startDate = range.from(),
-            endDate = range.overdueTo()
+            endDate = range.overdueTo(timeProvider)
         ).filterOverdue()
     }
 }

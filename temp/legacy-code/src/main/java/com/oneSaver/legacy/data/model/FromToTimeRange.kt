@@ -1,54 +1,63 @@
 package com.oneSaver.legacy.data.model
 
 import androidx.compose.runtime.Immutable
-import com.oneSaver.base.legacy.Transaction
-import com.oneSaver.legacy.utils.beginningOfIvyTime
+import com.oneSaver.data.model.Transaction
 import com.oneSaver.legacy.utils.dateNowUTC
-import com.oneSaver.legacy.utils.formatDateOnly
-import com.oneSaver.legacy.utils.startOfDayNowUTC
-import com.oneSaver.legacy.utils.timeNowUTC
-import com.oneSaver.legacy.utils.toIvyFutureTime
-import com.oneSaver.allStatus.domain.pure.data.ClosedTimeRange
-import java.time.LocalDateTime
+import com.oneSaver.legacy.domain.pure.data.ClosedTimeRange
+import com.oneSaver.base.time.TimeConverter
+import com.oneSaver.base.time.TimeProvider
+import com.oneSaver.legacy.utils.ivyMaxTime
+import com.oneSaver.legacy.utils.ivyMinTime
+import com.oneSaver.userInterface.time.TimeFormatter
+import java.time.Instant
 import java.time.ZoneOffset
 
+@Suppress("DataClassFunctions")
 @Immutable
 data class FromToTimeRange(
-    val from: LocalDateTime?,
-    val to: LocalDateTime?,
+    val from: Instant?,
+    val to: Instant?,
 ) {
-    fun from(): LocalDateTime =
-        from ?: timeNowUTC().minusYears(30)
+    fun from(): Instant =
+        from ?: ivyMinTime()
 
-    fun to(): LocalDateTime =
-        to ?: timeNowUTC().plusYears(30)
+    fun to(): Instant =
+        to ?: ivyMaxTime()
 
-    fun upcomingFrom(): LocalDateTime {
-        val startOfDayNowUTC =
-            startOfDayNowUTC().minusDays(1) // -1 day to ensure that everything is included
+    fun upcomingFrom(
+        timeProvider: TimeProvider
+    ): Instant {
+        val startOfDayNowUTC = timeProvider.utcNow()
         return if (includes(startOfDayNowUTC)) startOfDayNowUTC else from()
     }
 
-    fun overdueTo(): LocalDateTime {
-        val startOfDayNowUTC =
-            startOfDayNowUTC().plusDays(1) // +1 day to ensure that everything is included
+    fun overdueTo(
+        timeProvider: TimeProvider
+    ): Instant {
+        val startOfDayNowUTC = timeProvider.utcNow()
         return if (includes(startOfDayNowUTC)) startOfDayNowUTC else to()
     }
 
-    fun includes(dateTime: LocalDateTime): Boolean =
+    fun includes(dateTime: Instant): Boolean =
         dateTime.isAfter(from()) && dateTime.isBefore(to())
 
-    fun toDisplay(): String {
-        return when {
+    fun toDisplay(
+        timeFormatter: TimeFormatter
+    ): String = with(timeFormatter) {
+        val style = TimeFormatter.Style.DateOnly(includeWeekDay = false)
+        when {
             from != null && to != null -> {
-                "${from.toLocalDate().formatDateOnly()} - ${to.toLocalDate().formatDateOnly()}"
+                "${from.formatLocal(style)} - ${to.formatLocal(style)}"
             }
+
             from != null && to == null -> {
-                "From ${from.toLocalDate().formatDateOnly()}"
+                "From ${from.formatLocal(style)}"
             }
+
             from == null && to != null -> {
-                "To ${to.toLocalDate().formatDateOnly()}"
+                "To ${to.formatLocal(style)}"
             }
+
             else -> {
                 "Range"
             }
@@ -57,12 +66,14 @@ data class FromToTimeRange(
 }
 
 @Deprecated("Uses legacy Transaction")
-fun Iterable<Transaction>.filterUpcomingLegacy(): List<Transaction> {
-    val todayStartOfDayUTC = dateNowUTC().atStartOfDay()
-
+fun Iterable<com.oneSaver.base.legacy.Transaction>.filterUpcomingLegacy(
+    timeProvider: TimeProvider,
+    timeConverter: TimeConverter,
+): List<com.oneSaver.base.legacy.Transaction> {
+    val todayStartOfDayUtc = todayStartOfDayUtc(timeProvider, timeConverter)
     return filter {
         // make sure that it's in the future
-        it.dueDate != null && it.dueDate!!.isAfter(todayStartOfDayUTC)
+        it.dueDate != null && it.dueDate!!.isAfter(todayStartOfDayUtc)
     }
 }
 
@@ -76,16 +87,29 @@ fun Iterable<com.oneSaver.data.model.Transaction>.filterUpcoming(): List<com.one
 }
 
 @Deprecated("Uses legacy Transaction")
-fun Iterable<Transaction>.filterOverdueLegacy(): List<Transaction> {
-    val todayStartOfDayUTC = dateNowUTC().atStartOfDay()
-
+fun Iterable<com.oneSaver.base.legacy.Transaction>.filterOverdueLegacy(
+    timeProvider: TimeProvider,
+    timeConverter: TimeConverter,
+): List<com.oneSaver.base.legacy.Transaction> {
+    val todayStartOfDayUTC = todayStartOfDayUtc(timeProvider, timeConverter)
     return filter {
         // make sure that it's in the past
         it.dueDate != null && it.dueDate!!.isBefore(todayStartOfDayUTC)
     }
 }
 
-fun Iterable<com.oneSaver.data.model.Transaction>.filterOverdue(): List<com.oneSaver.data.model.Transaction> {
+fun todayStartOfDayUtc(
+    timeProvider: TimeProvider,
+    timeConverter: TimeConverter,
+): Instant = with(timeConverter) {
+    timeProvider.localNow()
+        .withHour(0)
+        .withMinute(0)
+        .withSecond(0)
+        .toUTC()
+}
+
+fun Iterable<Transaction>.filterOverdue(): List<Transaction> {
     val todayStartOfDayUTC = dateNowUTC().atStartOfDay().toInstant(ZoneOffset.UTC)
 
     return filter {
@@ -103,7 +127,14 @@ fun FromToTimeRange.toCloseTimeRangeUnsafe(): ClosedTimeRange {
 
 fun FromToTimeRange.toCloseTimeRange(): ClosedTimeRange {
     return ClosedTimeRange(
-        from = from ?: beginningOfIvyTime(),
-        to = to ?: toIvyFutureTime()
+        from = from ?: ivyMinTime(),
+        to = to ?: ivyMaxTime()
+    )
+}
+
+fun FromToTimeRange.toUTCCloseTimeRange(): ClosedTimeRange {
+    return ClosedTimeRange(
+        from = from ?: ivyMinTime(),
+        to = to ?: ivyMaxTime()
     )
 }

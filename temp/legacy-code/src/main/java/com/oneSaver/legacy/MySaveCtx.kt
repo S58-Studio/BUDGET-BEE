@@ -24,7 +24,7 @@ class MySaveCtx @Inject constructor() : MysaveContext() {
     var startDayOfMonth = 1
         private set
 
-    @Deprecated("Legacy code. Don't use it, please.", ReplaceWith("startDayOfMonth = day"))
+    @Deprecated("Legacy code. Don't use it, please.")
     fun setStartDayOfMonth(day: Int) {
         startDayOfMonth = day
     }
@@ -85,7 +85,7 @@ class MySaveCtx @Inject constructor() : MysaveContext() {
     var accountsListState: LazyListState? = null
 
     @Deprecated("Legacy code. Don't use it, please.")
-    var loansScrollState: ScrollState = ScrollState(0)
+    var loanListState: LazyListState? = null
 
     @Deprecated("Legacy code. Don't use it, please.")
     var mainTab by mutableStateOf(com.oneSaver.legacy.data.model.MainTab.HOME)
@@ -100,6 +100,10 @@ class MySaveCtx @Inject constructor() : MysaveContext() {
     var moreMenuExpanded = false
         private set
 
+    @Deprecated("Legacy code. Don't use it, please.")
+    fun setMoreMenuExpanded(expanded: Boolean) {
+        moreMenuExpanded = expanded
+    }
     // ------------------------------------------ State ---------------------------------------------
 
     // Activity help -------------------------------------------------------------------------------
@@ -110,7 +114,10 @@ class MySaveCtx @Inject constructor() : MysaveContext() {
         initialDate: LocalDate?,
         onDatePicked: (LocalDate) -> Unit
     ) -> Unit
-    lateinit var onShowTimePicker: (onDatePicked: (LocalTime) -> Unit) -> Unit
+    lateinit var onShowTimePicker: (
+        initialTime: LocalTime?,
+        onDatePicked: (LocalTime) -> Unit
+    ) -> Unit
 
     @Deprecated("Legacy code. Don't use it, please.")
     fun datePicker(
@@ -123,14 +130,17 @@ class MySaveCtx @Inject constructor() : MysaveContext() {
     }
 
     @Deprecated("Legacy code. Don't use it, please.")
-    fun timePicker(onTimePicked: (LocalTime) -> Unit) {
-        onShowTimePicker(onTimePicked)
+    fun timePicker(
+        initialTime: LocalTime?,
+        onTimePicked: (LocalTime) -> Unit
+    ) {
+        onShowTimePicker(initialTime, onTimePicked)
     }
     // Activity help -------------------------------------------------------------------------------
 
     // Billing -------------------------------------------------------------------------------------
     @Deprecated("Legacy code. Don't use it, please.")
-    var isPremium = true // if (BuildConfig.DEBUG) MySaveConstants.PREMIUM_INITIAL_VALUE_DEBUG else false
+    var isPremium = true // if (BuildConfig.DEBUG) Constants.PREMIUM_INITIAL_VALUE_DEBUG else false
     // Billing -------------------------------------------------------------------------------------
 
     @Deprecated("Legacy code. Don't use it, please.")

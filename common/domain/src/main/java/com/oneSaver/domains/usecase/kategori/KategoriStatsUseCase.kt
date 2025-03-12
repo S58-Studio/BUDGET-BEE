@@ -8,7 +8,7 @@ import com.oneSaver.data.model.Transaction
 import com.oneSaver.data.model.primitive.AssetCode
 import com.oneSaver.domains.model.StatisticSummary
 import com.oneSaver.domains.model.TimeRange
-import com.oneSaver.domains.usecase.Xchange.ExchangeUseCase
+import com.oneSaver.domains.usecase.exchange.ExchangeUseCase
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 

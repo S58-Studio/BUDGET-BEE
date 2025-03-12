@@ -4,13 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.viewModelScope
 import com.oneSaver.base.legacy.SharedPrefs
 import com.oneSaver.base.legacy.Transaction
 import com.oneSaver.userInterface.ComposeViewModel
 import com.oneSaver.data.repository.CategoryRepository
 import com.oneSaver.frp.action.thenMap
-import com.oneSaver.frp.thenInvokeAfter
+import com.oneSaver.legacy.frp.thenInvokeAfter
 import com.oneSaver.legacy.data.model.TimePeriod
 import com.oneSaver.legacy.datamodel.Account
 import com.oneSaver.legacy.utils.ioThread
@@ -22,6 +23,9 @@ import com.oneSaver.allStatus.domain.data.SortOrder
 import com.oneSaver.allStatus.domain.deprecated.logic.CategoryCreator
 import com.oneSaver.allStatus.domain.deprecated.logic.model.CreateCategoryData
 import com.oneSaver.allStatus.userInterface.theme.modal.edit.CategoryModalData
+import com.oneSaver.base.time.TimeConverter
+import com.oneSaver.base.time.TimeProvider
+import com.oneSaver.domains.features.Features
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -44,11 +48,15 @@ class CategoriesViewModel @Inject constructor(
     private val accountsAct: AccountsAct,
     private val trnsWithRangeAndAccFiltersAct: TrnsWithRangeAndAccFiltersAct,
     private val categoryIncomeWithAccountFiltersAct: LegacyCategoryIncomeWithAccountFiltersAct,
+    private val features: Features,
+    private val timeProvider: TimeProvider,
+    private val timeConverter: TimeConverter,
 ) : ComposeViewModel<KategoriSkriniState, KategoriSkriniEventi>() {
 
     private val baseCurrency = mutableStateOf("")
     private val categories =
         mutableStateOf<ImmutableList<KategoriData>>(persistentListOf<KategoriData>())
+    private val searchQuery = mutableStateOf("")
     private val reorderModalVisible = mutableStateOf(false)
     private val categoryModalData = mutableStateOf<CategoryModalData?>(null)
     private val sortModalVisible = mutableStateOf(false)
@@ -66,8 +74,20 @@ class CategoriesViewModel @Inject constructor(
             reorderModalVisible = getReorderModalVisible(),
             categoryModalData = getCategoryModalData(),
             sortOrder = getSortOrder(),
-            sortModalVisible = getSortModalVisible()
+            sortModalVisible = getSortModalVisible(),
+            compactCategoriesModeEnabled = getCompactCategoriesMode(),
+            showCategorySearchBar = getShowCategorySearchBar()
         )
+    }
+
+    @Composable
+    private fun getCompactCategoriesMode(): Boolean {
+        return features.compactCategoriesMode.asEnabledState()
+    }
+
+    @Composable
+    private fun getShowCategorySearchBar(): Boolean {
+        return features.showCategorySearchBar.asEnabledState()
     }
 
     @Composable
@@ -77,7 +97,12 @@ class CategoriesViewModel @Inject constructor(
 
     @Composable
     private fun getCategories(): ImmutableList<KategoriData> {
-        return categories.value
+        val allCats = categories.value
+        return remember(allCats, searchQuery.value) {
+            allCats.filter {
+                searchQuery.value.lowercase().trim() in it.category.name.toString().lowercase()
+            }.toImmutableList()
+        }
     }
 
     @Composable
@@ -114,7 +139,11 @@ class CategoriesViewModel @Inject constructor(
         ioThread {
             val range = TimePeriod.currentMonth(
                 startDayOfMonth = ivyContext.startDayOfMonth
-            ).toRange(ivyContext.startDayOfMonth) // this must be monthly
+            ).toRange(
+                ivyContext.startDayOfMonth,
+                timeConverter,
+                timeProvider
+            ) // this must be monthly
 
             allAccounts = accountsAct(Unit)
             baseCurrency.value = baseCurrencyAct(Unit)
@@ -123,7 +152,7 @@ class CategoriesViewModel @Inject constructor(
                 TrnsWithRangeAndAccFiltersAct.Input(
                     range = range,
                     accountIdFilterSet = suspend { allAccounts } thenMap { it.id }
-                        thenInvokeAfter { it.toHashSet() }
+                            thenInvokeAfter { it.toHashSet() }
                 )
             )
 
@@ -159,9 +188,12 @@ class CategoriesViewModel @Inject constructor(
             }
 
             val sortedList = sortList(categories, sortOrder.value).toImmutableList()
-
             this.categories.value = sortedList
         }
+    }
+
+    private fun updateSearchQuery(queryString: String) {
+        searchQuery.value = queryString
     }
 
     private suspend fun reorder(
@@ -172,8 +204,8 @@ class CategoriesViewModel @Inject constructor(
 
         if (sortOrder == SortOrder.DEFAULT) {
             ioThread {
-                sortedList.forEachIndexed { index, categoryData ->
-                    categoryRepository.save(categoryData.category.copy(orderNum = index.toDouble()))
+                sortedList.forEachIndexed { index, KategoriData ->
+                    categoryRepository.save(KategoriData.category.copy(orderNum = index.toDouble()))
                 }
             }
         }
@@ -187,24 +219,24 @@ class CategoriesViewModel @Inject constructor(
     }
 
     private fun sortList(
-        kategoriData: List<KategoriData>,
+        KategoriData: List<KategoriData>,
         sortOrder: SortOrder
     ): List<KategoriData> {
         return when (sortOrder) {
-            SortOrder.DEFAULT -> kategoriData.sortedBy {
+            SortOrder.DEFAULT -> KategoriData.sortedBy {
                 it.category.orderNum
             }
 
-            SortOrder.BALANCE_AMOUNT -> kategoriData.sortedByDescending {
+            SortOrder.BALANCE_AMOUNT -> KategoriData.sortedByDescending {
                 it.monthlyBalance
             }.partition { it.monthlyBalance.toInt() != 0 } // Partition into non-zero and zero lists
                 .let { (nonZero, zero) -> nonZero + zero }
 
-            SortOrder.ALPHABETICAL -> kategoriData.sortedBy {
+            SortOrder.ALPHABETICAL -> KategoriData.sortedBy {
                 it.category.name.value
             }
 
-            SortOrder.EXPENSES -> kategoriData.sortedByDescending {
+            SortOrder.EXPENSES -> KategoriData.sortedByDescending {
                 it.monthlyExpenses
             }
         }
@@ -232,6 +264,8 @@ class CategoriesViewModel @Inject constructor(
                 is KategoriSkriniEventi.OnCategoryModalVisible -> {
                     categoryModalData.value = event.categoryModalData
                 }
+
+                is KategoriSkriniEventi.OnSearchQueryUpdate -> updateSearchQuery(event.queryString)
             }
         }
     }

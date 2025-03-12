@@ -45,7 +45,7 @@ import com.oneSaver.legacy.utils.horizontalSwipeListener
 import com.oneSaver.legacy.utils.rememberInteractionSource
 import com.oneSaver.legacy.utils.rememberSwipeListenerState
 import com.oneSaver.navigation.AkauntiTabSkrin
-import com.oneSaver.navigation.TransactScrin
+import com.oneSaver.navigation.TransactionsScreen
 import com.oneSaver.navigation.navigation
 import com.oneSaver.navigation.screenScopedViewModel
 import com.oneSaver.core.userInterface.R
@@ -156,7 +156,7 @@ private fun BoxWithConstraintsScope.UI(
                 accountData = it,
                 onBalanceClick = {
                     nav.navigateTo(
-                        TransactScrin(
+                        TransactionsScreen(
                             accountId = it.account.id.value,
                             categoryId = null
                         )
@@ -164,7 +164,7 @@ private fun BoxWithConstraintsScope.UI(
                 }
             ) {
                 nav.navigateTo(
-                    TransactScrin(
+                    TransactionsScreen(
                         accountId = it.account.id.value,
                         categoryId = null
                     )

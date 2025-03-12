@@ -2,10 +2,11 @@ package com.oneSaver.allStatus.domain.action.viewmodel.home
 
 import com.oneSaver.data.model.Transaction
 import com.oneSaver.frp.action.FPAction
-import com.oneSaver.frp.then
-import com.oneSaver.allStatus.domain.pure.data.ClosedTimeRange
+import com.oneSaver.legacy.frp.then
+import com.oneSaver.legacy.domain.pure.data.ClosedTimeRange
 import com.oneSaver.allStatus.domain.pure.data.IncomeExpensePair
 import com.oneSaver.allStatus.domain.pure.transaction.isUpcoming
+import com.oneSaver.legacy.domain.action.viewmodel.home.DueTrnsInfoAct
 import javax.inject.Inject
 
 class UpcomingAct @Inject constructor(

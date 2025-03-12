@@ -1,9 +1,9 @@
 package com.oneSaver.legacy.datamodel.temp
 
-import com.oneSaver.data.database.entities.AkauntiEntity
+import com.oneSaver.data.database.entities.AccountEntity
 import com.oneSaver.legacy.datamodel.Account
 
-fun AkauntiEntity.toLegacyDomain(): Account = Account(
+fun AccountEntity.toLegacyDomain(): Account = Account(
     name = name,
     currency = currency,
     color = color,

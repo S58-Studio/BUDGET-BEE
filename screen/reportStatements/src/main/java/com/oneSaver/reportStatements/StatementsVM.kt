@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.viewModelScope
 import com.oneSaver.base.legacy.LegacyTransaction
@@ -30,7 +32,7 @@ import com.oneSaver.data.temp.migration.getTransactionType
 import com.oneSaver.data.temp.migration.getValue
 import com.oneSaver.domains.RootScreen
 import com.oneSaver.domains.usecase.csv.ExportCsvUseCase
-import com.oneSaver.frp.filterSuspend
+import com.oneSaver.legacy.frp.filterSuspend
 import com.oneSaver.legacy.MySaveCtx
 import com.oneSaver.legacy.datamodel.Account
 import com.oneSaver.legacy.datamodel.temp.toLegacy
@@ -46,12 +48,15 @@ import com.oneSaver.allStatus.domain.action.exchange.ExchangeAct
 import com.oneSaver.allStatus.domain.action.settings.BaseCurrencyAct
 import com.oneSaver.allStatus.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.oneSaver.allStatus.domain.action.transaction.TrnsWithDateDivsAct
-import com.oneSaver.allStatus.domain.deprecated.logic.PlannedPaymentsLogic
+import com.oneSaver.legacy.domain.deprecated.logic.PlannedPaymentsLogic
 import com.oneSaver.allStatus.domain.pure.data.IncomeExpenseTransferPair
 import com.oneSaver.allStatus.domain.pure.exchange.ExchangeData
 import com.oneSaver.allStatus.domain.pure.transaction.trnCurrency
 import com.oneSaver.allStatus.domain.pure.util.orZero
 import com.oneSaver.allStatus.userInterface.theme.Gray
+import com.oneSaver.base.time.TimeConverter
+import com.oneSaver.base.time.TimeProvider
+import com.oneSaver.domains.features.Features
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -83,7 +88,10 @@ class StatementsVM @Inject constructor(
     private val transactionMapper: TransactionMapper,
     private val tagRepository: TagRepository,
     private val exportCsvUseCase: ExportCsvUseCase,
-) : ComposeViewModel<StatementSkrinState, StatementSkrinEventi>() {
+    private val timeProvider: TimeProvider,
+    private val timeConverter: TimeConverter,
+    private val features: Features
+) : ComposeViewModel<ReportScreenState, ReportScreenEvent>() {
     private val unSpecifiedCategory =
         Category(
             name = NotBlankTrimmedString.unsafe(stringRes(R.string.unspecified)),
@@ -92,88 +100,94 @@ class StatementsVM @Inject constructor(
             id = CategoryId(UUID.randomUUID()),
             orderNum = 0.0,
         )
-    private val baseCurrency = mutableStateOf("")
-    private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
-    private val historyIncomeExpense = mutableStateOf(IncomeExpenseTransferPair.zero())
-    private val filter = mutableStateOf<StatementsFilter?>(null)
-    private val balance = mutableDoubleStateOf(0.0)
-    private val income = mutableDoubleStateOf(0.0)
-    private val expenses = mutableDoubleStateOf(0.0)
-    private val upcomingIncome = mutableDoubleStateOf(0.0)
-    private val upcomingExpenses = mutableDoubleStateOf(0.0)
-    private val overdueIncome = mutableDoubleStateOf(0.0)
-    private val overdueExpenses = mutableDoubleStateOf(0.0)
-    private val history = mutableStateOf<ImmutableList<TransactionHistoryItem>>(persistentListOf())
-    private val upcomingTransactions =
-        mutableStateOf<ImmutableList<LegacyTransaction>>(persistentListOf())
-    private val overdueTransactions =
-        mutableStateOf<ImmutableList<LegacyTransaction>>(persistentListOf())
-    private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
-    private val upcomingExpanded = mutableStateOf(false)
-    private val overdueExpanded = mutableStateOf(false)
-    private val loading = mutableStateOf(false)
-    private val accountIdFilters = mutableStateOf<ImmutableList<UUID>>(persistentListOf())
-    private val transactions = mutableStateOf<ImmutableList<LegacyTransaction>>(persistentListOf())
-    private val filterOverlayVisible = mutableStateOf(false)
-    private val showTransfersAsIncExpCheckbox = mutableStateOf(false)
-    private val treatTransfersAsIncExp = mutableStateOf(false)
-    private val allTags = mutableStateOf<ImmutableList<Tag>>(persistentListOf())
+    private var baseCurrency by mutableStateOf("")
+    private var categories by mutableStateOf<ImmutableList<Category>>(persistentListOf())
+    private var historyIncomeExpense by mutableStateOf(IncomeExpenseTransferPair.zero())
+    private var filter by mutableStateOf<ReportFilter?>(null)
+    private var balance by mutableDoubleStateOf(0.0)
+    private var income by mutableDoubleStateOf(0.0)
+    private var expenses by mutableDoubleStateOf(0.0)
+    private var upcomingIncome by mutableDoubleStateOf(0.0)
+    private var upcomingExpenses by mutableDoubleStateOf(0.0)
+    private var overdueIncome by mutableDoubleStateOf(0.0)
+    private var overdueExpenses by mutableDoubleStateOf(0.0)
+    private var history by mutableStateOf<ImmutableList<TransactionHistoryItem>>(persistentListOf())
+    private var upcomingTransactions by
+    mutableStateOf<ImmutableList<LegacyTransaction>>(persistentListOf())
+    private var overdueTransactions by
+    mutableStateOf<ImmutableList<LegacyTransaction>>(persistentListOf())
+    private var accounts by mutableStateOf<ImmutableList<Account>>(persistentListOf())
+    private var upcomingExpanded by mutableStateOf(false)
+    private var overdueExpanded by mutableStateOf(false)
+    private var loading by mutableStateOf(false)
+    private var accountIdFilters by mutableStateOf<ImmutableList<UUID>>(persistentListOf())
+    private var transactions by mutableStateOf<ImmutableList<LegacyTransaction>>(persistentListOf())
+    private var filterOverlayVisible by mutableStateOf(false)
+    private var showTransfersAsIncExpCheckbox by mutableStateOf(false)
+    private var treatTransfersAsIncExp by mutableStateOf(false)
+    private var allTags by mutableStateOf<ImmutableList<Tag>>(persistentListOf())
 
     private var tagSearchJob: Job? = null
     private val tagSearchDebounceTimeInMills: Long = 500
 
     @Composable
-    override fun uiState(): StatementSkrinState {
+    fun getShouldShowAccountSpecificColorInTransactions(): Boolean {
+        return features.showAccountColorsInTransactions.asEnabledState()
+    }
+
+    @Composable
+    override fun uiState(): ReportScreenState {
         LaunchedEffect(Unit) {
             start()
         }
 
-        return StatementSkrinState(
-            categories = categories.value,
-            accounts = accounts.value,
-            accountIdFilters = accountIdFilters.value,
-            balance = balance.doubleValue,
-            baseCurrency = baseCurrency.value,
-            expenses = expenses.doubleValue,
-            filter = filter.value,
-            filterOverlayVisible = filterOverlayVisible.value,
-            history = history.value,
-            income = income.doubleValue,
-            loading = loading.value,
-            overdueExpanded = overdueExpanded.value,
-            overdueExpenses = overdueExpenses.doubleValue,
-            overdueIncome = overdueIncome.doubleValue,
-            overdueTransactions = overdueTransactions.value,
-            showTransfersAsIncExpCheckbox = showTransfersAsIncExpCheckbox.value,
-            transactions = transactions.value,
-            treatTransfersAsIncExp = treatTransfersAsIncExp.value,
-            upcomingExpanded = upcomingExpanded.value,
-            upcomingExpenses = upcomingExpenses.doubleValue,
-            upcomingIncome = upcomingIncome.doubleValue,
-            upcomingTransactions = upcomingTransactions.value,
-            allTags = allTags.value
+        return ReportScreenState(
+            categories = categories,
+            accounts = accounts,
+            accountIdFilters = accountIdFilters,
+            balance = balance,
+            baseCurrency = baseCurrency,
+            expenses = expenses,
+            filter = filter,
+            filterOverlayVisible = filterOverlayVisible,
+            history = history,
+            income = income,
+            loading = loading,
+            overdueExpanded = overdueExpanded,
+            overdueExpenses = overdueExpenses,
+            overdueIncome = overdueIncome,
+            overdueTransactions = overdueTransactions,
+            showTransfersAsIncExpCheckbox = showTransfersAsIncExpCheckbox,
+            transactions = transactions,
+            treatTransfersAsIncExp = treatTransfersAsIncExp,
+            upcomingExpanded = upcomingExpanded,
+            upcomingExpenses = upcomingExpenses,
+            upcomingIncome = upcomingIncome,
+            upcomingTransactions = upcomingTransactions,
+            allTags = allTags,
+            showAccountColorsInTransactions = getShouldShowAccountSpecificColorInTransactions()
         )
     }
 
-    override fun onEvent(event: StatementSkrinEventi) {
+    override fun onEvent(event: ReportScreenEvent) {
         viewModelScope.launch(Dispatchers.Default) {
             when (event) {
-                is StatementSkrinEventi.OnFilter -> setFilter(event.filter)
-                is StatementSkrinEventi.OnExport -> export(event.context)
-                is StatementSkrinEventi.OnPayOrGet -> payOrGet(event.transaction)
-                is StatementSkrinEventi.SkipTransaction -> skipTransaction(event.transaction)
-                is StatementSkrinEventi.SkipTransactions -> skipTransactions(event.transactions)
-                is StatementSkrinEventi.OnPayOrGetLegacy -> payOrGetLegacy(event.transaction)
-                is StatementSkrinEventi.SkipTransactionLegacy -> skipTransactionLegacy(event.transaction)
-                is StatementSkrinEventi.SkipTransactionsLegacy -> skipTransactionsLegacy(event.transactions)
-                is StatementSkrinEventi.OnOverdueExpanded -> setOverdueExpanded(event.overdueExpanded)
-                is StatementSkrinEventi.OnUpcomingExpanded -> setUpcomingExpanded(event.upcomingExpanded)
-                is StatementSkrinEventi.OnFilterOverlayVisible -> setFilterOverlayVisible(event.filterOverlayVisible)
-                is StatementSkrinEventi.OnTreatTransfersAsIncomeExpense -> onTreatTransfersAsIncomeExpense(
+                is ReportScreenEvent.OnFilter -> setFilter(event.filter)
+                is ReportScreenEvent.OnExport -> export(event.context)
+                is ReportScreenEvent.OnPayOrGet -> payOrGet(event.transaction)
+                is ReportScreenEvent.SkipTransaction -> skipTransaction(event.transaction)
+                is ReportScreenEvent.SkipTransactions -> skipTransactions(event.transactions)
+                is ReportScreenEvent.OnPayOrGetLegacy -> payOrGetLegacy(event.transaction)
+                is ReportScreenEvent.SkipTransactionLegacy -> skipTransactionLegacy(event.transaction)
+                is ReportScreenEvent.SkipTransactionsLegacy -> skipTransactionsLegacy(event.transactions)
+                is ReportScreenEvent.OnOverdueExpanded -> setOverdueExpandedValue(event.overdueExpanded)
+                is ReportScreenEvent.OnUpcomingExpanded -> setUpcomingExpandedValue(event.upcomingExpanded)
+                is ReportScreenEvent.OnFilterOverlayVisible -> setFilterOverlayVisibleValue(event.filterOverlayVisible)
+                is ReportScreenEvent.OnTreatTransfersAsIncomeExpense -> onTreatTransfersAsIncomeExpense(
                     event.transfersAsIncomeExpense
                 )
 
-                is StatementSkrinEventi.OnTagSearch -> onTagSearch(event.data)
+                is ReportScreenEvent.OnTagSearch -> onTagSearch(event.data)
             }
         }
     }
@@ -186,11 +200,11 @@ class StatementsVM @Inject constructor(
                 NotBlankTrimmedString.from(query.toLowerCaseLocal())
                     .fold(
                         ifRight = {
-                            allTags.value =
+                            allTags =
                                 tagRepository.findByText(text = it.value).toImmutableList()
                         },
                         ifLeft = {
-                            allTags.value = tagRepository.findAll().toImmutableList()
+                            allTags = tagRepository.findAll().toImmutableList()
                         }
                     )
             }
@@ -199,32 +213,43 @@ class StatementsVM @Inject constructor(
 
     private fun start() {
         viewModelScope.launch(Dispatchers.IO) {
-            baseCurrency.value = baseCurrencyAct(Unit)
-            accounts.value = accountsAct(Unit)
-            categories.value =
+            baseCurrency = baseCurrencyAct(Unit)
+            accounts = accountsAct(Unit)
+            categories =
                 (listOf(unSpecifiedCategory) + categoryRepository.findAll()).toImmutableList()
-            allTags.value = tagRepository.findAll().toImmutableList()
+            allTags = tagRepository.findAll().toImmutableList()
         }
     }
 
-    private suspend fun setFilter(statementsFilter: StatementsFilter?) {
+    private suspend fun setFilter(reportFilter: ReportFilter?) {
         scopedIOThread { scope ->
-            if (statementsFilter == null) {
-                // clear filter
-                filter.value = null
+            if (reportFilter == null) {
+                setReportValues(
+                    income = 0.00,
+                    expense = 0.00,
+                    upcomingIncomeExpenseTransferPair = IncomeExpenseTransferPair.zero(),
+                    overDueIncomeExpenseTransferPair = IncomeExpenseTransferPair.zero(),
+                    history = persistentListOf(),
+                    upcomingTransactions = persistentListOf(),
+                    overdueTransactions = persistentListOf(),
+                    accounts = accountsAct(Unit),
+                    reportFilter = filter,
+                    accountIdFilters = persistentListOf(),
+                    transactions = persistentListOf(),
+                    balanceValue = 0.00
+                )
                 return@scopedIOThread
             }
 
-            if (!statementsFilter.validate()) return@scopedIOThread
-            val tempAccounts = statementsFilter.accounts
-            val baseCurrency = baseCurrency.value
-            filter.value = statementsFilter
-            loading.value = true
+            if (!reportFilter.validate()) return@scopedIOThread
+            val tempAccounts = reportFilter.accounts
+            val baseCurrency = baseCurrency
+            loading = true
 
             val transactionsList = filterTransactions(
                 baseCurrency = baseCurrency,
                 accounts = tempAccounts,
-                filter = statementsFilter
+                filter = reportFilter
             )
 
             val tempHistory = transactionsList
@@ -239,7 +264,7 @@ class StatementsVM @Inject constructor(
                 )
             }
 
-            historyIncomeExpense.value = calcTrnsIncomeExpenseAct(
+            historyIncomeExpense = calcTrnsIncomeExpenseAct(
                 CalcTrnsIncomeExpenseAct.Input(
                     transactions = tempHistory,
                     accounts = tempAccounts,
@@ -247,15 +272,15 @@ class StatementsVM @Inject constructor(
                 )
             )
 
-            val tempIncome = historyIncomeExpense.value.income.toDouble() +
-                    if (treatTransfersAsIncExp.value) historyIncomeExpense.value.transferIncome.toDouble() else 0.0
+            val tempIncome = historyIncomeExpense.income.toDouble() +
+                    if (treatTransfersAsIncExp) historyIncomeExpense.transferIncome.toDouble() else 0.0
 
-            val tempExpenses = historyIncomeExpense.value.expense.toDouble() +
-                    if (treatTransfersAsIncExp.value) historyIncomeExpense.value.transferExpense.toDouble() else 0.0
+            val tempExpenses = historyIncomeExpense.expense.toDouble() +
+                    if (treatTransfersAsIncExp) historyIncomeExpense.transferExpense.toDouble() else 0.0
 
-            val tempBalance = calculateBalance(historyIncomeExpense.value).toDouble()
+            val tempBalance = calculateBalance(historyIncomeExpense).toDouble()
 
-            val accountFilterIdList = scope.async { statementsFilter.accounts.map { it.id } }
+            val accountFilterIdList = scope.async { reportFilter.accounts.map { it.id } }
 
             val timeNowUTC = timeNowUTC()
 
@@ -290,45 +315,76 @@ class StatementsVM @Inject constructor(
                 )
             )
 
-            income.doubleValue = tempIncome
-            expenses.doubleValue = tempExpenses
-            upcomingExpenses.doubleValue = upcomingIncomeExpense.expense.toDouble()
-            upcomingIncome.doubleValue = upcomingIncomeExpense.income.toDouble()
-            overdueIncome.doubleValue = overdueIncomeExpense.income.toDouble()
-            overdueExpenses.doubleValue = overdueIncomeExpense.expense.toDouble()
-            history.value = historyWithDateDividers.await().toImmutableList()
-            upcomingTransactions.value = upcomingTransactionsList.map {
-                it.toLegacy(transactionMapper)
-            }.toImmutableList()
-            overdueTransactions.value = overdue.map {
-                it.toLegacy(transactionMapper)
-            }.toImmutableList()
-            accounts.value = tempAccounts.toImmutableList()
-            filter.value = statementsFilter
-            loading.value = false
-            accountIdFilters.value = accountFilterIdList.await().toImmutableList()
-            transactions.value = transactionsList.map {
-                it.toLegacy(transactionMapper)
-            }.toImmutableList()
-            balance.doubleValue = tempBalance
-            filterOverlayVisible.value = false
-            showTransfersAsIncExpCheckbox.value =
-                statementsFilter.trnTypes.contains(TransactionType.TRANSFER)
+            setReportValues(
+                income = tempIncome,
+                expense = tempExpenses,
+                upcomingIncomeExpenseTransferPair = upcomingIncomeExpense,
+                overDueIncomeExpenseTransferPair = overdueIncomeExpense,
+                history = historyWithDateDividers.await().toImmutableList(),
+                upcomingTransactions = upcomingTransactionsList.map {
+                    it.toLegacy(transactionMapper)
+                }.toImmutableList(),
+                overdueTransactions = overdue.map {
+                    it.toLegacy(transactionMapper)
+                }.toImmutableList(),
+                accounts = tempAccounts.toImmutableList(),
+                reportFilter = reportFilter,
+                accountIdFilters = accountFilterIdList.await().toImmutableList(),
+                transactions = transactionsList.map {
+                    it.toLegacy(transactionMapper)
+                }.toImmutableList(),
+                balanceValue = tempBalance
+            )
+
+            loading = false
         }
+    }
+
+    private fun setReportValues(
+        income: Double,
+        expense: Double,
+        upcomingIncomeExpenseTransferPair: IncomeExpenseTransferPair,
+        overDueIncomeExpenseTransferPair: IncomeExpenseTransferPair,
+        history: ImmutableList<TransactionHistoryItem>,
+        upcomingTransactions: ImmutableList<LegacyTransaction>,
+        overdueTransactions: ImmutableList<LegacyTransaction>,
+        accounts: ImmutableList<Account>,
+        reportFilter: ReportFilter? = null,
+        accountIdFilters: ImmutableList<UUID>,
+        transactions: ImmutableList<LegacyTransaction>,
+        balanceValue: Double
+    ) {
+        this.income = income
+        this.expenses = expense
+        this.upcomingExpenses = upcomingIncomeExpenseTransferPair.expense.toDouble()
+        this.upcomingIncome = upcomingIncomeExpenseTransferPair.income.toDouble()
+        this.overdueIncome = overDueIncomeExpenseTransferPair.income.toDouble()
+        this.overdueExpenses = overDueIncomeExpenseTransferPair.expense.toDouble()
+        this.history = history
+        this.upcomingTransactions = upcomingTransactions
+        this.overdueTransactions = overdueTransactions
+        this.accounts = accounts
+        this.filter = reportFilter
+        this.accountIdFilters = accountIdFilters
+        this.transactions = transactions
+        this.balance = balanceValue
+        this.showTransfersAsIncExpCheckbox =
+            reportFilter?.trnTypes?.contains(TransactionType.TRANSFER) ?: false
     }
 
     private suspend fun filterTransactions(
         baseCurrency: String,
         accounts: List<Account>,
-        filter: StatementsFilter,
+        filter: ReportFilter,
     ): ImmutableList<Transaction> {
         val filterAccountIds = filter.accounts.map { it.id }
         val filterCategoryIds =
             filter.categories.map { if (it.id.value == unSpecifiedCategory.id.value) null else it.id }
-        val filterRange = filter.period?.toRange(ivyContext.startDayOfMonth)
+        val filterRange =
+            filter.period?.toRange(ivyContext.startDayOfMonth, timeConverter, timeProvider)
 
-        val transactions = if (filter.selectedTags.isNotEmpty()) {
-            tagRepository.findByAllAssociatedIdForTagId(filter.selectedTags)
+        val transactions = if (filter.includedTags.isNotEmpty()) {
+            tagRepository.findByAllAssociatedIdForTagId(filter.includedTags)
                 .asSequence()
                 .flatMap { it.value }
                 .map { TransactionId(it.associatedId.value) }
@@ -341,7 +397,24 @@ class StatementsVM @Inject constructor(
             transactionRepository.findAll()
         }
 
+        val excludeableByTagTransactionsIds = if (filter.excludedTags.isNotEmpty()) {
+            tagRepository.findByAllAssociatedIdForTagId(filter.excludedTags)
+                .asSequence()
+                .flatMap { it.value }
+                .distinct()
+                .map { TransactionId(it.associatedId.value) }
+                .toList()
+                .let {
+                    transactionRepository.findByIds(it)
+                }.map {
+                    it.id
+                }
+        } else {
+            emptyList()
+        }
+
         return transactions
+            .filter { !excludeableByTagTransactionsIds.contains(it.id) }
             .filter {
                 with(transactionMapper) {
                     filter.trnTypes.contains(it.getTransactionType())
@@ -352,7 +425,7 @@ class StatementsVM @Inject constructor(
 
                 filterRange ?: return@filter false
 
-                filterRange.includes(it.time.atZone(ZoneId.systemDefault()).toLocalDateTime())
+                filterRange.includes(it.time)
             }
             .filter { trn ->
                 // Filter by Accounts
@@ -452,23 +525,23 @@ class StatementsVM @Inject constructor(
     }
 
     private suspend fun export(context: Context) {
-        val filter = filter.value ?: return
+        val filter = filter ?: return
         if (!filter.validate()) return
 
         ivyContext.createNewFile(
-            "MySaveReport-${
+            "IvyWalletReport-${
                 timeNowUTC().getISOFormattedDateTime()
             }.csv"
         ) { fileUri ->
             viewModelScope.launch {
-                loading.value = true
+                loading = true
 
                 exportCsvUseCase.exportToFile(
                     outputFile = fileUri,
                     exportScope = {
                         filterTransactions(
-                            baseCurrency = baseCurrency.value,
-                            accounts = accounts.value,
+                            baseCurrency = baseCurrency,
+                            accounts = accounts,
                             filter = filter
                         )
                     }
@@ -478,17 +551,17 @@ class StatementsVM @Inject constructor(
                     fileUri = fileUri
                 )
 
-                loading.value = false
+                loading = false
             }
         }
     }
 
-    private fun setUpcomingExpanded(expanded: Boolean) {
-        upcomingExpanded.value = expanded
+    private fun setUpcomingExpandedValue(expanded: Boolean) {
+        upcomingExpanded = expanded
     }
 
-    private fun setOverdueExpanded(expanded: Boolean) {
-        overdueExpanded.value = expanded
+    private fun setOverdueExpandedValue(expanded: Boolean) {
+        overdueExpanded = expanded
     }
 
     private suspend fun payOrGet(transaction: Transaction) {
@@ -497,7 +570,7 @@ class StatementsVM @Inject constructor(
                 transaction = transaction
             ) {
                 start()
-                setFilter(filter.value)
+                setFilter(filter)
             }
         }
     }
@@ -507,21 +580,21 @@ class StatementsVM @Inject constructor(
         uiThread {
             plannedPaymentsLogic.payOrGetLegacy(transaction = transaction) {
                 start()
-                setFilter(filter.value)
+                setFilter(filter)
             }
         }
     }
 
-    private fun setFilterOverlayVisible(visible: Boolean) {
-        filterOverlayVisible.value = visible
+    private fun setFilterOverlayVisibleValue(visible: Boolean) {
+        filterOverlayVisible = visible
     }
 
     private fun onTreatTransfersAsIncomeExpense(transfersAsIncExp: Boolean) {
-        income.doubleValue = historyIncomeExpense.value.income.toDouble() +
-                if (transfersAsIncExp) historyIncomeExpense.value.transferIncome.toDouble() else 0.0
-        expenses.doubleValue = historyIncomeExpense.value.expense.toDouble() +
-                if (transfersAsIncExp) historyIncomeExpense.value.transferExpense.toDouble() else 0.0
-        treatTransfersAsIncExp.value = transfersAsIncExp
+        income = historyIncomeExpense.income.toDouble() +
+                if (transfersAsIncExp) historyIncomeExpense.transferIncome.toDouble() else 0.0
+        expenses = historyIncomeExpense.expense.toDouble() +
+                if (transfersAsIncExp) historyIncomeExpense.transferExpense.toDouble() else 0.0
+        treatTransfersAsIncExp = transfersAsIncExp
     }
 
     private suspend fun skipTransaction(transaction: Transaction) {
@@ -531,7 +604,7 @@ class StatementsVM @Inject constructor(
                 skipTransaction = true
             ) {
                 start()
-                setFilter(filter.value)
+                setFilter(filter)
             }
         }
     }
@@ -544,7 +617,7 @@ class StatementsVM @Inject constructor(
                 skipTransaction = true
             ) {
                 start()
-                setFilter(filter.value)
+                setFilter(filter)
             }
         }
     }
@@ -556,7 +629,7 @@ class StatementsVM @Inject constructor(
                 skipTransaction = true
             ) {
                 start()
-                setFilter(filter.value)
+                setFilter(filter)
             }
         }
     }
@@ -569,7 +642,7 @@ class StatementsVM @Inject constructor(
                 skipTransaction = true
             ) {
                 start()
-                setFilter(filter.value)
+                setFilter(filter)
             }
         }
     }

@@ -12,10 +12,9 @@ import androidx.compose.ui.unit.dp
 import com.oneSaver.design.l0_system.asBrush
 import com.oneSaver.design.utils.ivyPadding
 import com.oneSaver.design.utils.thenWhen
-
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 sealed class Background {
-    @Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+    @Deprecated("Old design system. Use `:ivy-design` and Material3")
     data class Solid(
         val color: Brush,
         val shape: Shape,
@@ -32,7 +31,7 @@ sealed class Background {
         )
     }
 
-    @Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+    @Deprecated("Old design system. Use `:ivy-design` and Material3")
     data class Outlined(
         val color: Brush,
         val width: Dp = 1.dp,
@@ -52,11 +51,11 @@ sealed class Background {
         )
     }
 
-    @Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+    @Deprecated("Old design system. Use `:ivy-design` and Material3")
     object None : Background()
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.background(background: Background): Modifier {
     return thenWhen {
         when (background) {
@@ -78,7 +77,7 @@ fun Modifier.background(background: Background): Modifier {
     }
 }
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.clipBackground(background: Background): Modifier {
     return thenWhen {
         when (background) {

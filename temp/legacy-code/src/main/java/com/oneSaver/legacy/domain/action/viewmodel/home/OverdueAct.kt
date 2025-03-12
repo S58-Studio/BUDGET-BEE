@@ -1,12 +1,12 @@
-package com.oneSaver.allStatus.domain.action.viewmodel.home
+package com.oneSaver.legacy.domain.action.viewmodel.home
 
-import com.oneSaver.frp.action.FPAction
-import com.oneSaver.frp.then
-import com.oneSaver.legacy.utils.beginningOfIvyTime
-import com.oneSaver.allStatus.domain.pure.data.ClosedTimeRange
 import com.oneSaver.allStatus.domain.pure.data.IncomeExpensePair
 import com.oneSaver.allStatus.domain.pure.transaction.isOverdue
-import java.time.LocalDateTime
+import com.oneSaver.frp.action.FPAction
+import com.oneSaver.legacy.domain.pure.data.ClosedTimeRange
+import com.oneSaver.legacy.frp.then
+import com.oneSaver.legacy.utils.ivyMinTime
+import java.time.Instant
 import javax.inject.Inject
 
 class OverdueAct @Inject constructor(
@@ -16,7 +16,7 @@ class OverdueAct @Inject constructor(
     override suspend fun Input.compose(): suspend () -> Output = suspend {
         DueTrnsInfoAct.Input(
             range = ClosedTimeRange(
-                from = beginningOfIvyTime(),
+                from = ivyMinTime(),
                 to = toRange
             ),
             baseCurrency = baseCurrency,
@@ -30,7 +30,7 @@ class OverdueAct @Inject constructor(
     }
 
     data class Input(
-        val toRange: LocalDateTime,
+        val toRange: Instant,
         val baseCurrency: String
     )
 

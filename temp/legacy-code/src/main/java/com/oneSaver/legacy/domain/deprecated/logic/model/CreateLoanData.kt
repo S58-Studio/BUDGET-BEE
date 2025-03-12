@@ -1,7 +1,7 @@
 package com.oneSaver.allStatus.domain.deprecated.logic.model
 
 import androidx.compose.ui.graphics.Color
-import com.oneSaver.data.model.LoanType
+import com.oneSaver.base.model.LoanType
 import com.oneSaver.legacy.datamodel.Account
 import java.time.LocalDateTime
 

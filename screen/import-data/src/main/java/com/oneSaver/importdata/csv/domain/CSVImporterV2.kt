@@ -35,6 +35,7 @@ import java.util.UUID
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 import com.oneSaver.importdata.csv.CSVRow as CSVRowNew
+import com.oneSaver.base.time.TimeConverter
 
 class CSVImporterV2 @Inject constructor(
     private val settingsDao: SettingsDao,
@@ -44,6 +45,7 @@ class CSVImporterV2 @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val currencyRepository: CurrencyRepository,
     private val accountRepository: AccountRepository,
+    private val timeConverter: TimeConverter,
 ) {
 
     lateinit var accounts: List<Account>
@@ -173,7 +175,7 @@ class CSVImporterV2 @Inject constructor(
         val amount = csvAmount.absoluteValue
 
         if (amount <= 0) {
-            // Cannot save transfers with zero amount
+            // Cannot save transactions with zero amount
             return null
         }
 
@@ -231,7 +233,7 @@ class CSVImporterV2 @Inject constructor(
             accountId = account.id,
             toAccountId = toAccount?.id,
             toAmount = toAmount?.toBigDecimal() ?: amount.toBigDecimal(),
-            dateTime = dateTime,
+            dateTime = with(timeConverter) { dateTime.toUTC() },
             dueDate = null,
             categoryId = category?.id?.value,
             title = title,

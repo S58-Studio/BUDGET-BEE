@@ -12,5 +12,7 @@ data class ACState(
     val totalBalanceWithExcludedText: String,
     val totalBalanceWithoutExcluded: String,
     val totalBalanceWithoutExcludedText: String,
-    val reorderVisible: Boolean
+    val reorderVisible: Boolean,
+    val compactAccountsModeEnabled: Boolean,
+    val hideTotalBalance: Boolean,
 )

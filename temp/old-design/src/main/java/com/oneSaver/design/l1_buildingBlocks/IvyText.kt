@@ -8,7 +8,7 @@ import com.oneSaver.design.l1_buildingBlocks.data.IvyPadding
 import com.oneSaver.design.utils.ivyPadding
 import com.oneSaver.design.utils.thenIf
 
-@Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyText(
     modifier: Modifier = Modifier,

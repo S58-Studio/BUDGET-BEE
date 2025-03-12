@@ -6,7 +6,7 @@ import com.oneSaver.data.model.primitive.AssetCode
 import com.oneSaver.data.repository.TransactionRepository
 import com.oneSaver.domains.model.StatisticSummary
 import com.oneSaver.domains.model.TimeRange
-import com.oneSaver.domains.usecase.Xchange.ExchangeUseCase
+import com.oneSaver.domains.usecase.exchange.ExchangeUseCase
 import javax.inject.Inject
 
 @Suppress("UnusedPrivateProperty", "UnusedParameter")

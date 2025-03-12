@@ -9,9 +9,29 @@ import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.oneSaver.base.legacy.Theme
-import com.oneSaver.design.api.MysaveDesign
-import com.oneSaver.design.l0_system.*
 import com.oneSaver.core.userInterface.R
+import com.oneSaver.design.api.MysaveDesign
+import com.oneSaver.design.l0_system.Black
+import com.oneSaver.design.l0_system.Gray
+import com.oneSaver.design.l0_system.Green
+import com.oneSaver.design.l0_system.GreenDark
+import com.oneSaver.design.l0_system.GreenLight
+import com.oneSaver.design.l0_system.IvyColors
+import com.oneSaver.design.l0_system.IvyDark
+import com.oneSaver.design.l0_system.IvyLight
+import com.oneSaver.design.l0_system.IvyShapes
+import com.oneSaver.design.l0_system.IvyTypography
+import com.oneSaver.design.l0_system.MediumBlack
+import com.oneSaver.design.l0_system.MediumWhite
+import com.oneSaver.design.l0_system.Orange
+import com.oneSaver.design.l0_system.OrangeDark
+import com.oneSaver.design.l0_system.OrangeLight
+import com.oneSaver.design.l0_system.Purple
+import com.oneSaver.design.l0_system.Red
+import com.oneSaver.design.l0_system.RedDark
+import com.oneSaver.design.l0_system.RedLight
+import com.oneSaver.design.l0_system.TrueBlack
+import com.oneSaver.design.l0_system.White
 
 @Deprecated("Old design system. Use `:oneSaver-design` and Material3")
 abstract class MySaveDesign : MysaveDesign {
@@ -20,7 +40,7 @@ abstract class MySaveDesign : MysaveDesign {
         const val RALEWAY_BASELINE_SHIFT = 0.2f
     }
 
-    @Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+    @Deprecated("Old design system. Use `:ivy-design` and Material3")
     override fun typography(): IvyTypography {
         val openSans = FontFamily(
             Font(R.font.opensans_regular, FontWeight.Normal),
@@ -112,7 +132,7 @@ abstract class MySaveDesign : MysaveDesign {
         }
     }
 
-    @Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+    @Deprecated("Old design system. Use `:ivy-design` and Material3")
     override fun colors(theme: Theme, isDarkModeEnabled: Boolean): IvyColors {
         return when (theme) {
             Theme.LIGHT -> object : IvyColors {
@@ -195,7 +215,7 @@ abstract class MySaveDesign : MysaveDesign {
         }
     }
 
-    @Deprecated("Old design system. Use `:oneSaver-design` and Material3")
+    @Deprecated("Old design system. Use `:ivy-design` and Material3")
     override fun shapes(): IvyShapes {
         return object : IvyShapes() {
             override val r1 = RoundedCornerShape(32.dp)

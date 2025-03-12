@@ -1,28 +1,24 @@
-package com.oneSaver.allStatus.domain.pure.data
+package com.oneSaver.legacy.domain.pure.data
 
-import com.oneSaver.legacy.utils.beginningOfIvyTime
-import com.oneSaver.legacy.utils.timeNowUTC
-import java.time.LocalDateTime
+import com.oneSaver.base.time.TimeProvider
+import com.oneSaver.legacy.utils.ivyMinTime
+import java.time.Instant
 
 data class ClosedTimeRange(
-    val from: LocalDateTime,
-    val to: LocalDateTime
+    val from: Instant,
+    val to: Instant,
 ) {
     companion object {
-        fun allTimeIvy(): ClosedTimeRange = ClosedTimeRange(
-            from = beginningOfIvyTime(),
-            to = timeNowUTC()
+        fun allTimeIvy(
+            timeProvider: TimeProvider,
+        ): ClosedTimeRange = ClosedTimeRange(
+            from = ivyMinTime(),
+            to = timeProvider.utcNow(),
         )
 
-        fun to(to: LocalDateTime): ClosedTimeRange = ClosedTimeRange(
-            from = beginningOfIvyTime(),
+        fun to(to: Instant): ClosedTimeRange = ClosedTimeRange(
+            from = ivyMinTime(),
             to = to
         )
     }
-
-    fun toFromToRange(): com.oneSaver.legacy.data.model.FromToTimeRange =
-        com.oneSaver.legacy.data.model.FromToTimeRange(
-            from = from,
-            to = to
-        )
 }

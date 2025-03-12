@@ -28,7 +28,7 @@ import com.oneSaver.design.l0_system.style
 import com.oneSaver.legacy.datamodel.Account
 import com.oneSaver.legacy.datamodel.PlannedPaymentRule
 import com.oneSaver.legacy.ui.component.transaction.SectionDivider
-import com.oneSaver.navigation.ModifyScheduledSkrin
+import com.oneSaver.navigation.EditPlannedScreen
 import com.oneSaver.navigation.Navigation
 import com.oneSaver.navigation.navigation
 import com.oneSaver.core.userInterface.R
@@ -191,7 +191,7 @@ private fun onPlannedPaymentClick(
     rule: PlannedPaymentRule,
 ) {
     nav.navigateTo(
-        ModifyScheduledSkrin(
+        EditPlannedScreen(
             plannedPaymentRuleId = rule.id,
             type = rule.type
         )

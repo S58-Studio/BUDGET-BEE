@@ -1,6 +1,6 @@
 package com.oneSaver.data.repository.mapper
 
-import com.oneSaver.data.database.entities.KategoriEntity
+import com.oneSaver.data.database.entities.CategoryEntity
 import com.oneSaver.data.model.CategoryId
 import com.oneSaver.data.model.primitive.ColorInt
 import com.oneSaver.data.model.primitive.NotBlankTrimmedString
@@ -34,7 +34,7 @@ class CategoryMapperTest {
         val res = with(mapper) { category.toEntity() }
 
         // then
-        res shouldBe KategoriEntity(
+        res shouldBe CategoryEntity(
             name = "Home",
             color = 42,
             icon = null,
@@ -111,7 +111,7 @@ class CategoryMapperTest {
     companion object {
         val CategoryId = CategoryId(UUID.randomUUID())
 
-        val ValidEntity = KategoriEntity(
+        val ValidEntity = CategoryEntity(
             name = "Home",
             color = 42,
             icon = null,

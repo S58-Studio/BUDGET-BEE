@@ -1,7 +1,7 @@
 package com.oneSaver.legacy.datamodel
 
 import androidx.compose.runtime.Immutable
-import com.oneSaver.data.database.entities.KategoriEntity
+import com.oneSaver.data.database.entities.CategoryEntity
 import java.util.UUID
 
 @Deprecated("Legacy data model. Will be deleted")
@@ -17,7 +17,7 @@ data class Category(
 
     val id: UUID = UUID.randomUUID()
 ) {
-    fun toEntity(): KategoriEntity = KategoriEntity(
+    fun toEntity(): CategoryEntity = CategoryEntity(
         name = name,
         color = color,
         icon = icon,

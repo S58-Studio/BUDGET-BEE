@@ -17,4 +17,5 @@ sealed interface KategoriSkriniEventi {
     data class OnSortOrderModalVisible(val visible: Boolean) : KategoriSkriniEventi
     data class OnCategoryModalVisible(val categoryModalData: CategoryModalData?) :
         KategoriSkriniEventi
+    data class OnSearchQueryUpdate(val queryString: String) : KategoriSkriniEventi
 }

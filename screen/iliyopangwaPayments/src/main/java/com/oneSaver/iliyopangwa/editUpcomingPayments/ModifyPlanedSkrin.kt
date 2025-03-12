@@ -30,7 +30,7 @@ import com.oneSaver.data.model.IntervalType
 import com.oneSaver.legacy.MySavePreview
 import com.oneSaver.legacy.datamodel.Account
 import com.oneSaver.legacy.utils.onScreenStart
-import com.oneSaver.navigation.ModifyScheduledSkrin
+import com.oneSaver.navigation.EditPlannedScreen
 import com.oneSaver.navigation.screenScopedViewModel
 import com.oneSaver.core.userInterface.R
 import com.oneSaver.allStatus.userInterface.edit.core.Category
@@ -55,8 +55,8 @@ import java.time.LocalDateTime
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.ModifyPlanedSkrin(screen: ModifyScheduledSkrin) {
-    val viewModel: ModifyPlannedVM = screenScopedViewModel()
+fun BoxWithConstraintsScope.ModifyPlanedSkrin(screen: EditPlannedScreen) {
+    val viewModel: EditPlannedViewModel = screenScopedViewModel()
     val uiState = viewModel.uiState()
     LaunchedEffect(Unit) {
         viewModel.start(screen)
@@ -77,9 +77,9 @@ fun BoxWithConstraintsScope.ModifyPlanedSkrin(screen: ModifyScheduledSkrin) {
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    screen: ModifyScheduledSkrin,
-    state: ModifyPlannedSkrinState,
-    onEvent: (ModifyPlannedSkrinEventi) -> Unit,
+    screen: EditPlannedScreen,
+    state: EditPlannedScreenState,
+    onEvent: (EditPlannedScreenEvents) -> Unit,
 ) {
     var titleTextFieldValue by remember(state.initialTitle) {
         mutableStateOf(
@@ -103,10 +103,10 @@ private fun BoxWithConstraintsScope.UI(
             type = state.transactionType,
             initialTransactionId = screen.plannedPaymentRuleId,
             onDeleteTrnModal = {
-                onEvent(ModifyPlannedSkrinEventi.OnDeleteTransactionModalVisible(true))
+                onEvent(EditPlannedScreenEvents.OnDeleteTransactionModalVisible(true))
             },
             onChangeTransactionTypeModal = {
-                onEvent(ModifyPlannedSkrinEventi.OnTransactionTypeModalVisible(true))
+                onEvent(EditPlannedScreenEvents.OnTransactionTypeModalVisible(true))
             },
             showDuplicateButton = false,
             onDuplicate = {}
@@ -125,7 +125,7 @@ private fun BoxWithConstraintsScope.UI(
             },
             suggestions = emptySet(), // DO NOT display title suggestions for "Planned Payments"
 
-            onTitleChanged = { onEvent(ModifyPlannedSkrinEventi.OnTitleChanged(it)) },
+            onTitleChanged = { onEvent(EditPlannedScreenEvents.OnTitleChanged(it)) },
             onNext = {
                 when {
                     shouldFocusRecurring(
@@ -135,7 +135,7 @@ private fun BoxWithConstraintsScope.UI(
                         state.oneTime
                     ) -> {
                         onEvent(
-                            ModifyPlannedSkrinEventi.OnRecurringRuleModalDataChanged(
+                            EditPlannedScreenEvents.OnRecurringRuleModalDataChanged(
                                 RecurringRuleModalData(
                                     initialStartDate = state.startDate,
                                     initialIntervalN = state.intervalN,
@@ -147,7 +147,7 @@ private fun BoxWithConstraintsScope.UI(
                     }
 
                     else -> {
-                        onEvent(ModifyPlannedSkrinEventi.OnSave())
+                        onEvent(EditPlannedScreenEvents.OnSave())
                     }
                 }
             }
@@ -159,7 +159,7 @@ private fun BoxWithConstraintsScope.UI(
             Category(
                 category = state.category,
                 onChooseCategory = {
-                    onEvent(ModifyPlannedSkrinEventi.OnCategoryModalVisible(true))
+                    onEvent(EditPlannedScreenEvents.OnCategoryModalVisible(true))
                 }
             )
         }
@@ -173,7 +173,7 @@ private fun BoxWithConstraintsScope.UI(
             oneTime = state.oneTime,
             onShowRecurringRuleModal = {
                 onEvent(
-                    ModifyPlannedSkrinEventi.OnRecurringRuleModalDataChanged(
+                    EditPlannedScreenEvents.OnRecurringRuleModalDataChanged(
                         RecurringRuleModalData(
                             initialStartDate = state.startDate,
                             initialIntervalN = state.intervalN,
@@ -189,8 +189,8 @@ private fun BoxWithConstraintsScope.UI(
 
         Description(
             description = state.description,
-            onAddDescription = { onEvent(ModifyPlannedSkrinEventi.OnDescriptionModalVisible(true)) },
-            onEditDescription = { onEvent(ModifyPlannedSkrinEventi.OnDescriptionModalVisible(true)) }
+            onAddDescription = { onEvent(EditPlannedScreenEvents.OnDescriptionModalVisible(true)) },
+            onEditDescription = { onEvent(EditPlannedScreenEvents.OnDescriptionModalVisible(true)) }
         )
 
         Spacer(Modifier.height(600.dp)) // scroll hack
@@ -202,7 +202,7 @@ private fun BoxWithConstraintsScope.UI(
             if (screen.mandatoryFilled()) {
                 // Flow Convert (Amount, Account, Category)
                 onEvent(
-                    ModifyPlannedSkrinEventi.OnRecurringRuleModalDataChanged(
+                    EditPlannedScreenEvents.OnRecurringRuleModalDataChanged(
                         RecurringRuleModalData(
                             initialStartDate = state.startDate,
                             initialIntervalN = state.intervalN,
@@ -213,7 +213,7 @@ private fun BoxWithConstraintsScope.UI(
                 )
             } else {
                 // Flow Empty
-                onEvent(ModifyPlannedSkrinEventi.OnTransactionTypeModalVisible(true))
+                onEvent(EditPlannedScreenEvents.OnTransactionTypeModalVisible(true))
             }
         }
     }
@@ -231,20 +231,20 @@ private fun BoxWithConstraintsScope.UI(
             ModalSet(
                 modifier = Modifier.testTag("editPlannedScreen_set")
             ) {
-                onEvent(ModifyPlannedSkrinEventi.OnSave())
+                onEvent(EditPlannedScreenEvents.OnSave())
             }
         },
 
         amountModalShown = state.amountModalVisible,
         setAmountModalShown = {
-            onEvent(ModifyPlannedSkrinEventi.OnAmountModalVisible(it))
+            onEvent(EditPlannedScreenEvents.OnAmountModalVisible(it))
         },
 
         onAmountChanged = {
-            onEvent(ModifyPlannedSkrinEventi.OnAmountChanged(it))
+            onEvent(EditPlannedScreenEvents.OnAmountChanged(it))
             when {
                 shouldFocusCategory(state.category, state.transactionType) -> {
-                    onEvent(ModifyPlannedSkrinEventi.OnCategoryModalVisible(true))
+                    onEvent(EditPlannedScreenEvents.OnCategoryModalVisible(true))
                 }
 
                 shouldFocusRecurring(
@@ -254,7 +254,7 @@ private fun BoxWithConstraintsScope.UI(
                     state.oneTime
                 ) -> {
                     onEvent(
-                        ModifyPlannedSkrinEventi.OnRecurringRuleModalDataChanged(
+                        EditPlannedScreenEvents.OnRecurringRuleModalDataChanged(
                             RecurringRuleModalData(
                                 initialStartDate = state.startDate,
                                 initialIntervalN = state.intervalN,
@@ -270,11 +270,11 @@ private fun BoxWithConstraintsScope.UI(
                 }
             }
         },
-        onSelectedAccountChanged = { onEvent(ModifyPlannedSkrinEventi.OnAccountChanged(it)) },
+        onSelectedAccountChanged = { onEvent(EditPlannedScreenEvents.OnAccountChanged(it)) },
         onToAccountChanged = { },
         onAddNewAccount = {
             onEvent(
-                ModifyPlannedSkrinEventi.OnAccountModalDataChanged(
+                EditPlannedScreenEvents.OnAccountModalDataChanged(
                     AccountModalData(
                         account = null,
                         baseCurrency = state.currency,
@@ -292,15 +292,15 @@ private fun BoxWithConstraintsScope.UI(
         categories = state.categories,
         showCategoryModal = {
             onEvent(
-                ModifyPlannedSkrinEventi.OnCategoryModalDataChanged(
+                EditPlannedScreenEvents.OnCategoryModalDataChanged(
                     CategoryModalData(it)
                 )
             )
         },
         onCategoryChanged = {
-            onEvent(ModifyPlannedSkrinEventi.OnCategoryChanged(it))
+            onEvent(EditPlannedScreenEvents.OnCategoryChanged(it))
             onEvent(
-                ModifyPlannedSkrinEventi.OnRecurringRuleModalDataChanged(
+                EditPlannedScreenEvents.OnRecurringRuleModalDataChanged(
                     RecurringRuleModalData(
                         initialStartDate = state.startDate,
                         initialIntervalN = state.intervalN,
@@ -311,36 +311,36 @@ private fun BoxWithConstraintsScope.UI(
             )
         },
         dismiss = {
-            onEvent(ModifyPlannedSkrinEventi.OnCategoryModalVisible(false))
+            onEvent(EditPlannedScreenEvents.OnCategoryModalVisible(false))
         }
     )
 
     CategoryModal(
         modal = state.categoryModalData,
-        onCreateCategory = { onEvent(ModifyPlannedSkrinEventi.OnCreateCategory(it)) },
+        onCreateCategory = { onEvent(EditPlannedScreenEvents.OnCreateCategory(it)) },
         onEditCategory = {
-            onEvent(ModifyPlannedSkrinEventi.OnModifyCategory(it))
+            onEvent(EditPlannedScreenEvents.OnEditCategory(it))
         },
         dismiss = {
-            onEvent(ModifyPlannedSkrinEventi.OnCategoryModalDataChanged(null))
+            onEvent(EditPlannedScreenEvents.OnCategoryModalDataChanged(null))
         }
     )
 
     AccountModal(
         modal = state.accountModalData,
-        onCreateAccount = { onEvent(ModifyPlannedSkrinEventi.OnCreateAccount(it)) },
+        onCreateAccount = { onEvent(EditPlannedScreenEvents.OnCreateAccount(it)) },
         onEditAccount = { _, _ -> },
         dismiss = {
-            onEvent(ModifyPlannedSkrinEventi.OnAccountModalDataChanged(null))
+            onEvent(EditPlannedScreenEvents.OnAccountModalDataChanged(null))
         }
     )
 
     DescriptionModal(
         visible = state.descriptionModalVisible,
         description = state.description,
-        onDescriptionChanged = { onEvent(ModifyPlannedSkrinEventi.OnDescriptionChanged(it)) },
+        onDescriptionChanged = { onEvent(EditPlannedScreenEvents.OnDescriptionChanged(it)) },
         dismiss = {
-            onEvent(ModifyPlannedSkrinEventi.OnDescriptionModalVisible(false))
+            onEvent(EditPlannedScreenEvents.OnDescriptionModalVisible(false))
         }
     )
 
@@ -348,9 +348,9 @@ private fun BoxWithConstraintsScope.UI(
         visible = state.deleteTransactionModalVisible,
         title = stringResource(R.string.deletion_confirmation),
         description = stringResource(R.string.planned_payment_confirm_deletion_description),
-        dismiss = { onEvent(ModifyPlannedSkrinEventi.OnDeleteTransactionModalVisible(false)) }
+        dismiss = { onEvent(EditPlannedScreenEvents.OnDeleteTransactionModalVisible(false)) }
     ) {
-        onEvent(ModifyPlannedSkrinEventi.OnDelete)
+        onEvent(EditPlannedScreenEvents.OnDelete)
     }
 
     ChangeTransactionTypeModal(
@@ -359,12 +359,12 @@ private fun BoxWithConstraintsScope.UI(
         includeTransferType = false,
         initialType = state.transactionType,
         dismiss = {
-            onEvent(ModifyPlannedSkrinEventi.OnTransactionTypeModalVisible(false))
+            onEvent(EditPlannedScreenEvents.OnTransactionTypeModalVisible(false))
         }
     ) {
-        onEvent(ModifyPlannedSkrinEventi.OnSetTransactionType(it))
+        onEvent(EditPlannedScreenEvents.OnSetTransactionType(it))
         if (shouldFocusAmount(state.amount)) {
-            onEvent(ModifyPlannedSkrinEventi.OnAmountModalVisible(true))
+            onEvent(EditPlannedScreenEvents.OnAmountModalVisible(true))
         }
     }
 
@@ -372,7 +372,7 @@ private fun BoxWithConstraintsScope.UI(
         modal = state.recurringRuleModalData,
         onRuleChanged = { newStartDate, newOneTime, newIntervalN, newIntervalType ->
             onEvent(
-                ModifyPlannedSkrinEventi.OnRuleChanged(
+                EditPlannedScreenEvents.OnRuleChanged(
                     newStartDate,
                     newOneTime,
                     newIntervalN,
@@ -382,7 +382,7 @@ private fun BoxWithConstraintsScope.UI(
 
             when {
                 shouldFocusCategory(state.category, state.transactionType) -> {
-                    onEvent(ModifyPlannedSkrinEventi.OnCategoryModalVisible(true))
+                    onEvent(EditPlannedScreenEvents.OnCategoryModalVisible(true))
                 }
 
                 shouldFocusTitle(titleTextFieldValue, state.transactionType) -> {
@@ -391,7 +391,7 @@ private fun BoxWithConstraintsScope.UI(
             }
         },
         dismiss = {
-            onEvent(ModifyPlannedSkrinEventi.OnRecurringRuleModalDataChanged(null))
+            onEvent(EditPlannedScreenEvents.OnRecurringRuleModalDataChanged(null))
         }
     )
 }
@@ -428,8 +428,8 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 private fun Preview() {
     MySavePreview {
         UI(
-            screen = ModifyScheduledSkrin(null, TransactionType.EXPENSE),
-            ModifyPlannedSkrinState(
+            screen = EditPlannedScreen(null, TransactionType.EXPENSE),
+            EditPlannedScreenState(
                 oneTime = false,
                 startDate = null,
                 intervalN = null,

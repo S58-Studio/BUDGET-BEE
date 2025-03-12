@@ -2,26 +2,26 @@ package com.oneSaver.data.database.dao.fake
 
 import com.oneSaver.data.database.dao.read.BudgetDao
 import com.oneSaver.data.database.dao.write.WriteBudgetDao
-import com.oneSaver.data.database.entities.BajetiEntity
+import com.oneSaver.data.database.entities.BudgetEntity
 import org.jetbrains.annotations.VisibleForTesting
 import java.util.UUID
 
 @VisibleForTesting
 class FakeBudgetDao : BudgetDao, WriteBudgetDao {
-    private val items = mutableListOf<BajetiEntity>()
+    private val items = mutableListOf<BudgetEntity>()
 
-    override suspend fun findAll(): List<BajetiEntity> {
+    override suspend fun findAll(): List<BudgetEntity> {
         return items
     }
 
     override suspend fun findByIsSyncedAndIsDeleted(
         synced: Boolean,
         deleted: Boolean
-    ): List<BajetiEntity> {
+    ): List<BudgetEntity> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun findById(id: UUID): BajetiEntity? {
+    override suspend fun findById(id: UUID): BudgetEntity? {
         return items.find { it.id == id }
     }
 
@@ -29,11 +29,11 @@ class FakeBudgetDao : BudgetDao, WriteBudgetDao {
         return items.maxOfOrNull { it.orderId }
     }
 
-    override suspend fun save(value: BajetiEntity) {
+    override suspend fun save(value: BudgetEntity) {
         items.add(value)
     }
 
-    override suspend fun saveMany(values: List<BajetiEntity>) {
+    override suspend fun saveMany(values: List<BudgetEntity>) {
         values.forEach { save(it) }
     }
 

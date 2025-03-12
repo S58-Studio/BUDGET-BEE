@@ -3,7 +3,7 @@ package com.oneSaver.data.repository.mapper
 import arrow.core.Either
 import arrow.core.raise.either
 import arrow.core.raise.ensure
-import com.oneSaver.data.database.entities.AkauntiEntity
+import com.oneSaver.data.database.entities.AccountEntity
 import com.oneSaver.data.model.Account
 import com.oneSaver.data.model.AccountId
 import com.oneSaver.data.model.primitive.AssetCode
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class AccountMapper @Inject constructor(
     private val currencyRepository: CurrencyRepository
 ) {
-    suspend fun AkauntiEntity.toDomain(): Either<String, Account> = either {
+    suspend fun AccountEntity.toDomain(): Either<String, Account> = either {
         ensure(!isDeleted) { "Account is deleted" }
 
         Account(
@@ -31,8 +31,8 @@ class AccountMapper @Inject constructor(
         )
     }
 
-    fun Account.toEntity(): AkauntiEntity {
-        return AkauntiEntity(
+    fun Account.toEntity(): AccountEntity {
+        return AccountEntity(
             name = name.value,
             currency = asset.code,
             color = color.value,

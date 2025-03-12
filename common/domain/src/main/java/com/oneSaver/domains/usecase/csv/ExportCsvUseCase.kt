@@ -4,7 +4,7 @@ import android.net.Uri
 import arrow.core.Either
 import com.oneSaver.base.model.TransactionType
 import com.oneSaver.base.threading.DispatchersProvider
-import com.oneSaver.base.time.convertToLocal
+import com.oneSaver.base.time.TimeConverter
 import com.oneSaver.data.file.FileSystem
 import com.oneSaver.data.model.Account
 import com.oneSaver.data.model.AccountId
@@ -34,7 +34,8 @@ class ExportCsvUseCase @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val transactionRepository: TransactionRepository,
     private val dispatchers: DispatchersProvider,
-    private val fileSystem: FileSystem
+    private val fileSystem: FileSystem,
+    private val timeConverter: TimeConverter
 ) {
 
     suspend fun exportToFile(
@@ -59,7 +60,7 @@ class ExportCsvUseCase @Inject constructor(
             append(NEWLINE)
             for (trn in transactions) {
                 append(
-                    trn.toMysaveCsvRow().toCsvString(
+                    trn.toIvyCsvRow().toCsvString(
                         accountsMap = accountsMap,
                         categoriesMap = categoriesMap
                     )
@@ -74,7 +75,7 @@ class ExportCsvUseCase @Inject constructor(
         categoriesMap: Map<CategoryId, Category>,
     ): String = csvRow {
         // Date
-        csvAppend(date?.csvFormat())
+        csvAppend(date?.csvFormat(timeConverter))
         // Title
         csvAppend(title?.value)
         // Category
@@ -100,7 +101,7 @@ class ExportCsvUseCase @Inject constructor(
         // Description
         csvAppend(description?.value)
         // Due Date
-        csvAppend(dueData?.csvFormat())
+        csvAppend(dueData?.csvFormat(timeConverter))
         // ID
         csvAppend(id.value.toString())
     }
@@ -125,7 +126,7 @@ class ExportCsvUseCase @Inject constructor(
 
     private fun String.escapeSpecialChars(): String = replace("\\", "")
 
-    private fun Transaction.toMysaveCsvRow(): MysaveCsvRow = when (this) {
+    private fun Transaction.toIvyCsvRow(): MysaveCsvRow = when (this) {
         is Expense -> expenseCsvRow()
         is Income -> incomeCsvRow()
         is Transfer -> transferCsvRow()
@@ -187,8 +188,11 @@ class ExportCsvUseCase @Inject constructor(
         id = id
     )
 
-    private fun Instant.csvFormat(): String = convertToLocal()
-        .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+    private fun Instant.csvFormat(timeConverter: TimeConverter): String {
+        return with(timeConverter) {
+            this@csvFormat.toLocalDateTime()
+        }.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+    }
 
     private fun Double.csvFormat(): String = DecimalFormat(NUMBER_FORMAT).apply {
         decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.ENGLISH)

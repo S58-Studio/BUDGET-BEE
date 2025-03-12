@@ -16,7 +16,7 @@ import com.oneSaver.frp.SideEffect
 import com.oneSaver.frp.action.FPAction
 import com.oneSaver.frp.action.thenFilter
 import com.oneSaver.frp.action.thenMap
-import com.oneSaver.frp.then
+import com.oneSaver.legacy.frp.then
 import com.oneSaver.legacy.datamodel.Account
 import com.oneSaver.piechart.KategoriAmount
 import com.oneSaver.core.userInterface.R

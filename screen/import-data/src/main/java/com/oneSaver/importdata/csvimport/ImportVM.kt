@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.oneSaver.frp.test.TestIdlingResource
 import com.oneSaver.legacy.domain.deprecated.logic.csv.CSVImporter
 import com.oneSaver.legacy.domain.deprecated.logic.csv.model.ImportType
-import com.oneSaver.data.backingUp.BackingUpDeitaUseCase
+import com.oneSaver.data.backingUp.BackingUpDataUseCase
 import com.oneSaver.legacy.utils.asLiveData
 import com.oneSaver.base.legacy.getFileName
 import com.oneSaver.navigation.ImportingSkrin
@@ -33,7 +33,7 @@ class ImportVM @Inject constructor(
     private val csvNormalizer: CSVNormalizer,
     private val csvMapper: CSVMapper,
     private val csvImporter: CSVImporter,
-    private val backingUpDeitaUseCase: BackingUpDeitaUseCase
+    private val backingUpDataUseCase: BackingUpDataUseCase
 ) : ViewModel() {
     private val _importingSteps = MutableLiveData<ImportingSteps>()
     val importStep = _importingSteps.asLiveData()
@@ -84,7 +84,7 @@ class ImportVM @Inject constructor(
                 _importingResults.value = if (hasCSVExtension(context, fileUri)) {
                     restoreCSVFile(fileUri = fileUri, importType = importType)
                 } else {
-                    backingUpDeitaUseCase.importBackupFile(
+                    backingUpDataUseCase.importBackupFile(
                         backupFileUri = fileUri
                     ) { progressPercent ->
                         com.oneSaver.legacy.utils.uiThread {

@@ -55,7 +55,7 @@ import com.oneSaver.legacy.utils.formatNicely
 import com.oneSaver.legacy.utils.isNotNullOrBlank
 import com.oneSaver.legacy.utils.timeNowUTC
 import com.oneSaver.navigation.Navigation
-import com.oneSaver.navigation.TransactScrin
+import com.oneSaver.navigation.TransactionsScreen
 import com.oneSaver.navigation.navigation
 import com.oneSaver.core.userInterface.R
 import com.oneSaver.legacy.domain.data.MysaveCurrency
@@ -339,7 +339,7 @@ private fun TransactionHeaderRow(
             ) {
                 account?.let {
                     nav.navigateTo(
-                        TransactScrin(
+                        TransactionsScreen(
                             accountId = account.id,
                             categoryId = null
                         )
@@ -363,7 +363,7 @@ fun CategoryBadgeDisplay(
     ) {
         // Navigation logic
         nav.navigateTo(
-            TransactScrin(
+            TransactionsScreen(
                 accountId = null,
                 categoryId = category.id.value
             )

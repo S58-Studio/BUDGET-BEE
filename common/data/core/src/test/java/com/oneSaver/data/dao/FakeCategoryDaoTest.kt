@@ -1,7 +1,7 @@
 package com.oneSaver.data.dao
 
 import com.oneSaver.data.database.dao.fake.FakeCategoryDao
-import com.oneSaver.data.database.entities.KategoriEntity
+import com.oneSaver.data.database.entities.CategoryEntity
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -23,7 +23,7 @@ class FakeCategoryDaoTest {
         val id1 = UUID.randomUUID()
         val id2 = UUID.randomUUID()
         val categories = listOf(
-            KategoriEntity(
+            CategoryEntity(
                 name = "Home",
                 color = 42,
                 icon = null,
@@ -31,7 +31,7 @@ class FakeCategoryDaoTest {
                 isDeleted = false,
                 id = id1
             ),
-            KategoriEntity(
+            CategoryEntity(
                 name = "Fun",
                 color = 42,
                 icon = null,
@@ -47,7 +47,7 @@ class FakeCategoryDaoTest {
 
         // then
         res shouldBe listOf(
-            KategoriEntity(
+            CategoryEntity(
                 name = "Home",
                 color = 42,
                 icon = null,
@@ -64,7 +64,7 @@ class FakeCategoryDaoTest {
         val id1 = UUID.randomUUID()
         val id2 = UUID.randomUUID()
         val categories = listOf(
-            KategoriEntity(
+            CategoryEntity(
                 name = "Home",
                 color = 42,
                 icon = null,
@@ -72,7 +72,7 @@ class FakeCategoryDaoTest {
                 isDeleted = false,
                 id = id1
             ),
-            KategoriEntity(
+            CategoryEntity(
                 name = "Fun",
                 color = 42,
                 icon = null,
@@ -88,7 +88,7 @@ class FakeCategoryDaoTest {
 
         // then
         res shouldBe listOf(
-            KategoriEntity(
+            CategoryEntity(
                 name = "Fun",
                 color = 42,
                 icon = null,
@@ -102,7 +102,7 @@ class FakeCategoryDaoTest {
     @Test
     fun `empty list`() = runTest {
         // given
-        val categories = emptyList<KategoriEntity>()
+        val categories = emptyList<CategoryEntity>()
 
         // when
         dao.saveMany(categories)
@@ -117,7 +117,7 @@ class FakeCategoryDaoTest {
         // given
         val id1 = UUID.randomUUID()
         val id2 = UUID.randomUUID()
-        val category2 = KategoriEntity(
+        val category2 = CategoryEntity(
             name = "Fun",
             color = 42,
             icon = null,
@@ -126,7 +126,7 @@ class FakeCategoryDaoTest {
             id = id2
         )
         val categories = listOf(
-            KategoriEntity(
+            CategoryEntity(
                 name = "Home",
                 color = 42,
                 icon = null,
@@ -151,7 +151,7 @@ class FakeCategoryDaoTest {
         val id1 = UUID.randomUUID()
         val id2 = UUID.randomUUID()
         val categories = listOf(
-            KategoriEntity(
+            CategoryEntity(
                 name = "Home",
                 color = 42,
                 icon = null,
@@ -159,7 +159,7 @@ class FakeCategoryDaoTest {
                 isDeleted = false,
                 id = id1
             ),
-            KategoriEntity(
+            CategoryEntity(
                 name = "Fun",
                 color = 42,
                 icon = null,
@@ -183,7 +183,7 @@ class FakeCategoryDaoTest {
         val id1 = UUID.randomUUID()
         val id2 = UUID.randomUUID()
         val categories = listOf(
-            KategoriEntity(
+            CategoryEntity(
                 name = "Home",
                 color = 42,
                 icon = null,
@@ -191,7 +191,7 @@ class FakeCategoryDaoTest {
                 isDeleted = false,
                 id = id1
             ),
-            KategoriEntity(
+            CategoryEntity(
                 name = "Fun",
                 color = 42,
                 icon = null,
@@ -212,7 +212,7 @@ class FakeCategoryDaoTest {
     @Test
     fun `find max order num of empty list`() = runTest {
         // given
-        val categories = emptyList<KategoriEntity>()
+        val categories = emptyList<CategoryEntity>()
 
         // when
         dao.saveMany(categories)
@@ -226,7 +226,7 @@ class FakeCategoryDaoTest {
     fun `save - create new`() = runTest {
         // given
         val id = UUID.randomUUID()
-        val category = KategoriEntity(
+        val category = CategoryEntity(
             name = "Home",
             color = 42,
             icon = null,
@@ -247,7 +247,7 @@ class FakeCategoryDaoTest {
     fun `save - update existing`() = runTest {
         // given
         val id = UUID.randomUUID()
-        val category = KategoriEntity(
+        val category = CategoryEntity(
             name = "Home",
             color = 42,
             icon = null,
@@ -272,7 +272,7 @@ class FakeCategoryDaoTest {
         val id1 = UUID.randomUUID()
         val id2 = UUID.randomUUID()
         val categories = listOf(
-            KategoriEntity(
+            CategoryEntity(
                 name = "Home",
                 color = 42,
                 icon = null,
@@ -280,7 +280,7 @@ class FakeCategoryDaoTest {
                 isDeleted = false,
                 id = id1
             ),
-            KategoriEntity(
+            CategoryEntity(
                 name = "Fun",
                 color = 42,
                 icon = null,
@@ -304,7 +304,7 @@ class FakeCategoryDaoTest {
         val id1 = UUID.randomUUID()
         val id2 = UUID.randomUUID()
         val categories = listOf(
-            KategoriEntity(
+            CategoryEntity(
                 name = "Home",
                 color = 42,
                 icon = null,
@@ -312,7 +312,7 @@ class FakeCategoryDaoTest {
                 isDeleted = false,
                 id = id1
             ),
-            KategoriEntity(
+            CategoryEntity(
                 name = "Fun",
                 color = 42,
                 icon = null,
@@ -329,7 +329,7 @@ class FakeCategoryDaoTest {
 
         // then
         res shouldBe listOf(
-            KategoriEntity(
+            CategoryEntity(
                 name = "Home",
                 color = 42,
                 icon = null,
@@ -346,7 +346,7 @@ class FakeCategoryDaoTest {
         val id1 = UUID.randomUUID()
         val id2 = UUID.randomUUID()
         val categories = listOf(
-            KategoriEntity(
+            CategoryEntity(
                 name = "Home",
                 color = 42,
                 icon = null,
@@ -354,7 +354,7 @@ class FakeCategoryDaoTest {
                 isDeleted = false,
                 id = id1
             ),
-            KategoriEntity(
+            CategoryEntity(
                 name = "Fun",
                 color = 42,
                 icon = null,

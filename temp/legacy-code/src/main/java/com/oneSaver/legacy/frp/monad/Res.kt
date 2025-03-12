@@ -1,8 +1,8 @@
 package com.oneSaver.frp.monad
 
 import com.oneSaver.frp.action.Action
-import com.oneSaver.frp.asParamTo
-import com.oneSaver.frp.thenInvokeAfter
+import com.oneSaver.legacy.frp.asParamTo
+import com.oneSaver.legacy.frp.thenInvokeAfter
 
 @Deprecated("Legacy code. Use Arrow's Either")
 sealed class Res<out E, out T> {
