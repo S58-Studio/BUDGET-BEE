@@ -1,41 +1,34 @@
-[![Latest Release](https://img.shields.io/github/v/release/Ivy-Apps/ivy-wallet)](https://github.com/Ivy-Apps/ivy-wallet/releases)
-[![APK](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/apk.yml/badge.svg)](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/apk.yml)
-[![Telegram Group](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+ETavgioAvWg4NThk)
+# BudgetBee – Smart Money Management
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md)
-[![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
-[![Fork Ivy Wallet](https://img.shields.io/github/forks/Ivy-Apps/ivy-wallet?logo=github&style=social)](https://github.com/Ivy-Apps/ivy-wallet/fork)
+**BudgetBee** is a open-source money management Android app, originally based on the now-archived **Ivy Wallet** project. Built with **100% Kotlin and Jetpack Compose**, BudgetBee helps you track your personal finances with ease while introducing powerful **AI-driven features** and continuous improvements.
 
-# [Ivy Wallet: money manager](https://play.google.com/store/apps/details?id=com.ivy.wallet)
+Think of BudgetBee as an enhanced **manual expense tracker**, designed to replace traditional spreadsheets for managing your finances efficiently.
 
-|                                                                                                            |                                                                                                            |                                                                                                            |                                                                                                            |
-|:----------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------:|
-| ![1](https://user-images.githubusercontent.com/5564499/189540998-4d6cdcd3-ab4d-40f7-85d4-c82fe8a017d1.png) | ![2](https://user-images.githubusercontent.com/5564499/189541011-1ebbd8b6-50fe-432a-91e2-59206efe99ce.png) | ![3](https://user-images.githubusercontent.com/5564499/189541023-35e7f163-d639-4466-9a91-c56890d5a28e.png) | ![4](https://user-images.githubusercontent.com/5564499/189541027-d352314c-fd5c-43eb-82ad-4aba14c7b0fa.png) |
-| ![5](https://user-images.githubusercontent.com/5564499/189541030-1a0d7948-33af-420b-b126-936d0211c93f.png) | ![6](https://user-images.githubusercontent.com/5564499/189541035-621c4511-5ec7-4d3f-b08e-925d8da95472.png) | ![7](https://user-images.githubusercontent.com/5564499/189541127-7adf5bfa-0652-461c-80f1-076b7179eb6c.png) | ![8](https://user-images.githubusercontent.com/5564499/189541040-7cab633e-be4c-40b2-a2c6-890a15edf805.png) |
+## 💡 Do You Know? Ask Yourself:
 
-Ivy Wallet is a free and open source **money management android app**. It's written using **100% Kotlin and Jetpack Compose**. It's designed to help you keep track of your personal finances with ease.
+✅ **How much money do I have in total?**  
+✅ **How much did I spend this month, and where did my money go?**  
+✅ **How much can I spend while still meeting my financial goals?**
 
-Think of Ivy Wallet as a manual expense tracker that tries to replace the good old spreadsheet for managing your finances.
+A money management app can help you answer these questions, and **BudgetBee** is here to do just that!
 
-**Do you know? Ask yourself.**
+## 🚀 Why BudgetBee?
 
-1) How much money do I have in total?
+While **Ivy Wallet** was known for its **clean user interface, great experience, and customization options**, it lacked some features that many users needed. **BudgetBee** takes it a step further by:
 
-2) How much did I spend this month and what did I spend it on?
+✅ Introducing **AI-powered finance insights**  
+✅ Adding **new and improved features** beyond Ivy Wallet  
+✅ Actively developing and improving the app with frequent updates
 
-3) How much can I spend and still meet my financial goals?
+## 🙌 Acknowledgments
 
-A money management app can help you answer these questions.
+We recognize and appreciate the **original creators and contributors** of **Ivy Wallet** for laying the foundation of this project. Without their efforts, BudgetBee wouldn’t be possible. You can find the archived **Ivy Wallet repository here:**
 
-Ivy Wallet may lack some of the features you're looking for, but it truly shines in its user interface and experience, as well as its simplicity and customization options. This was recognized in the ["Top/Best Android App in 2021/2022 charts"](https://youtube.com/playlist?list=PLguJN0waG1-eSzKMuFMIULrR3MlqJ3cAE) by the YouTube tech community.
+🔗 [Ivy Wallet GitHub Repository](https://github.com/IvyWallet/ivy-wallet)
+
+**BudgetBee** is actively evolving, and we’re excited to bring even more features to enhance your finance management experience! 🚀
 
 <a href='https://play.google.com/store/apps/details?id=mysave.wallet&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="323" height="125"/></a>
-
-> Join our **[private Telegram Community](https://t.me/+ETavgioAvWg4NThk)**.
-
-> To support our free open source project, please give it a star. ⭐
-> This means a lot to us. Thank you so much! [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
 
 ## Project Requirements
 
@@ -47,12 +40,6 @@ Ivy Wallet may lack some of the features you're looking for, but it truly shines
 **1. Fork and clone the repo**
 
 Instructions in [CONTRIBUTING.md](./CONTRIBUTING.md).
-
-### Need help?
-
-Join our Telegram community and drop a message in the "Development" topic.
-
-[![Telegram Group](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+ETavgioAvWg4NThk)
 
 ## Learning Materials
 
